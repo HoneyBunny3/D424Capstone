@@ -3,6 +3,7 @@
     <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.Material3.DayNight">
         <item name="android:colorBackground">@color/mint_green</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
     <!--    Home Page Button Styling-->
     <style name="HomeButtonStyle" parent="Widget.MaterialComponents.Button">

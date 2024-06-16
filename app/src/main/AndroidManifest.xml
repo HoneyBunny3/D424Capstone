@@ -18,7 +18,58 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.OrderDetailsScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.OrderConfirmationScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CheckoutScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CartSummaryScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PremiumProductManagementScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PremiumSubscriptionManagementScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PremiumSignUpScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CatProfileScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UserProfileScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PasswordRecoveryScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UserLoginScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ShoppingScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CatSocialScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UserSignUpScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminUserManagementScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminStoreManagementScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ContactUsScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.HomeScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
