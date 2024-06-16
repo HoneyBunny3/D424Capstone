@@ -1,9 +1,65 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.D424Capstone" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <item name="android:colorBackground">@color/mint_green</item>
+    </style>
+    <!--    Home Page Button Styling-->
+    <style name="HomeButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/mint_green</item>
+        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <!--    Add Button Styling-->
+    <style name="AddButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/add_new_button</item>
+        <item name="android:textColor">@color/rich_black</item>
     </style>
 
-    <style name="Theme.D424Capstone" parent="Base.Theme.D424Capstone" />
+    <!--    Save Button Styling-->
+    <style name="SaveButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/save_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Delete Button Styling-->
+    <style name="DeleteButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/delete_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Set Alerts Button Styling-->
+    <style name="SetAlertsButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/set_alerts_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Share Button Styling-->
+    <style name="ShareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/share_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Home Page Text View Styling-->
+    <style name="HomeTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@android:drawable/edit_text</item>
+        <item name="android:hint">@color/dark_slate_gray</item>
+    </style>
 </resources>

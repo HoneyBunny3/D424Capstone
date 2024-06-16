@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Light Colors -->
+    <color name="rich_black">#001219</color>
+    <color name="vanilla">#E9D8A6</color>
+    <color name="charcoal">#2E4057</color>
+    <color name="midnight_green">#005F73</color>
+    <color name="dark_cyan">#0A9396</color>
+    <color name="tiffany_blue">#94D2BD</color>
+    <color name="hunyadi_yellow">#FFBF69</color>
+    <color name="alloy_orange">#CA6702</color>
+    <color name="rust">#BB3E03</color>
+    <color name="gamboge">#EE9B00</color>
+    <color name="rufous">#AE2012</color>
+    <color name="auburn">#9B2226</color>
+    <color name="mint_green">#CBF3F0</color>
+
+    <!-- Dark Colors -->
+    <color name="dark_slate_gray">#384D48</color>
+    <color name="isabelline">#EDEDE9</color>
+    <color name="light_sea_green">#2EC4B6</color>
+    <color name="celadon">#B3E9C7</color>
+    <color name="tea_green">#C2F8CB</color>
+    <color name="misty_rose">#FDE8E9</color>
+    <color name="french_gray">#BECADE</color>
+    <color name="baby_blue">#32CBFF</color>
+    <color name="vivid_sky_blue">#32CBFF</color>
+    <color name="pale_azure">#65CCFC</color>
+    <color name="light_sky_blue">#98CDF8</color>
+    <color name="mimi_pink">#FECEF1</color>
+
+    <!--    Button colors-->
+    <color name="add_new_button">@color/rust</color>
+    <color name="save_button">@color/tiffany_blue</color>
+    <color name="edit_button">@color/mimi_pink</color>
+    <color name="delete_button">@color/auburn</color>
+    <color name="set_alerts_button">@color/midnight_green</color>
+    <color name="share_button">@color/hunyadi_yellow</color>
+
 </resources>
