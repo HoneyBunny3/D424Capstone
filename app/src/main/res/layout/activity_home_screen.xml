@@ -8,13 +8,73 @@
     tools:context=".activities.HomeScreen">
 
     <TextView
+        android:id="@+id/textView"
+        style="@style/HomeTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Hearth's Cat Stop and Shop!"
-        style="@style/HomeTextViewStyle"
+        android:text="Welcome to Hearth's Stop and Shop! \nYour One Stop Shop For All Your Cat Needs!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/touserloginscreen"
+        style="@style/HomeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/tousersignupscreen"
+        style="@style/HomeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Sign Up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/tocatsocialscreen"
+        style="@style/HomeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cat Social"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/touserloginscreen" />
+
+    <Button
+        android:id="@+id/toshoppingscreen"
+        style="@style/HomeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shopping"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tousersignupscreen" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/featuredItemTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Featured Item"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/mostLikedPostTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Most Liked Post"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

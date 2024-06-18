@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Light Colors -->
+    <!-- Colors -->
     <color name="rich_black">#001219</color>
     <color name="vanilla">#E9D8A6</color>
     <color name="charcoal">#2E4057</color>
@@ -14,8 +14,6 @@
     <color name="rufous">#AE2012</color>
     <color name="auburn">#9B2226</color>
     <color name="mint_green">#CBF3F0</color>
-
-    <!-- Dark Colors -->
     <color name="dark_slate_gray">#384D48</color>
     <color name="isabelline">#EDEDE9</color>
     <color name="light_sea_green">#2EC4B6</color>
