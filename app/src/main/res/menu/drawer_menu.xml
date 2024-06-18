@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/baseline_home_24" />
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/baseline_person_24" />
+    <item
+        android:id="@+id/cat_social"
+        android:title="Cat Social"
+        android:icon="@drawable/baseline_notifications_24" />
+    <item
+        android:id="@+id/shopping"
+        android:title="Shopping"
+        android:icon="@drawable/baseline_shopping_cart_24" />
+    <item
+        android:id="@+id/contact_us"
+        android:title="Contact Us"
+        android:icon="@drawable/baseline_contact_support_24" />
+    <item
+        android:id="@+id/admin_user"
+        android:title="Admin - User Management"
+        android:icon="@drawable/baseline_admin_panel_settings_24" />
+    <item
+        android:id="@+id/admin_store"
+        android:title="Admin - Store Management"
+        android:icon="@drawable/baseline_admin_panel_settings_24" />
+</menu>
