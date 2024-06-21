@@ -2,4 +2,23 @@
     <string name="app_name">D424Capstone</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--Contact Us Dropdown Menu-->
+    <string name="select_reason_prompt">Select a reason for contacting us</string>
+    <string-array name="dropdown_items_array">
+        <item>Select a reason for contacting us</item>
+        <item>Account Locked Out</item>
+        <item>Billing</item>
+        <item>Forgot Password</item>
+        <item>Purchase Help</item>
+        <item>Returns</item>
+        <item>Shipping</item>
+        <item>Technical Support</item>
+        <item>Product Information</item>
+        <item>General Inquiry</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="confirmation_message"><![CDATA[Thank you for contacting <b>Hearth\'s Stop and Shop!</b> <br> Our support team will email you within <b>2 business days</b>.]]>
+    </string>
 </resources>
