@@ -104,4 +104,21 @@ public class Repository {
     public void executeAsync(Runnable task) {
         databaseExecutor.execute(task);
     }
+    public interface UserCallback {
+        void onUserRetrieved(User user);
+    }
+
+    public void getUserByUsernameAsync(String userName, UserCallback callback) {
+        databaseExecutor.execute(() -> {
+            User user = userDAO.getUserByUsername(userName);
+            callback.onUserRetrieved(user);
+        });
+    }
+
+    public void getUserByEmailAsync(String email, UserCallback callback) {
+        databaseExecutor.execute(() -> {
+            User user = userDAO.getUserByEmail(email);
+            callback.onUserRetrieved(user);
+        });
+    }
 }

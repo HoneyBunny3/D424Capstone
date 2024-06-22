@@ -7,14 +7,18 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey(autoGenerate = true)
     private int userID;
+    private String firstName;
+    private String lastName;
     private String userName;
     private String email;
     private String password;
     private String role;
 
     //Constructor to initialize the User entity
-    public User(int userID, String userName, String email, String password, String role) {
+    public User(int userID, String firstName, String lastName, String userName, String email, String password, String role) {
         this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -28,6 +32,24 @@ public class User {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    // Getter and setter methods for firstName
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    // Getter and setter methods for lastName
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     // Getter and setter methods for userName
@@ -65,5 +87,4 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
 }

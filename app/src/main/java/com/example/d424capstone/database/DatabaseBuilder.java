@@ -18,7 +18,7 @@ import com.example.d424capstone.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, SocialPost.class, StoreItem.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, SocialPost.class, StoreItem.class}, version = 1, exportSchema = false)
 public abstract class DatabaseBuilder extends RoomDatabase{
 
     // Abstract methods to get the DAOs.
@@ -57,4 +57,3 @@ public abstract class DatabaseBuilder extends RoomDatabase{
         }
     };
 }
-

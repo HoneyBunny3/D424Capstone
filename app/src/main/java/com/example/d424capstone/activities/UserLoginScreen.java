@@ -1,8 +1,15 @@
 package com.example.d424capstone.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -15,6 +22,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.User;
+import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
 
 public class UserLoginScreen extends AppCompatActivity {
@@ -22,6 +31,7 @@ public class UserLoginScreen extends AppCompatActivity {
     private Repository repository;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,85 @@ public class UserLoginScreen extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        // Set up the login button click listener
+        Button loginButton = findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleLogin();
+            }
+        });
+
+        // Set up password visibility toggle
+        EditText passwordEditText = findViewById(R.id.password);
+        ImageButton togglePasswordVisibility = findViewById(R.id.toggle_password_visibility2);
+        togglePasswordVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordEditText.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_24);
+                } else {
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
+                }
+                // Move the cursor to the end of the text
+                passwordEditText.setSelection(passwordEditText.getText().length());
+            }
+        });
+    }
+    private void handleLogin() {
+        EditText usernameEditText = findViewById(R.id.login_username);
+        EditText passwordEditText = findViewById(R.id.password);
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        // Check if already logged in
+        if (sharedPreferences.contains("LoggedInUser")) {
+            Toast.makeText(this, "You are already logged in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Validate credentials against the database
+        repository.getUserByUsernameAsync(username, new Repository.UserCallback() {
+            @Override
+            public void onUserRetrieved(User user) {
+                if (user != null && user.getPassword().equals(password)) {
+                    // Successful login
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("LoggedInUser", user.getUserName());
+                    editor.putString("UserRole", user.getRole());
+                    editor.apply();
+
+                    String roleMessage;
+                    switch (user.getRole()) {
+                        case UserRoles.ADMIN:
+                            roleMessage = "Login successful as Admin";
+                            break;
+                        case UserRoles.PREMIUM:
+                            roleMessage = "Login successful as Premium User";
+                            break;
+                        case UserRoles.REGULAR:
+                            roleMessage = "Login successful as Regular User";
+                            break;
+                        case UserRoles.GUEST:
+                        default:
+                            roleMessage = "Login successful as Guest";
+                            break;
+                    }
+
+                    Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
+                } else {
+                    // Failed login
+                    runOnUiThread(() -> Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show());
+                }
+            }
         });
     }
 

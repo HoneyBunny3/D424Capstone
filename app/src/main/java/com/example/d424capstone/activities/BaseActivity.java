@@ -30,6 +30,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         };
 
+        // Register the shared preference change listener
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+
         // Check if the user is a guest and show the login/signup dialog
         if (isGuestUser()) {
             showLoginSignupDialog();
@@ -46,6 +50,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
