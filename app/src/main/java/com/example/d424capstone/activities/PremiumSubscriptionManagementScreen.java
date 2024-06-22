@@ -15,9 +15,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
 
-public class PremiumSubscriptionManagementScreen extends AppCompatActivity {
+public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
     private Repository repository;
     private DrawerLayout drawerLayout;
@@ -26,6 +27,7 @@ public class PremiumSubscriptionManagementScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkAccessOrFinish(UserRoles.PREMIUM);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_premium_subscription_management_screen);
 

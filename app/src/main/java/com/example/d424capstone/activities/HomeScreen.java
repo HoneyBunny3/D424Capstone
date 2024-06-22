@@ -21,7 +21,7 @@ import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.google.android.material.navigation.NavigationView;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends BaseActivity {
 
     private Repository repository;
     private DrawerLayout drawerLayout;

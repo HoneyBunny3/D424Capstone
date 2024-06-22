@@ -15,9 +15,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
 
-public class AdminStoreManagementScreen extends AppCompatActivity {
+public class AdminStoreManagementScreen extends BaseActivity {
 
     private Repository repository;
     private DrawerLayout drawerLayout;
@@ -26,6 +27,7 @@ public class AdminStoreManagementScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkAccessOrFinish(UserRoles.ADMIN);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_store_management_screen);
 

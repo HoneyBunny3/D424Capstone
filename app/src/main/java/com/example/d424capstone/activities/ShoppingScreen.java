@@ -17,7 +17,7 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.google.android.material.navigation.NavigationView;
 
-public class ShoppingScreen extends AppCompatActivity {
+public class ShoppingScreen extends BaseActivity {
 
     private Repository repository;
     private DrawerLayout drawerLayout;
