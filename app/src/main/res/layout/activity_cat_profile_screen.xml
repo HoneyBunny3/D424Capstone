@@ -11,106 +11,41 @@
     <!-- Main content -->
 
     <!-- Navigation Drawer -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/touserloginscreen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.486">
-
-            <TextView
-                android:id="@+id/featuredItemTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Featured Item"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/mostLikedPostTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Most Liked Post"
-                android:textSize="18sp" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             style="@style/HomeTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="100dp"
             android:text="Hearth's Cat Profile Page"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/touserloginscreen"
+            android:id="@+id/save"
             style="@style/HomeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Login"
+            android:layout_margin="50dp"
+            android:text="Save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:id="@+id/tousersignupscreen"
+            android:id="@+id/cancel"
             style="@style/HomeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Sign Up"
+            android:layout_margin="50dp"
+            android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <Button
-            android:id="@+id/tocatsocialscreen"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cat Social"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/touserloginscreen" />
-
-        <Button
-            android:id="@+id/toshoppingscreen"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shopping"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tousersignupscreen" />
-
-        <!--        Admin buttons-->
-        <Button
-            android:id="@+id/admin_user_management_button"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin - User Management"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <Button
-            android:id="@+id/admin_store_management_button"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin - Store Management"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/admin_user_management_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
