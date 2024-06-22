@@ -19,15 +19,6 @@
             android:name=".activities.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".toast_custom"
-            android:exported="false" />
-        <activity
-            android:name=".activities.StoreManagementScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activities.UserManagementScreen"
-            android:exported="false" />
-        <activity
             android:name=".activities.OrderDetailsScreen"
             android:exported="false" />
         <activity

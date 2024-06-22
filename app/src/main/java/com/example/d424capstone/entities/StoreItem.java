@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+/**
+ * Entity class representing a Store Item in the database.
+ */
 @Entity(tableName = "store_item_table")
 public class StoreItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
@@ -14,7 +17,15 @@ public class StoreItem implements Serializable {
     private double itemPrice;
     private boolean isFeatured;
 
-    //Constructor to initialize the StoreItem entity
+    /**
+     * Constructor to initialize the StoreItem entity.
+     *
+     * @param storeItemID  The unique ID of the store item.
+     * @param name         The name of the store item.
+     * @param description  The description of the store item.
+     * @param itemPrice    The price of the store item.
+     * @param isFeatured   Whether the store item is featured.
+     */
     public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isFeatured) {
         this.storeItemID = storeItemID;
         this.name = name;
@@ -23,14 +34,16 @@ public class StoreItem implements Serializable {
         this.isFeatured = isFeatured;
     }
 
-    // Getter and setter methods for storeItemID
-    public int getStoreItemID() {return storeItemID;}
+    // Getter and setter methods
+
+    public int getStoreItemID() {
+        return storeItemID;
+    }
 
     public void setStoreItemID(int storeItemID) {
         this.storeItemID = storeItemID;
     }
 
-    // Getter and setter methods for name
     public String getName() {
         return name;
     }
@@ -39,7 +52,6 @@ public class StoreItem implements Serializable {
         this.name = name;
     }
 
-    // Getter and setter methods for description
     public String getDescription() {
         return description;
     }
@@ -48,7 +60,6 @@ public class StoreItem implements Serializable {
         this.description = description;
     }
 
-    // Getter and setter methods for itemPrice
     public double getItemPrice() {
         return itemPrice;
     }
@@ -57,12 +68,11 @@ public class StoreItem implements Serializable {
         this.itemPrice = itemPrice;
     }
 
-    // Getter and setter methods for isFeatured
     public boolean isFeatured() {
         return isFeatured;
     }
 
-    public void setFeatured(boolean featured) {
-        isFeatured = featured;
+    public void setFeatured(boolean isFeatured) {
+        this.isFeatured = isFeatured;
     }
 }

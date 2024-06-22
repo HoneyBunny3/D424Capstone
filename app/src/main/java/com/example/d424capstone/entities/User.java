@@ -3,6 +3,9 @@ package com.example.d424capstone.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Entity class representing a User in the database.
+ */
 @Entity(tableName = "user_table")
 public class User {
     @PrimaryKey(autoGenerate = true)
@@ -14,7 +17,17 @@ public class User {
     private String password;
     private String role;
 
-    //Constructor to initialize the User entity
+    /**
+     * Constructor to initialize the User entity.
+     *
+     * @param userID    The unique ID of the user.
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @param userName  The username of the user.
+     * @param email     The email address of the user.
+     * @param password  The password of the user.
+     * @param role      The role of the user.
+     */
     public User(int userID, String firstName, String lastName, String userName, String email, String password, String role) {
         this.userID = userID;
         this.firstName = firstName;
@@ -25,7 +38,8 @@ public class User {
         this.role = role;
     }
 
-    // Getter and setter methods for userID
+    // Getter and setter methods
+
     public int getUserID() {
         return userID;
     }
@@ -34,7 +48,6 @@ public class User {
         this.userID = userID;
     }
 
-    // Getter and setter methods for firstName
     public String getFirstName() {
         return firstName;
     }
@@ -43,7 +56,6 @@ public class User {
         this.firstName = firstName;
     }
 
-    // Getter and setter methods for lastName
     public String getLastName() {
         return lastName;
     }
@@ -52,7 +64,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    // Getter and setter methods for userName
     public String getUserName() {
         return userName;
     }
@@ -61,7 +72,6 @@ public class User {
         this.userName = userName;
     }
 
-    // Getter and setter methods for email
     public String getEmail() {
         return email;
     }
@@ -70,7 +80,6 @@ public class User {
         this.email = email;
     }
 
-    // Getter and setter methods for password
     public String getPassword() {
         return password;
     }
@@ -79,7 +88,6 @@ public class User {
         this.password = password;
     }
 
-    // Getter and setter methods for role
     public String getRole() {
         return role;
     }

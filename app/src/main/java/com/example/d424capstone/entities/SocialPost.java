@@ -6,13 +6,14 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-
-// Define the SocialPost entity and its table in the Room database with a foreign key reference to the User entity.
+/**
+ * Entity class representing a Social Post in the database.
+ */
 @Entity(tableName = "social_post_table",
         foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "userID",
-        childColumns = "userID",
-        onDelete = ForeignKey.CASCADE))
+                parentColumns = "userID",
+                childColumns = "userID",
+                onDelete = ForeignKey.CASCADE))
 public class SocialPost implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int socialPostID;
@@ -20,7 +21,14 @@ public class SocialPost implements Serializable {
     private String content;
     private int likes;
 
-    //Constructor to initialize the SocialPost entity
+    /**
+     * Constructor to initialize the SocialPost entity.
+     *
+     * @param socialPostID The unique ID of the social post.
+     * @param userID       The ID of the user who created the post.
+     * @param content      The content of the social post.
+     * @param likes        The number of likes the social post has received.
+     */
     public SocialPost(int socialPostID, int userID, String content, int likes) {
         this.socialPostID = socialPostID;
         this.userID = userID;
@@ -28,7 +36,8 @@ public class SocialPost implements Serializable {
         this.likes = likes;
     }
 
-    // Getter and setter methods for socialPostID
+    // Getter and setter methods
+
     public int getSocialPostID() {
         return socialPostID;
     }
@@ -37,7 +46,6 @@ public class SocialPost implements Serializable {
         this.socialPostID = socialPostID;
     }
 
-    // Getter and setter methods for userID
     public int getUserID() {
         return userID;
     }
@@ -46,7 +54,6 @@ public class SocialPost implements Serializable {
         this.userID = userID;
     }
 
-    // Getter and setter methods for content
     public String getContent() {
         return content;
     }
@@ -55,7 +62,6 @@ public class SocialPost implements Serializable {
         this.content = content;
     }
 
-    // Getter and setter methods for likes
     public int getLikes() {
         return likes;
     }
