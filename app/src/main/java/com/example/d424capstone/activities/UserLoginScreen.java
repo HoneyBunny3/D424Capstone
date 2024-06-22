@@ -122,6 +122,7 @@ public class UserLoginScreen extends AppCompatActivity {
             }
         });
     }
+
     private void handleLogin() {
         EditText usernameEditText = findViewById(R.id.login_username);
         EditText passwordEditText = findViewById(R.id.password);
@@ -138,36 +139,38 @@ public class UserLoginScreen extends AppCompatActivity {
         repository.getUserByUsernameAsync(username, new Repository.UserCallback() {
             @Override
             public void onUserRetrieved(User user) {
-                if (user != null && user.getPassword().equals(password)) {
-                    // Successful login
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("LoggedInUser", user.getUserName());
-                    editor.putString("UserRole", user.getRole());
-                    editor.apply();
+                runOnUiThread(() -> {
+                    if (user != null && user.getPassword().equals(password)) {
+                        // Successful login
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("LoggedInUser", user.getUserName());
+                        editor.putString("UserRole", user.getRole());
+                        editor.apply();
 
-                    String roleMessage;
-                    switch (user.getRole()) {
-                        case UserRoles.ADMIN:
-                            roleMessage = "Login successful as Admin";
-                            break;
-                        case UserRoles.PREMIUM:
-                            roleMessage = "Login successful as Premium User";
-                            break;
-                        case UserRoles.REGULAR:
-                            roleMessage = "Login successful as Regular User";
-                            break;
-                        case UserRoles.GUEST:
-                        default:
-                            roleMessage = "Login successful as Guest";
-                            break;
+                        String roleMessage;
+                        switch (user.getRole()) {
+                            case UserRoles.ADMIN:
+                                roleMessage = "Login successful as Admin";
+                                break;
+                            case UserRoles.PREMIUM:
+                                roleMessage = "Login successful as Premium User";
+                                break;
+                            case UserRoles.REGULAR:
+                                roleMessage = "Login successful as Regular User";
+                                break;
+                            case UserRoles.GUEST:
+                            default:
+                                roleMessage = "Login successful as Guest";
+                                break;
+                        }
+
+                        Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
+                    } else {
+                        // Failed login
+                        Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
-
-                    Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
-                } else {
-                    // Failed login
-                    runOnUiThread(() -> Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show());
-                }
+                });
             }
         });
     }

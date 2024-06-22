@@ -30,10 +30,10 @@ public interface UserDAO {
     @Query("SELECT * FROM user_table WHERE userID = :userID")
     User getUserByID(int userID);
 
-    @Query("SELECT * FROM user_table WHERE userName = :userName LIMIT 1")
+    @Query("SELECT * FROM user_table WHERE userName = :userName")
     User getUserByUsername(String userName);
 
-    @Query("SELECT * FROM user_table WHERE email = :email LIMIT 1")
+    @Query("SELECT * FROM user_table WHERE email = :email")
     User getUserByEmail(String email);
 
     // Retrieves all users from the user_table ordered by userID in ascending order.
