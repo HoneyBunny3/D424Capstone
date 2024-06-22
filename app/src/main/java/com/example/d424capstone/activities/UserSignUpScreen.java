@@ -182,26 +182,26 @@ public class UserSignUpScreen extends AppCompatActivity {
             showAlert("Password Format Error", "Password must be at least 8 characters, contain at least one digit, one upper case letter, one lower case letter, and one special character.");
             return;
         }
-        // Check if the email already exists asynchronously
+        // Check if the email already exists
         repository.getUserByEmailAsync(email, new Repository.UserCallback() {
             @Override
             public void onUserRetrieved(User existingUser) {
-                if (existingUser != null) {
-                    runOnUiThread(() -> showAlert("Registration Error", "Email already exists."));
-                } else {
-                    // Create a new User object
-                    User user = new User(0, firstName, lastName, email, email, password, UserRoles.REGULAR);
+                runOnUiThread(() -> {
+                    if (existingUser != null) {
+                        showAlert("Registration Error", "Email already exists.");
+                    } else {
+                        // Create a new User object
+                        User user = new User(0, firstName, lastName, email, email, password, UserRoles.REGULAR);
 
-                    // Insert the new user into the database
-                    repository.insertUser(user);
+                        // Insert the new user into the database
+                        repository.insertUser(user);
 
-                    runOnUiThread(() -> {
                         Toast.makeText(UserSignUpScreen.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                         // Update the banner with the user's first name
                         showUserBanner(email);
                         startActivity(new Intent(UserSignUpScreen.this, HomeScreen.class));
-                    });
-                }
+                    }
+                });
             }
         });
     }
