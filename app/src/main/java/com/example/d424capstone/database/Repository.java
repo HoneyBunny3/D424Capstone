@@ -161,4 +161,11 @@ public class Repository {
             callback.onUserRetrieved(user);
         });
     }
+
+    public void getUserByIDAsync(int userID, UserCallback callback) {
+        databaseExecutor.execute(() -> {
+            User user = userDAO.getUserByID(userID);
+            callback.onUserRetrieved(user);
+        });
+    }
 }

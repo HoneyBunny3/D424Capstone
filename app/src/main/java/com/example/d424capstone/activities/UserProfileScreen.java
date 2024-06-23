@@ -15,6 +15,7 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.AssociatedCats;
 import com.example.d424capstone.entities.UserWithCats;
+import com.example.d424capstone.entities.User;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class UserProfileScreen extends BaseActivity {
 
     private Repository repository;
     private TextView associatedCatsTextView;
+    private TextView firstNameTextView;
+    private TextView lastNameTextView;
+    private TextView emailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,23 @@ public class UserProfileScreen extends BaseActivity {
 
         repository = new Repository(getApplication());
         associatedCatsTextView = findViewById(R.id.associated_cats);
+        firstNameTextView = findViewById(R.id.first_name);
+        lastNameTextView = findViewById(R.id.last_name);
+        emailTextView = findViewById(R.id.email_address);
+
+        int userID = getUserID();
+        repository.getUserByIDAsync(userID, new Repository.UserCallback() {
+            @Override
+            public void onUserRetrieved(User user) {
+                if (user != null) {
+                    runOnUiThread(() -> {
+                        firstNameTextView.setText(user.getFirstName());
+                        lastNameTextView.setText(user.getLastName());
+                        emailTextView.setText(user.getEmail());
+                    });
+                }
+            }
+        });
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
@@ -90,5 +111,12 @@ public class UserProfileScreen extends BaseActivity {
                 runOnUiThread(() -> associatedCatsTextView.setText(sb.toString()));
             }
         });
+    }
+
+    private int getUserID() {
+        // Implement the logic to get the user ID
+        // This can be retrieved from shared preferences or passed as an intent extra
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getInt("LoggedInUserID", 1); // Replace with actual logic
     }
 }
