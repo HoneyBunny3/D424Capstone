@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 /**
  * Room database builder for the application.
  */
-@Database(entities = {User.class, SocialPost.class, StoreItem.class, UserCatCrossRef.class, AssociatedCats.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, SocialPost.class, StoreItem.class, UserCatCrossRef.class, AssociatedCats.class}, version = 2, exportSchema = false)
 public abstract class DatabaseBuilder extends RoomDatabase {
 
     // Abstract methods to get the DAOs.

@@ -7,6 +7,7 @@ import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
 import com.example.d424capstone.dao.UserCatCrossRefDAO;
 import com.example.d424capstone.dao.UserDAO;
+import com.example.d424capstone.entities.AssociatedCats;
 import com.example.d424capstone.entities.CatWithUsers;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
@@ -30,7 +31,7 @@ public class Repository {
     private AssociatedCatsDAO associatedCatsDAO;
     private UserCatCrossRefDAO userCatCrossRefDAO;
 
-    // Lists to hold data
+    // Lists
     private List<User> allUsers;
     private List<StoreItem> allStoreItems;
     private List<SocialPost> allSocialPosts;
@@ -53,20 +54,17 @@ public class Repository {
         userCatCrossRefDAO = db.userCatCrossRefDAO();
     }
 
-    // Methods to retrieve lists of data
+    // Methods to retrieve the lists
     public List<User> getAllUsers() {
-        databaseExecutor.execute(() -> allUsers = userDAO.getAllUsers());
-        return allUsers;
+        return userDAO.getAllUsers();
     }
 
     public List<StoreItem> getAllStoreItems() {
-        databaseExecutor.execute(() -> allStoreItems = storeItemDAO.getAllStoreItems());
-        return allStoreItems;
+        return storeItemDAO.getAllStoreItems();
     }
 
     public List<SocialPost> getAllSocialPosts() {
-        databaseExecutor.execute(() -> allSocialPosts = socialPostDAO.getAllSocialPosts());
-        return allSocialPosts;
+        return socialPostDAO.getAllSocialPosts();
     }
 
     public List<UserWithCats> getCatsForUser(int userID) {
@@ -90,6 +88,10 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.insert(socialPost));
     }
 
+    public void insertCat(AssociatedCats cat) {
+        databaseExecutor.execute(() -> associatedCatsDAO.insert(cat));
+    }
+
     public void insertUserCatCrossRef(UserCatCrossRef userCatCrossRef) {
         databaseExecutor.execute(() -> userCatCrossRefDAO.insert(userCatCrossRef));
     }
@@ -107,6 +109,10 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.update(socialPost));
     }
 
+    public void updateCat(AssociatedCats cat) {
+        databaseExecutor.execute(() -> associatedCatsDAO.update(cat));
+    }
+
     // Methods to delete data
     public void deleteUser(int userID) {
         databaseExecutor.execute(() -> userDAO.delete(userID));
@@ -120,7 +126,11 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.delete(socialPostID));
     }
 
-    // Get featured item and most liked post for home screen
+    public void deleteCat(int catID) {
+        databaseExecutor.execute(() -> associatedCatsDAO.delete(catID));
+    }
+
+    // Get Featured Item and Most Liked Post for Home Screen
     public StoreItem getFeaturedItem() {
         return storeItemDAO.getFeaturedItem();
     }
@@ -134,12 +144,10 @@ public class Repository {
         databaseExecutor.execute(task);
     }
 
-    // Callback interface for user retrieval
     public interface UserCallback {
         void onUserRetrieved(User user);
     }
 
-    // Method to get user by username asynchronously
     public void getUserByUsernameAsync(String userName, UserCallback callback) {
         databaseExecutor.execute(() -> {
             User user = userDAO.getUserByUsername(userName);
@@ -147,7 +155,6 @@ public class Repository {
         });
     }
 
-    // Method to get user by email asynchronously
     public void getUserByEmailAsync(String email, UserCallback callback) {
         databaseExecutor.execute(() -> {
             User user = userDAO.getUserByEmail(email);

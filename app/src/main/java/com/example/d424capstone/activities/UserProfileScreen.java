@@ -1,8 +1,10 @@
 package com.example.d424capstone.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -11,10 +13,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.AssociatedCats;
+import com.example.d424capstone.entities.UserWithCats;
+
+import java.util.List;
 
 public class UserProfileScreen extends BaseActivity {
 
     private Repository repository;
+    private TextView associatedCatsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,30 +30,65 @@ public class UserProfileScreen extends BaseActivity {
         setContentView(R.layout.activity_user_profile_screen);
 
         repository = new Repository(getApplication());
+        associatedCatsTextView = findViewById(R.id.associated_cats);
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
+        // Initialize buttons and set click listeners
+        initializeButtons();
+
+        // Load associated cats for the current user
+        loadAssociatedCats();
+
+        // Set window insets for EdgeToEdge
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    private void initializeButtons() {
         // Initialize the button that navigates to the Shopping screen.
-        Button button_shopping = findViewById(R.id.toshoppingscreen);
-        button_shopping.setOnClickListener(view -> {
+        Button buttonShopping = findViewById(R.id.toshoppingscreen);
+        buttonShopping.setOnClickListener(view -> {
             // Create an intent to start the ShoppingScreen activity.
             Intent intent = new Intent(UserProfileScreen.this, ShoppingScreen.class);
             startActivity(intent);
         });
 
         // Initialize the button that navigates to the Cat Social screen.
-        Button button_social = findViewById(R.id.tocatsocialscreen);
-        button_social.setOnClickListener(view -> {
+        Button buttonSocial = findViewById(R.id.tocatsocialscreen);
+        buttonSocial.setOnClickListener(view -> {
             // Create an intent to start the CatSocialScreen activity.
             Intent intent = new Intent(UserProfileScreen.this, CatSocialScreen.class);
             startActivity(intent);
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        // Initialize the button that navigates to the Cat Profile screen.
+        Button buttonCatProfile = findViewById(R.id.tocatprofilescreen);
+        buttonCatProfile.setOnClickListener(view -> {
+            // Create an intent to start the CatProfileScreen activity.
+            Intent intent = new Intent(UserProfileScreen.this, CatProfileScreen.class);
+            startActivity(intent);
+        });
+    }
+
+    private void loadAssociatedCats() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String currentUserName = sharedPreferences.getString("LoggedInUser", "");
+        repository.getUserByUsernameAsync(currentUserName, user -> {
+            if (user != null) {
+                List<UserWithCats> userWithCatsList = repository.getCatsForUser(user.getUserID());
+                StringBuilder sb = new StringBuilder("Associated Cats:\n");
+                for (UserWithCats userWithCats : userWithCatsList) {
+                    for (AssociatedCats cat : userWithCats.getCats()) {
+                        sb.append(cat.getCatName()).append("\n");
+                    }
+                }
+                runOnUiThread(() -> associatedCatsTextView.setText(sb.toString()));
+            }
         });
     }
 }
