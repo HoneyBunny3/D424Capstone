@@ -72,15 +72,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             Intent intent = null;
             Class<?> targetActivity = activityMap.get(id);
             if (targetActivity != null) {
-                // Check if the user has access before navigating
-                if (id == R.id.admin_user || id == R.id.admin_store) {
-                    checkAccessAndRedirect(UserRoles.ADMIN, targetActivity);
-                } else if (id == R.id.premium_user) {
-                    checkAccessAndRedirect(UserRoles.PREMIUM, targetActivity);
-                } else {
-                    intent = new Intent(BaseActivity.this, targetActivity);
-                    startActivity(intent);
-                }
+                intent = new Intent(BaseActivity.this, targetActivity);
+                startActivity(intent);
             }
             drawerLayout.closeDrawers();
             return true;
@@ -151,9 +144,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         return UserRoles.GUEST.equals(userRole);
     }
 
-    private void showLoginSignupDialog() {
+    protected boolean isUserLoggedIn() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.contains("LoggedInUser");
+    }
+
+    protected void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        LoginSignupDialogFragment dialog = LoginSignupDialogFragment.newInstance(false);
+        LoginSignupDialogFragment dialog = new LoginSignupDialogFragment();
         dialog.show(fragmentManager, "LoginSignupDialog");
     }
 

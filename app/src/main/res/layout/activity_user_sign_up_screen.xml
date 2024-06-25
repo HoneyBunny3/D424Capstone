@@ -85,6 +85,17 @@
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
+            android:id="@+id/phone_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lastName"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <EditText
             android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -92,7 +103,7 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lastName"
+            app:layout_constraintTop_toBottomOf="@id/phone_number"
             app:layout_constraintWidth_percent="0.8" />
 
         <ImageButton

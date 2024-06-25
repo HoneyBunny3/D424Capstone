@@ -1,6 +1,5 @@
 package com.example.d424capstone.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,9 +23,15 @@ import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
 public class UserSignUpScreen extends BaseActivity {
-
     private Repository repository;
     private TextView userBanner;
+
+    private EditText emailEditText;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
+    private EditText passwordEditText;
+    private EditText phoneNumberEditText;
+    private EditText usernameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,7 @@ public class UserSignUpScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_sign_up_screen);
 
-        // Initialize repository
         repository = new Repository(getApplication());
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -46,39 +48,38 @@ public class UserSignUpScreen extends BaseActivity {
             return insets;
         });
 
-        // Set up the sign-up button click listener
+        emailEditText = findViewById(R.id.email);
+        firstNameEditText = findViewById(R.id.firstName);
+        lastNameEditText = findViewById(R.id.lastName);
+        passwordEditText = findViewById(R.id.password);
+        phoneNumberEditText = findViewById(R.id.phone_number);
+        usernameEditText = findViewById(R.id.username);
+
         Button signUpButton = findViewById(R.id.signup_button);
         signUpButton.setOnClickListener(this::handleSignUp);
 
-        // Set up the login button click listener to redirect to login screen
         Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(v -> startActivity(new Intent(UserSignUpScreen.this, UserLoginScreen.class)));
 
-        // Automatically populate the username field from the email field and make it non-editable
         setupEmailUsernameSync();
-
-        // Set up password visibility toggle
         setupPasswordVisibilityToggle();
-
-        // Initialize the user banner
         userBanner = findViewById(R.id.user_banner);
         checkAndShowUserBanner();
     }
 
-        // Automatically populate the username field from the email field and make it non-editable
-        private void setupEmailUsernameSync() {
-            EditText emailEditText = findViewById(R.id.email);
-            EditText usernameEditText = findViewById(R.id.username);
+    private void setupEmailUsernameSync() {
+        EditText emailEditText = findViewById(R.id.email);
+        EditText usernameEditText = findViewById(R.id.username);
 
-            emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
-                if (!hasFocus) {
-                    String email = emailEditText.getText().toString();
-                    if (!email.isEmpty()) {
-                        usernameEditText.setText(email);
-                    }
+        emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String email = emailEditText.getText().toString();
+                if (!email.isEmpty()) {
+                    usernameEditText.setText(email);
                 }
-            });
-        }
+            }
+        });
+    }
 
     private void setupPasswordVisibilityToggle() {
         EditText passwordEditText = findViewById(R.id.password);
@@ -92,48 +93,34 @@ public class UserSignUpScreen extends BaseActivity {
                 passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
             }
-            // Move the cursor to the end of the text
             passwordEditText.setSelection(passwordEditText.getText().length());
         });
     }
 
     private void handleSignUp(View view) {
-        EditText emailEditText = findViewById(R.id.email);
-        EditText firstNameEditText = findViewById(R.id.firstName);
-        EditText lastNameEditText = findViewById(R.id.lastName);
-        EditText passwordEditText = findViewById(R.id.password);
-
         String email = emailEditText.getText().toString();
         String firstName = firstNameEditText.getText().toString();
         String lastName = lastNameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        String phone = phoneNumberEditText.getText().toString();
 
-        // Validate input
         if (!validateInput(email, firstName, lastName, password)) {
             return;
         }
 
-        // Check if the email already exists
-        repository.getUserByEmailAsync(email, new Repository.UserCallback() {
-            @Override
-            public void onUserRetrieved(User existingUser) {
-                runOnUiThread(() -> {
-                    if (existingUser != null) {
-                        showAlert("Registration Error", "Email already exists.");
-                    } else {
-                        // Create a new User object
-                        User user = new User(0, firstName, lastName, email, email, password, UserRoles.REGULAR);
+        repository.getUserByEmailAsync(email, existingUser -> {
+            runOnUiThread(() -> {
+                if (existingUser != null) {
+                    showAlert("Registration Error", "Email already exists.");
+                } else {
+                    User user = new User(0, firstName, lastName, email, email, phone, password, UserRoles.REGULAR);
+                    repository.insertUser(user);
 
-                        // Insert the new user into the database
-                        repository.insertUser(user);
-
-                        Toast.makeText(UserSignUpScreen.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                        // Update the banner with the user's first name
-                        showUserBanner(email);
-                        startActivity(new Intent(UserSignUpScreen.this, HomeScreen.class));
-                    }
-                });
-            }
+                    Toast.makeText(UserSignUpScreen.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                    showUserBanner(email);
+                    startActivity(new Intent(UserSignUpScreen.this, HomeScreen.class));
+                }
+            });
         });
     }
 
@@ -183,14 +170,12 @@ public class UserSignUpScreen extends BaseActivity {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    // Continue with operation
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
     private void checkAndShowUserBanner() {
-        // This method can be used to check if a user is logged in and update the banner accordingly
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("UserEmail", null);
         if (userEmail != null) {
@@ -199,12 +184,10 @@ public class UserSignUpScreen extends BaseActivity {
     }
 
     private void showUserBanner(String email) {
-        // Extract the first name from the email (assuming email format is "firstname.lastname@example.com")
         String firstName = email.split("\\.")[0];
         userBanner.setText("Welcome, " + firstName + "!");
         userBanner.setVisibility(View.VISIBLE);
 
-        // Save the email in SharedPreferences to persist the logged-in state
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("UserEmail", email);

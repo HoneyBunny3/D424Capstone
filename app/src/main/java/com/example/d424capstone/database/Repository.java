@@ -1,6 +1,7 @@
 package com.example.d424capstone.database;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.example.d424capstone.dao.AssociatedCatsDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
@@ -40,6 +41,8 @@ public class Repository {
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    private SharedPreferences sharedPreferences;
+
     /**
      * Constructor to initialize the DAOs using the database builder.
      *
@@ -52,6 +55,7 @@ public class Repository {
         socialPostDAO = db.socialPostDAO();
         associatedCatsDAO = db.associatedCatsDAO();
         userCatCrossRefDAO = db.userCatCrossRefDAO();
+        sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
     }
 
     // Methods to retrieve the lists
@@ -166,6 +170,24 @@ public class Repository {
         databaseExecutor.execute(() -> {
             User user = userDAO.getUserByID(userID);
             callback.onUserRetrieved(user);
+        });
+    }
+
+    // Get the current logged-in user
+    public User getCurrentUser() {
+        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+        return userDAO.getUserByID(userID);
+    }
+
+    // Methods to update storefront details
+    public void updateStorefrontDetails(int userID, String storefrontName, String storefrontContactEmail) {
+        databaseExecutor.execute(() -> {
+            User user = userDAO.getUserByID(userID);
+            if (user != null) {
+                user.setStorefrontName(storefrontName);
+                user.setStorefrontContactEmail(storefrontContactEmail);
+                userDAO.update(user);
+            }
         });
     }
 }

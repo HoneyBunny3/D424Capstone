@@ -1,6 +1,7 @@
 package com.example.d424capstone.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /**
@@ -14,28 +15,45 @@ public class User {
     private String lastName;
     private String userName;
     private String email;
+    private String phoneNumber;
     private String password;
     private String role;
+    private String storefrontName;
+    private String storefrontContactEmail;
 
     /**
      * Constructor to initialize the User entity.
      *
-     * @param userID    The unique ID of the user.
-     * @param firstName The first name of the user.
-     * @param lastName  The last name of the user.
-     * @param userName  The username of the user.
-     * @param email     The email address of the user.
-     * @param password  The password of the user.
-     * @param role      The role of the user.
+     * @param userID                  The unique ID of the user.
+     * @param firstName               The first name of the user.
+     * @param lastName                The last name of the user.
+     * @param userName                The username of the user.
+     * @param email                   The email address of the user.
+     * @param phoneNumber             The phone number of the user.
+     * @param password                The password of the user.
+     * @param role                    The role of the user.
+     * @param storefrontName          The name of the storefront for premium users.
+     * @param storefrontContactEmail  The contact email for the storefront.
      */
-    public User(int userID, String firstName, String lastName, String userName, String email, String password, String role) {
+    public User(int userID, String firstName, String lastName, String userName, String email, String phoneNumber, String password, String role, String storefrontName, String storefrontContactEmail) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.role = role;
+        this.storefrontName = storefrontName;
+        this.storefrontContactEmail = storefrontContactEmail;
+    }
+
+    /**
+     * Constructor for regular users (without storefront fields).
+     */
+    @Ignore
+    public User(int userID, String firstName, String lastName, String userName, String email, String phoneNumber, String password, String role) {
+        this(userID, firstName, lastName, userName, email, phoneNumber, password, role, null, null);
     }
 
     // Getter and setter methods
@@ -80,6 +98,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -94,5 +120,21 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getStorefrontName() {
+        return storefrontName;
+    }
+
+    public void setStorefrontName(String storefrontName) {
+        this.storefrontName = storefrontName;
+    }
+
+    public String getStorefrontContactEmail() {
+        return storefrontContactEmail;
+    }
+
+    public void setStorefrontContactEmail(String storefrontContactEmail) {
+        this.storefrontContactEmail = storefrontContactEmail;
     }
 }
