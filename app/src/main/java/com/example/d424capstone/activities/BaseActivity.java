@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.d424capstone.R;
+import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.dialogs.LoginSignupDialogFragment;
 import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
@@ -28,13 +29,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private SparseArray<Class<?>> activityMap;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
-    private TextView userInfoTextView;
+    private Repository repository;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        repository = new Repository(getApplication());
         initializeActivityMap();
+        checkIfUserLoggedIn(); // Check if user is logged in
 
         // Initialize the SharedPreferences change listener
         listener = (sharedPreferences, key) -> {
@@ -72,8 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             Intent intent = null;
             Class<?> targetActivity = activityMap.get(id);
             if (targetActivity != null) {
-                intent = new Intent(BaseActivity.this, targetActivity);
-                startActivity(intent);
+                startActivity(new Intent(BaseActivity.this, targetActivity));
             }
             drawerLayout.closeDrawers();
             return true;
@@ -90,7 +92,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initializeActivityMap() {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
+        activityMap.put(R.id.account_signup, UserSignUpScreen.class);
         activityMap.put(R.id.profile, UserProfileScreen.class);
+        activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
         activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
         activityMap.put(R.id.shopping, ShoppingScreen.class);
@@ -98,14 +102,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap.put(R.id.admin_user, AdminUserManagementScreen.class);
         activityMap.put(R.id.admin_store, AdminStoreManagementScreen.class);
     }
+
     private void handleLogout() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, HomeScreen.class);
-        startActivity(intent);
+        startActivity(new Intent(this, HomeScreen.class));
         finish();
     }
 
@@ -149,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return sharedPreferences.contains("LoggedInUser");
     }
 
-    protected void showLoginSignupDialog() {
+    public void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginSignupDialogFragment dialog = new LoginSignupDialogFragment();
         dialog.show(fragmentManager, "LoginSignupDialog");
@@ -163,8 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void checkAccessAndRedirect(String requiredRole, Class<?> targetActivity) {
         if (hasAccess(requiredRole)) {
-            Intent intent = new Intent(this, targetActivity);
-            startActivity(intent);
+            startActivity(new Intent(this, targetActivity));
         } else {
             showLoginSignupDialog();
         }
@@ -184,5 +187,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean shouldSkipLoginSignupDialog() {
         // Check if the current activity is UserLoginScreen or UserSignUpScreen
         return this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
+    }
+
+    protected void checkIfUserLoggedIn() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+
+        if (userID == -1 || repository.getUserByID(userID) == null) {
+            // No valid user found, prompt for login or signup
+            sharedPreferences.edit().clear().apply();
+            showLoginSignupDialog();
+        }
     }
 }

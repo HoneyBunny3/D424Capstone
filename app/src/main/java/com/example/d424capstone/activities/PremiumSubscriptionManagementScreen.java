@@ -22,14 +22,25 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
     private Repository repository;
     private SharedPreferences sharedPreferences;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = new Repository(getApplication());
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        currentUser = repository.getCurrentUser();
 
         EdgeToEdge.enable(this);
+
+        currentUser = repository.getCurrentUser();
+
+        if (currentUser == null) {
+            // If there's no logged-in user, finish the activity
+            showLoginSignupDialog();
+            finish();
+            return;
+        }
 
         if (isPremiumUser()) {
             setContentView(R.layout.activity_premium_subscription_management_screen);
@@ -59,21 +70,24 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         EditText lastNameEditText = findViewById(R.id.last_name);
         EditText emailEditText = findViewById(R.id.email);
         EditText phoneNumberEditText = findViewById(R.id.phone_number);
-
-        User currentUser = repository.getCurrentUser();
+        EditText creditCardEditText = findViewById(R.id.credit_card);
 
         // Pre-fill user information
-        firstNameEditText.setText(currentUser.getFirstName());
-        lastNameEditText.setText(currentUser.getLastName());
-        emailEditText.setText(currentUser.getEmail());
+        if (currentUser != null) {
+            firstNameEditText.setText(currentUser.getFirstName());
+            lastNameEditText.setText(currentUser.getLastName());
+            emailEditText.setText(currentUser.getEmail());
+            phoneNumberEditText.setText(currentUser.getPhoneNumber());
+        }
 
         Button subscribeButton = findViewById(R.id.subscribe_button);
         subscribeButton.setOnClickListener(v -> {
-            // Save subscription info to the database (assuming necessary methods are implemented)
+            // Save subscription info to the database
             currentUser.setFirstName(firstNameEditText.getText().toString());
             currentUser.setLastName(lastNameEditText.getText().toString());
             currentUser.setEmail(emailEditText.getText().toString());
             currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
+            // currentUser.setCreditCard(creditCardEditText.getText().toString()); // Assuming there is a field for this
             currentUser.setRole(UserRoles.PREMIUM);
 
             repository.updateUser(currentUser);
@@ -89,28 +103,30 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
     }
 
     private void setupPremiumUserManagement() {
-        User currentUser = repository.getCurrentUser();
-
         // Display user information
         TextView firstNameTextView = findViewById(R.id.first_name);
         TextView lastNameTextView = findViewById(R.id.last_name);
         TextView emailTextView = findViewById(R.id.email);
 
-        firstNameTextView.setText(currentUser.getFirstName());
-        lastNameTextView.setText(currentUser.getLastName());
-        emailTextView.setText(currentUser.getEmail());
+        if (currentUser != null) {
+            firstNameTextView.setText(currentUser.getFirstName());
+            lastNameTextView.setText(currentUser.getLastName());
+            emailTextView.setText(currentUser.getEmail());
+        }
 
         // Set up storefront management
         EditText storefrontNameEditText = findViewById(R.id.storefront_name);
         EditText storefrontContactEmailEditText = findViewById(R.id.storefront_contact_email);
 
-        // Pre-fill storefront info if available (assuming necessary methods are implemented)
-        storefrontNameEditText.setText(currentUser.getStorefrontName());
-        storefrontContactEmailEditText.setText(currentUser.getStorefrontContactEmail());
+        if (currentUser != null) {
+            // Pre-fill storefront info if available
+            storefrontNameEditText.setText(currentUser.getStorefrontName());
+            storefrontContactEmailEditText.setText(currentUser.getStorefrontContactEmail());
+        }
 
         Button addProductButton = findViewById(R.id.add_product_button);
         addProductButton.setOnClickListener(v -> {
-            // Handle adding products (assuming necessary methods are implemented)
+            // Handle adding products
             String storefrontName = storefrontNameEditText.getText().toString();
             String storefrontContactEmail = storefrontContactEmailEditText.getText().toString();
 

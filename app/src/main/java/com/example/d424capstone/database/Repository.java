@@ -32,6 +32,8 @@ public class Repository {
     private AssociatedCatsDAO associatedCatsDAO;
     private UserCatCrossRefDAO userCatCrossRefDAO;
 
+    private SharedPreferences sharedPreferences;
+
     // Lists
     private List<User> allUsers;
     private List<StoreItem> allStoreItems;
@@ -40,8 +42,6 @@ public class Repository {
     // Define the number of threads for the ExecutorService
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
-    private SharedPreferences sharedPreferences;
 
     /**
      * Constructor to initialize the DAOs using the database builder.
@@ -81,7 +81,9 @@ public class Repository {
 
     // Methods to insert data
     public void insertUser(User user) {
-        databaseExecutor.execute(() -> userDAO.insert(user));
+        databaseExecutor.execute(() -> {
+            userDAO.insert(user);
+        });
     }
 
     public void insertStoreItem(StoreItem storeItem) {
@@ -150,6 +152,10 @@ public class Repository {
 
     public interface UserCallback {
         void onUserRetrieved(User user);
+    }
+
+    public User getUserByID(int userID) {
+        return userDAO.getUserByID(userID);
     }
 
     public void getUserByUsernameAsync(String userName, UserCallback callback) {
