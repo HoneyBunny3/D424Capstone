@@ -2,6 +2,7 @@ package com.example.d424capstone.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,14 +10,33 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.d424capstone.activities.UserLoginScreen;
+import com.example.d424capstone.activities.UserSignUpScreen;
+
 /**
  * A DialogFragment that prompts the user to log in or sign up to access more features.
  */
 public class LoginSignupDialogFragment extends DialogFragment {
 
+    private static final String ARG_SKIP_DIALOG = "skip_dialog";
+
+    public static LoginSignupDialogFragment newInstance(boolean skipDialog) {
+        LoginSignupDialogFragment fragment = new LoginSignupDialogFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_SKIP_DIALOG, skipDialog);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        // Check if the dialog should be skipped
+        if (getArguments() != null && getArguments().getBoolean(ARG_SKIP_DIALOG, false)) {
+            dismiss();
+            return super.onCreateDialog(savedInstanceState);
+        }
+
         // Create an AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle("Login or Sign Up")
@@ -31,7 +51,7 @@ public class LoginSignupDialogFragment extends DialogFragment {
                 .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Handle sign up action
+                        // Handle sign-up action
                         onSignUp();
                     }
                 })
@@ -50,20 +70,25 @@ public class LoginSignupDialogFragment extends DialogFragment {
      * Method to handle login action.
      */
     private void onLogin() {
-        // Implement login logic here
+        // Navigate to the login screen
+        Intent loginIntent = new Intent(requireActivity(), UserLoginScreen.class);
+        startActivity(loginIntent);
     }
 
     /**
      * Method to handle sign-up action.
      */
     private void onSignUp() {
-        // Implement sign-up logic here
+        // Navigate to the sign-up screen
+        Intent signUpIntent = new Intent(requireActivity(), UserSignUpScreen.class);
+        startActivity(signUpIntent);
     }
 
     /**
      * Method to handle cancel action.
      */
     private void onCancel() {
-        // Implement cancel logic here
+        // Dismiss the dialog
+        dismiss();
     }
 }

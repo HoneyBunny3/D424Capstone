@@ -28,6 +28,7 @@ public class UserLoginScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_login_screen);
 
+        // Initialize repository
         repository = new Repository(getApplication());
 
         // Initialize SharedPreferences
@@ -88,29 +89,28 @@ public class UserLoginScreen extends BaseActivity {
                 editor.putString("UserRole", user.getRole());
                 editor.apply();
 
-                String roleMessage;
-                switch (user.getRole()) {
-                    case UserRoles.ADMIN:
-                        roleMessage = "Login successful as Admin";
-                        break;
-                    case UserRoles.PREMIUM:
-                        roleMessage = "Login successful as Premium User";
-                        break;
-                    case UserRoles.REGULAR:
-                        roleMessage = "Login successful as Regular User";
-                        break;
-                    case UserRoles.GUEST:
-                    default:
-                        roleMessage = "Login successful as Guest";
-                        break;
-                }
-
+                String roleMessage = getRoleMessage(user.getRole());
                 Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
+
                 startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
             } else {
                 // Failed login
                 Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
             }
         }));
+    }
+
+    private String getRoleMessage(String role) {
+        switch (role) {
+            case UserRoles.ADMIN:
+                return "Login successful as Admin";
+            case UserRoles.PREMIUM:
+                return "Login successful as Premium User";
+            case UserRoles.REGULAR:
+                return "Login successful as Regular User";
+            case UserRoles.GUEST:
+            default:
+                return "Login successful as Guest";
+        }
     }
 }

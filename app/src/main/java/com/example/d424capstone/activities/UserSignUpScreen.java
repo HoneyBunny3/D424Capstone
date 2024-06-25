@@ -34,6 +34,7 @@ public class UserSignUpScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_sign_up_screen);
 
+        // Initialize repository
         repository = new Repository(getApplication());
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
@@ -47,57 +48,53 @@ public class UserSignUpScreen extends BaseActivity {
 
         // Set up the sign-up button click listener
         Button signUpButton = findViewById(R.id.signup_button);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleSignUp(v);
-            }
-        });
+        signUpButton.setOnClickListener(this::handleSignUp);
 
         // Set up the login button click listener to redirect to login screen
         Button loginButton = findViewById(R.id.login_button);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserSignUpScreen.this, UserLoginScreen.class));
-            }
-        });
+        loginButton.setOnClickListener(v -> startActivity(new Intent(UserSignUpScreen.this, UserLoginScreen.class)));
 
         // Automatically populate the username field from the email field and make it non-editable
-        EditText emailEditText = findViewById(R.id.email);
-        EditText usernameEditText = findViewById(R.id.username);
-        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+        setupEmailUsernameSync();
+
+        // Set up password visibility toggle
+        setupPasswordVisibilityToggle();
+
+        // Initialize the user banner
+        userBanner = findViewById(R.id.user_banner);
+        checkAndShowUserBanner();
+    }
+
+        // Automatically populate the username field from the email field and make it non-editable
+        private void setupEmailUsernameSync() {
+            EditText emailEditText = findViewById(R.id.email);
+            EditText usernameEditText = findViewById(R.id.username);
+
+            emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
                     String email = emailEditText.getText().toString();
                     if (!email.isEmpty()) {
                         usernameEditText.setText(email);
                     }
                 }
-            }
-        });
+            });
+        }
 
-        // Set up password visibility toggle
+    private void setupPasswordVisibilityToggle() {
         EditText passwordEditText = findViewById(R.id.password);
         ImageButton togglePasswordVisibility = findViewById(R.id.toggle_password_visibility);
-        togglePasswordVisibility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordEditText.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_24);
-                } else {
-                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
-                }
-                // Move the cursor to the end of the text
-                passwordEditText.setSelection(passwordEditText.getText().length());
+
+        togglePasswordVisibility.setOnClickListener(v -> {
+            if (passwordEditText.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_24);
+            } else {
+                passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
             }
+            // Move the cursor to the end of the text
+            passwordEditText.setSelection(passwordEditText.getText().length());
         });
-        // Initialize the user banner
-        userBanner = findViewById(R.id.user_banner);
-        checkAndShowUserBanner();
     }
 
     private void handleSignUp(View view) {
@@ -112,31 +109,10 @@ public class UserSignUpScreen extends BaseActivity {
         String password = passwordEditText.getText().toString();
 
         // Validate input
-        // Check if email field is empty or not in email format
-        if (email.isEmpty() || !isValidEmail(email)) {
-            showAlert("Email Input Error", "Please enter a valid email.\nEnsure format is test@test.test");
+        if (!validateInput(email, firstName, lastName, password)) {
             return;
         }
-        // Check if first name field is empty or not alphabetic
-        if (firstName.isEmpty() || !isAlphabetic(firstName)) {
-            showAlert("First Name Input Error", "Please enter a valid first name containing only alphabetic characters.");
-            return;
-        }
-        // Check if last name field is empty or not alphabetic
-        if (lastName.isEmpty() || !isAlphabetic(lastName)) {
-            showAlert("Last Name Input Error", "Please enter a valid last name containing only alphabetic characters.");
-            return;
-        }
-        // Check if password field is empty
-        if (password.isEmpty()) {
-            showAlert("Password Input Error", "Please enter a password.");
-            return;
-        }
-        // Check if the password meets common password best practices
-        if (!isPasswordValid(password)) {
-            showAlert("Password Format Error", "Password must be at least 8 characters, contain at least one digit, one upper case letter, one lower case letter, and one special character.");
-            return;
-        }
+
         // Check if the email already exists
         repository.getUserByEmailAsync(email, new Repository.UserCallback() {
             @Override
@@ -161,6 +137,30 @@ public class UserSignUpScreen extends BaseActivity {
         });
     }
 
+    private boolean validateInput(String email, String firstName, String lastName, String password) {
+        if (email.isEmpty() || !isValidEmail(email)) {
+            showAlert("Email Input Error", "Please enter a valid email.\nEnsure format is test@test.test");
+            return false;
+        }
+        if (firstName.isEmpty() || !isAlphabetic(firstName)) {
+            showAlert("First Name Input Error", "Please enter a valid first name containing only alphabetic characters.");
+            return false;
+        }
+        if (lastName.isEmpty() || !isAlphabetic(lastName)) {
+            showAlert("Last Name Input Error", "Please enter a valid last name containing only alphabetic characters.");
+            return false;
+        }
+        if (password.isEmpty()) {
+            showAlert("Password Input Error", "Please enter a password.");
+            return false;
+        }
+        if (!isPasswordValid(password)) {
+            showAlert("Password Format Error", "Password must be at least 8 characters, contain at least one digit, one upper case letter, one lower case letter, and one special character.");
+            return false;
+        }
+        return true;
+    }
+
     private boolean isValidEmail(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -182,10 +182,8 @@ public class UserSignUpScreen extends BaseActivity {
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Continue with operation
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    // Continue with operation
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();

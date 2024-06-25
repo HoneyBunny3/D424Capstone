@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private SparseArray<Class<?>> activityMap;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private TextView userInfoTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 
         // Check if the user is a guest and show the login/signup dialog
-        if (isGuestUser()) {
+        if (isGuestUser() && !shouldSkipLoginSignupDialog()) {
             showLoginSignupDialog();
         }
     }
@@ -61,11 +64,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.logout) {
+                handleLogout();
+                return true;
+            }
             Intent intent = null;
-            Class<?> targetActivity = activityMap.get(item.getItemId());
+            Class<?> targetActivity = activityMap.get(id);
             if (targetActivity != null) {
-                intent = new Intent(BaseActivity.this, targetActivity);
-                startActivity(intent);
+                // Check if the user has access before navigating
+                if (id == R.id.admin_user || id == R.id.admin_store) {
+                    checkAccessAndRedirect(UserRoles.ADMIN, targetActivity);
+                } else if (id == R.id.premium_user) {
+                    checkAccessAndRedirect(UserRoles.PREMIUM, targetActivity);
+                } else {
+                    intent = new Intent(BaseActivity.this, targetActivity);
+                    startActivity(intent);
+                }
             }
             drawerLayout.closeDrawers();
             return true;
@@ -83,11 +98,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
         activityMap.put(R.id.profile, UserProfileScreen.class);
+        activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
         activityMap.put(R.id.shopping, ShoppingScreen.class);
         activityMap.put(R.id.contact_us, ContactUsScreen.class);
         activityMap.put(R.id.admin_user, AdminUserManagementScreen.class);
         activityMap.put(R.id.admin_store, AdminStoreManagementScreen.class);
+    }
+    private void handleLogout() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, HomeScreen.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -127,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        LoginSignupDialogFragment dialog = new LoginSignupDialogFragment();
+        LoginSignupDialogFragment dialog = LoginSignupDialogFragment.newInstance(false);
         dialog.show(fragmentManager, "LoginSignupDialog");
     }
 
@@ -142,7 +168,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(this, targetActivity);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
+            showLoginSignupDialog();
         }
     }
 
@@ -155,5 +181,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean shouldSkipLoginSignupDialog() {
+        // Check if the current activity is UserLoginScreen or UserSignUpScreen
+        return this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
     }
 }
