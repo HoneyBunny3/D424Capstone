@@ -1,9 +1,12 @@
 package com.example.d424capstone.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -77,6 +80,7 @@ public class UserLoginScreen extends BaseActivity {
         // Check if already logged in
         if (sharedPreferences.contains("LoggedInUser")) {
             Toast.makeText(this, "You are already logged in.", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "User already logged in.");
             return;
         }
 
@@ -91,11 +95,14 @@ public class UserLoginScreen extends BaseActivity {
 
                 String roleMessage = getRoleMessage(user.getRole());
                 Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "User logged in successfully: " + user.getUserName());
 
                 startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
+                finish();
             } else {
                 // Failed login
                 Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Invalid login attempt for username: " + username);
             }
         }));
     }

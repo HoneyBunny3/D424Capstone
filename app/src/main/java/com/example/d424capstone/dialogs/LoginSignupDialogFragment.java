@@ -13,9 +13,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.d424capstone.activities.UserLoginScreen;
 import com.example.d424capstone.activities.UserSignUpScreen;
 
-/**
- * A DialogFragment that prompts the user to log in or sign up to access more features.
- */
 public class LoginSignupDialogFragment extends DialogFragment {
 
     private static final String ARG_SKIP_DIALOG = "skip_dialog";
@@ -66,27 +63,18 @@ public class LoginSignupDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    /**
-     * Method to handle login action.
-     */
     private void onLogin() {
         // Navigate to the login screen
         Intent loginIntent = new Intent(requireActivity(), UserLoginScreen.class);
         startActivity(loginIntent);
     }
 
-    /**
-     * Method to handle sign-up action.
-     */
     private void onSignUp() {
         // Navigate to the sign-up screen
         Intent signUpIntent = new Intent(requireActivity(), UserSignUpScreen.class);
         startActivity(signUpIntent);
     }
 
-    /**
-     * Method to handle cancel action.
-     */
     private void onCancel() {
         // Dismiss the dialog
         dismiss();

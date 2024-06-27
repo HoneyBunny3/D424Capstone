@@ -35,13 +35,6 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
         currentUser = repository.getCurrentUser();
 
-        if (currentUser == null) {
-            // If there's no logged-in user, finish the activity
-            showLoginSignupDialog();
-            finish();
-            return;
-        }
-
         if (isPremiumUser()) {
             setContentView(R.layout.activity_premium_subscription_management_screen);
             setupPremiumUserManagement();

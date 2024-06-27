@@ -35,11 +35,6 @@ public class HomeScreen extends BaseActivity {
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
-        // Check if the user is logged in before showing the dialog
-        if (!isUserLoggedIn()) {
-            showLoginSignupDialog();
-        }
-
         // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

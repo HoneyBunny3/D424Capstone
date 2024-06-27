@@ -1,11 +1,13 @@
 package com.example.d424capstone.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,14 +32,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     private SparseArray<Class<?>> activityMap;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private Repository repository;
-
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = new Repository(getApplication());
         initializeActivityMap();
-        checkIfUserLoggedIn(); // Check if user is logged in
+
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+//        // Check if the user is logged in and the current activity is not login or signup
+//        if (!isUserLoggedIn() && !shouldSkipLoginSignupDialog()) {
+//            showLoginSignupDialog();
+//        }
 
         // Initialize the SharedPreferences change listener
         listener = (sharedPreferences, key) -> {
@@ -47,11 +55,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         };
 
         // Register the shared preference change listener
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 
-        // Check if the user is a guest and show the login/signup dialog
-        if (isGuestUser() && !shouldSkipLoginSignupDialog()) {
+        // Check login status and show dialog if necessary
+        checkLoginStatus();
+    }
+    private void checkLoginStatus() {
+        boolean userLoggedIn = isUserLoggedIn();
+        boolean skipDialog = shouldSkipLoginSignupDialog();
+
+        Log.d(TAG, "User logged in: " + userLoggedIn);
+        Log.d(TAG, "Should skip dialog: " + skipDialog);
+
+        if (!userLoggedIn && !skipDialog) {
             showLoginSignupDialog();
         }
     }
@@ -89,6 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
+
     private void initializeActivityMap() {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
@@ -108,6 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+        Log.d(TAG, "User logged out.");
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, HomeScreen.class));
         finish();
@@ -142,21 +160,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    private boolean isGuestUser() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
-        return UserRoles.GUEST.equals(userRole);
-    }
+//    private boolean isGuestUser() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
+//        return UserRoles.GUEST.equals(userRole);
+//    }
 
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.contains("LoggedInUser");
+        boolean loggedIn = sharedPreferences.contains("LoggedInUser");
+        Log.d(TAG, "isUserLoggedIn: " + loggedIn);
+        return loggedIn;
     }
 
-    public void showLoginSignupDialog() {
+    private void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        LoginSignupDialogFragment dialog = new LoginSignupDialogFragment();
-        dialog.show(fragmentManager, "LoginSignupDialog");
+        LoginSignupDialogFragment loginSignupDialog = LoginSignupDialogFragment.newInstance(false);
+        loginSignupDialog.show(fragmentManager, "LoginSignupDialogFragment");
     }
 
     public boolean hasAccess(String requiredRole) {
@@ -165,13 +185,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return userRole.equals(requiredRole);
     }
 
-    public void checkAccessAndRedirect(String requiredRole, Class<?> targetActivity) {
-        if (hasAccess(requiredRole)) {
-            startActivity(new Intent(this, targetActivity));
-        } else {
-            showLoginSignupDialog();
-        }
-    }
+//    public void checkAccessAndRedirect(String requiredRole, Class<?> targetActivity) {
+//        if (hasAccess(requiredRole)) {
+//            startActivity(new Intent(this, targetActivity));
+//        } else {
+//            showLoginSignupDialog();
+//        }
+//    }
 
     public void checkAccessOrFinish(String requiredRole) {
         if (!hasAccess(requiredRole)) {
@@ -180,23 +200,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
+//    protected void showToast(String message) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//    }
 
     private boolean shouldSkipLoginSignupDialog() {
         // Check if the current activity is UserLoginScreen or UserSignUpScreen
-        return this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
+        boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
+        Log.d(TAG, "shouldSkipLoginSignupDialog: " + skipDialog);
+        return skipDialog;
     }
 
-    protected void checkIfUserLoggedIn() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-
-        if (userID == -1 || repository.getUserByID(userID) == null) {
-            // No valid user found, prompt for login or signup
-            sharedPreferences.edit().clear().apply();
-            showLoginSignupDialog();
-        }
-    }
+//    protected void checkIfUserLoggedIn() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+//
+//        if (userID == -1 || repository.getUserByID(userID) == null) {
+//            // No valid user found, prompt for login or signup
+//            sharedPreferences.edit().clear().apply();
+//            if (!shouldSkipLoginSignupDialog()) {
+//                showLoginSignupDialog();
+//            }
+//        }
+//    }
 }
