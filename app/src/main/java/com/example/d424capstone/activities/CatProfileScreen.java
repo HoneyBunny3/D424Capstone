@@ -3,6 +3,7 @@ package com.example.d424capstone.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -39,6 +40,7 @@ public class CatProfileScreen extends BaseActivity {
     private List<User> associatedUsers;
     private List<User> allUsers;
     private List<AssociatedCats> associatedCats;
+    private int catID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,15 @@ public class CatProfileScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Check if editing an existing cat profile
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("catID")) {
+            catID = intent.getIntExtra("catID", -1);
+            if (catID != -1) {
+                loadCatProfile(catID);
+            }
+        }
     }
 
     private void initializeViews() {
@@ -115,16 +126,32 @@ public class CatProfileScreen extends BaseActivity {
 
         int catAge = Integer.parseInt(catAgeStr);
         String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
-        AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio); // catID is auto-generated
 
-        repository.insertCat(cat);
-        for (User user : associatedUsers) {
-            UserCatCrossRef crossRef = new UserCatCrossRef(user.getUserID(), cat.getCatID());
-            repository.insertUserCatCrossRef(crossRef);
+        if (catID == -1) {
+            // New cat profile
+            AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio);
+
+            repository.insertCat(cat, id -> {
+                if (id != -1) {
+                    int loggedInUserId = getLoggedInUserId(); // Retrieve the logged-in user's ID
+                    UserCatCrossRef crossRef = new UserCatCrossRef(loggedInUserId, (int) id);
+                    repository.insertUserCatCrossRef(crossRef);
+
+                    runOnUiThread(() -> {
+                        Toast.makeText(CatProfileScreen.this, "Cat profile saved and associated with user", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                }
+            });
+        } else {
+            // Update existing cat profile
+            AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio);
+            repository.updateCat(cat);
+            runOnUiThread(() -> {
+                Toast.makeText(CatProfileScreen.this, "Cat profile updated", Toast.LENGTH_SHORT).show();
+                finish();
+            });
         }
-
-        Toast.makeText(this, "Cat profile saved", Toast.LENGTH_SHORT).show();
-        finish();
     }
 
     private void addUserToCatProfile() {
@@ -190,6 +217,31 @@ public class CatProfileScreen extends BaseActivity {
             }
         }
         runOnUiThread(this::updateAssociatedCatsTextView);
+    }
+
+    private void loadCatProfile(int catID) {
+        repository.executeAsync(() -> {
+            AssociatedCats cat = repository.getCatByID(catID);
+            if (cat != null) {
+                runOnUiThread(() -> {
+                    catNameEditText.setText(cat.getCatName());
+                    catAgeEditText.setText(String.valueOf(cat.getCatAge()));
+                    catBioEditText.setText(cat.getCatBio());
+                    catImageUri = Uri.parse(cat.getImageUri());
+                    catImageView.setImageURI(catImageUri);
+                });
+            }
+        });
+    }
+
+//    private int getLoggedInUserId() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        return sharedPreferences.getInt("LoggedInUserID", -1);
+//    }
+
+    private int getLoggedInUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        return sharedPreferences.getInt("LoggedInUserID", -1);
     }
 
     @Override

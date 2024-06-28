@@ -23,7 +23,7 @@ public interface AssociatedCatsDAO {
      * @param associatedCat The associated cat to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(AssociatedCats associatedCat);
+    long insert(AssociatedCats associatedCat);
 
     /**
      * Updates an existing associated cat in the associated_cats table.

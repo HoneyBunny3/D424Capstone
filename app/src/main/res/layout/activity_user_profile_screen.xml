@@ -121,17 +121,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tocatsocialscreen" />
 
-        <TextView
-            android:id="@+id/associated_cats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Associated Cats"
-            android:textSize="18sp"
+        <ListView
+            android:id="@+id/associated_cats_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/toshoppingscreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tocatprofilescreen" />
+            app:layout_constraintTop_toBottomOf="@+id/toshoppingscreen" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

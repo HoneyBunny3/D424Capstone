@@ -58,6 +58,11 @@ public class Repository {
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
     }
 
+    // Define the InsertCallback interface
+    public interface InsertCallback {
+        void onInsert(long id);
+    }
+
     // Methods to retrieve the lists
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
@@ -94,8 +99,25 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.insert(socialPost));
     }
 
-    public void insertCat(AssociatedCats cat) {
-        databaseExecutor.execute(() -> associatedCatsDAO.insert(cat));
+//    public void insertCat(AssociatedCats cat, InsertCallback callback) {
+//        databaseExecutor.execute(() -> {
+//            long id = associatedCatsDAO.insert(cat);
+//            callback.onInsert(id);
+//        });
+//    }
+
+    public void insertCat(AssociatedCats cat, InsertCallback callback) {
+        databaseExecutor.execute(() -> {
+            long id = associatedCatsDAO.insert(cat);
+            if (id != -1) {
+                int loggedInUserId = sharedPreferences.getInt("LoggedInUserID", -1);
+                if (loggedInUserId != -1) {
+                    UserCatCrossRef crossRef = new UserCatCrossRef(loggedInUserId, (int) id);
+                    userCatCrossRefDAO.insert(crossRef);
+                }
+            }
+            callback.onInsert(id);
+        });
     }
 
     public void insertUserCatCrossRef(UserCatCrossRef userCatCrossRef) {
@@ -134,6 +156,10 @@ public class Repository {
 
     public void deleteCat(int catID) {
         databaseExecutor.execute(() -> associatedCatsDAO.delete(catID));
+    }
+
+    public AssociatedCats getCatByID(int catID) {
+        return associatedCatsDAO.getCatByID(catID);
     }
 
     // Get Featured Item and Most Liked Post for Home Screen

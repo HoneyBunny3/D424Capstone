@@ -3,7 +3,11 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,18 +18,23 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.AssociatedCats;
-import com.example.d424capstone.entities.UserWithCats;
 import com.example.d424capstone.entities.User;
+import com.example.d424capstone.entities.UserWithCats;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileScreen extends BaseActivity {
 
     private Repository repository;
-    private TextView associatedCatsTextView;
     private TextView firstNameTextView;
     private TextView lastNameTextView;
     private TextView emailTextView;
+    private ListView associatedCatsListView;
+
+    private List<AssociatedCats> associatedCatsList;
+    private ArrayAdapter<String> catsAdapter;
+    private List<String> catNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +43,13 @@ public class UserProfileScreen extends BaseActivity {
         setContentView(R.layout.activity_user_profile_screen);
 
         repository = new Repository(getApplication());
-        associatedCatsTextView = findViewById(R.id.associated_cats);
+        associatedCatsList = new ArrayList<>();
+        catNames = new ArrayList<>();
+
         firstNameTextView = findViewById(R.id.first_name);
         lastNameTextView = findViewById(R.id.last_name);
         emailTextView = findViewById(R.id.email_address);
+        associatedCatsListView = findViewById(R.id.associated_cats_list_view);
 
         int userID = getUserID();
         repository.getUserByIDAsync(userID, new Repository.UserCallback() {
@@ -68,6 +80,19 @@ public class UserProfileScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        associatedCatsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AssociatedCats selectedCat = associatedCatsList.get(position);
+                Intent intent = new Intent(UserProfileScreen.this, CatProfileScreen.class);
+                intent.putExtra("catID", selectedCat.getCatID());
+                startActivity(intent);
+            }
+        });
+
+        catsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, catNames);
+        associatedCatsListView.setAdapter(catsAdapter);
     }
 
     private void initializeButtons() {
@@ -96,6 +121,25 @@ public class UserProfileScreen extends BaseActivity {
         });
     }
 
+//    private void loadAssociatedCats() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        String currentUserName = sharedPreferences.getString("LoggedInUser", "");
+//        repository.getUserByUsernameAsync(currentUserName, user -> {
+//            if (user != null) {
+//                repository.executeAsync(() -> {
+//                    List<UserWithCats> userWithCatsList = repository.getCatsForUser(user.getUserID());
+//                    StringBuilder sb = new StringBuilder("Associated Cats:\n");
+//                    for (UserWithCats userWithCats : userWithCatsList) {
+//                        for (AssociatedCats cat : userWithCats.getCats()) {
+//                            sb.append(cat.getCatName()).append("\n");
+//                        }
+//                    }
+//                    runOnUiThread(() -> associatedCatsTextView.setText(sb.toString()));
+//                });
+//            }
+//        });
+//    }
+
     private void loadAssociatedCats() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String currentUserName = sharedPreferences.getString("LoggedInUser", "");
@@ -105,10 +149,11 @@ public class UserProfileScreen extends BaseActivity {
                 StringBuilder sb = new StringBuilder("Associated Cats:\n");
                 for (UserWithCats userWithCats : userWithCatsList) {
                     for (AssociatedCats cat : userWithCats.getCats()) {
-                        sb.append(cat.getCatName()).append("\n");
+                        associatedCatsList.add(cat);
+                        catNames.add(cat.getCatName());
                     }
                 }
-                runOnUiThread(() -> associatedCatsTextView.setText(sb.toString()));
+                runOnUiThread(() -> catsAdapter.notifyDataSetChanged());
             }
         });
     }
@@ -117,6 +162,6 @@ public class UserProfileScreen extends BaseActivity {
         // Implement the logic to get the user ID
         // This can be retrieved from shared preferences or passed as an intent extra
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getInt("LoggedInUserID", 1); // Replace with actual logic
+        return sharedPreferences.getInt("LoggedInUserID", 1);
     }
 }

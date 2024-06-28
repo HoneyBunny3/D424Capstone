@@ -166,11 +166,21 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        return UserRoles.GUEST.equals(userRole);
 //    }
 
+//
+
+//    protected boolean isUserLoggedIn() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        // Correctly check if the user is logged in by verifying the presence of "LoggedInUserID"
+//        boolean loggedIn = sharedPreferences.contains("LoggedInUserID");
+//        Log.d(TAG, "isUserLoggedIn: " + loggedIn);
+//        return loggedIn;
+//    }
+
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        boolean loggedIn = sharedPreferences.contains("LoggedInUser");
-        Log.d(TAG, "isUserLoggedIn: " + loggedIn);
-        return loggedIn;
+        String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
+        Log.d(TAG, "isUserLoggedIn: " + (loggedInUser != null));
+        return loggedInUser != null;
     }
 
     private void showLoginSignupDialog() {
