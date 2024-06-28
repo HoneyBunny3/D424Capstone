@@ -82,9 +82,23 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.insert(socialPost));
     }
 
-    public void insertCat(AssociatedCats cat, InsertCallback callback) {
+//    public void insertCat(AssociatedCats cat, InsertCallback callback) {
+//        databaseExecutor.execute(() -> {
+//            long id = associatedCatsDAO.insert(cat);
+//            callback.onInsert(id);
+//        });
+//    }
+
+    // Insert or update a cat profile
+    public void insertOrUpdateCat(AssociatedCats cat, InsertCallback callback) {
         databaseExecutor.execute(() -> {
-            long id = associatedCatsDAO.insert(cat);
+            long id;
+            if (cat.getCatID() == 0) {
+                id = associatedCatsDAO.insert(cat);
+            } else {
+                associatedCatsDAO.update(cat);
+                id = cat.getCatID();
+            }
             callback.onInsert(id);
         });
     }

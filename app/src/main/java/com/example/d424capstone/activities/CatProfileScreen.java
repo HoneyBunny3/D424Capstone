@@ -108,6 +108,45 @@ public class CatProfileScreen extends BaseActivity {
     /**
      * Save the cat profile to the database.
      */
+//    private void saveCatProfile() {
+//        String catName = catNameEditText.getText().toString();
+//        String catAgeStr = catAgeEditText.getText().toString();
+//        String catBio = catBioEditText.getText().toString();
+//
+//        // Validate input fields
+//        if (catName.isEmpty() || catAgeStr.isEmpty()) {
+//            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        int catAge = Integer.parseInt(catAgeStr);
+//        String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
+//        int loggedInUserId = getLoggedInUserId();  // Assuming this method fetches the logged-in user's ID
+//
+//        if (catID == -1) {
+//            // New cat profile
+//            AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio, loggedInUserId);
+//            repository.insertCat(cat, id -> {
+//                if (id != -1) {
+//                    runOnUiThread(() -> {
+//                        Toast.makeText(CatProfileScreen.this, "Cat profile saved", Toast.LENGTH_SHORT).show();
+//                        finish();
+//                    });
+//                } else {
+//                    runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, "Failed to save cat profile", Toast.LENGTH_SHORT).show());
+//                }
+//            });
+//        } else {
+//            // Update existing cat profile
+//            AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio, loggedInUserId);
+//            repository.updateCat(cat);
+//            runOnUiThread(() -> {
+//                Toast.makeText(CatProfileScreen.this, "Cat profile updated", Toast.LENGTH_SHORT).show();
+//                finish();
+//            });
+//        }
+//    }
+
     private void saveCatProfile() {
         String catName = catNameEditText.getText().toString();
         String catAgeStr = catAgeEditText.getText().toString();
@@ -122,28 +161,18 @@ public class CatProfileScreen extends BaseActivity {
         String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
         int loggedInUserId = getLoggedInUserId();  // Assuming this method fetches the logged-in user's ID
 
-        if (catID == -1) {
-            // New cat profile
-            AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio, loggedInUserId);
-            repository.insertCat(cat, id -> {
-                if (id != -1) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(CatProfileScreen.this, "Cat profile saved", Toast.LENGTH_SHORT).show();
-                        finish();
-                    });
-                } else {
-                    runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, "Failed to save cat profile", Toast.LENGTH_SHORT).show());
-                }
-            });
-        } else {
-            // Update existing cat profile
-            AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio, loggedInUserId);
-            repository.updateCat(cat);
-            runOnUiThread(() -> {
-                Toast.makeText(CatProfileScreen.this, "Cat profile updated", Toast.LENGTH_SHORT).show();
-                finish();
-            });
-        }
+        // New cat profile
+        AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio, loggedInUserId);
+        repository.insertOrUpdateCat(cat, id -> {
+            if (id != -1) {
+                runOnUiThread(() -> {
+                    Toast.makeText(CatProfileScreen.this, "Cat profile saved", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+            } else {
+                runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, "Failed to save cat profile", Toast.LENGTH_SHORT).show());
+            }
+        });
     }
 
     /**
