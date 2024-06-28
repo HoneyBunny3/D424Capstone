@@ -6,15 +6,11 @@ import android.content.SharedPreferences;
 import com.example.d424capstone.dao.AssociatedCatsDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
-import com.example.d424capstone.dao.UserCatCrossRefDAO;
 import com.example.d424capstone.dao.UserDAO;
 import com.example.d424capstone.entities.AssociatedCats;
-import com.example.d424capstone.entities.CatWithUsers;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.example.d424capstone.entities.User;
-import com.example.d424capstone.entities.UserCatCrossRef;
-import com.example.d424capstone.entities.UserWithCats;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,19 +21,13 @@ import java.util.concurrent.Executors;
  */
 public class Repository {
 
-    // Data Access Objects
+    // Data Access Objects (DAOs)
     private UserDAO userDAO;
     private StoreItemDAO storeItemDAO;
     private SocialPostDAO socialPostDAO;
     private AssociatedCatsDAO associatedCatsDAO;
-    private UserCatCrossRefDAO userCatCrossRefDAO;
 
     private SharedPreferences sharedPreferences;
-
-    // Lists
-    private List<User> allUsers;
-    private List<StoreItem> allStoreItems;
-    private List<SocialPost> allSocialPosts;
 
     // Define the number of threads for the ExecutorService
     private static final int NUMBER_OF_THREADS = 4;
@@ -54,7 +44,6 @@ public class Repository {
         storeItemDAO = db.storeItemDAO();
         socialPostDAO = db.socialPostDAO();
         associatedCatsDAO = db.associatedCatsDAO();
-        userCatCrossRefDAO = db.userCatCrossRefDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
     }
 
@@ -63,7 +52,7 @@ public class Repository {
         void onInsert(long id);
     }
 
-    // Methods to retrieve the lists
+    // Methods to retrieve lists of entities
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
@@ -76,19 +65,13 @@ public class Repository {
         return socialPostDAO.getAllSocialPosts();
     }
 
-    public List<UserWithCats> getCatsForUser(int userID) {
-        return userCatCrossRefDAO.getCatsForUser(userID);
+    public List<AssociatedCats> getCatsForUser(int userID) {
+        return associatedCatsDAO.getCatsForUser(userID);
     }
 
-    public List<CatWithUsers> getUsersForCat(int catID) {
-        return userCatCrossRefDAO.getUsersForCat(catID);
-    }
-
-    // Methods to insert data
+    // Methods to insert data into the database
     public void insertUser(User user) {
-        databaseExecutor.execute(() -> {
-            userDAO.insert(user);
-        });
+        databaseExecutor.execute(() -> userDAO.insert(user));
     }
 
     public void insertStoreItem(StoreItem storeItem) {
@@ -99,32 +82,14 @@ public class Repository {
         databaseExecutor.execute(() -> socialPostDAO.insert(socialPost));
     }
 
-//    public void insertCat(AssociatedCats cat, InsertCallback callback) {
-//        databaseExecutor.execute(() -> {
-//            long id = associatedCatsDAO.insert(cat);
-//            callback.onInsert(id);
-//        });
-//    }
-
     public void insertCat(AssociatedCats cat, InsertCallback callback) {
         databaseExecutor.execute(() -> {
             long id = associatedCatsDAO.insert(cat);
-            if (id != -1) {
-                int loggedInUserId = sharedPreferences.getInt("LoggedInUserID", -1);
-                if (loggedInUserId != -1) {
-                    UserCatCrossRef crossRef = new UserCatCrossRef(loggedInUserId, (int) id);
-                    userCatCrossRefDAO.insert(crossRef);
-                }
-            }
             callback.onInsert(id);
         });
     }
 
-    public void insertUserCatCrossRef(UserCatCrossRef userCatCrossRef) {
-        databaseExecutor.execute(() -> userCatCrossRefDAO.insert(userCatCrossRef));
-    }
-
-    // Methods to update data
+    // Methods to update data in the database
     public void updateUser(User user) {
         databaseExecutor.execute(() -> userDAO.update(user));
     }
@@ -141,7 +106,7 @@ public class Repository {
         databaseExecutor.execute(() -> associatedCatsDAO.update(cat));
     }
 
-    // Methods to delete data
+    // Methods to delete data from the database
     public void deleteUser(int userID) {
         databaseExecutor.execute(() -> userDAO.delete(userID));
     }
@@ -158,11 +123,12 @@ public class Repository {
         databaseExecutor.execute(() -> associatedCatsDAO.delete(catID));
     }
 
+    // Methods to retrieve a specific entity by ID
     public AssociatedCats getCatByID(int catID) {
         return associatedCatsDAO.getCatByID(catID);
     }
 
-    // Get Featured Item and Most Liked Post for Home Screen
+    // Methods to get featured items for the home screen
     public StoreItem getFeaturedItem() {
         return storeItemDAO.getFeaturedItem();
     }
@@ -176,12 +142,17 @@ public class Repository {
         databaseExecutor.execute(task);
     }
 
+    // Define the UserCallback interface
     public interface UserCallback {
         void onUserRetrieved(User user);
     }
 
-    public User getUserByID(int userID) {
-        return userDAO.getUserByID(userID);
+    // Asynchronously fetch user by ID and return via callback
+    public void getUserByIDAsync(int userID, UserCallback callback) {
+        databaseExecutor.execute(() -> {
+            User user = userDAO.getUserByID(userID);
+            callback.onUserRetrieved(user);
+        });
     }
 
     public void getUserByUsernameAsync(String userName, UserCallback callback) {
@@ -198,14 +169,7 @@ public class Repository {
         });
     }
 
-    public void getUserByIDAsync(int userID, UserCallback callback) {
-        databaseExecutor.execute(() -> {
-            User user = userDAO.getUserByID(userID);
-            callback.onUserRetrieved(user);
-        });
-    }
-
-    // Get the current logged-in user
+    // Method to get the current logged-in user
     public User getCurrentUser() {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);
         return userDAO.getUserByID(userID);

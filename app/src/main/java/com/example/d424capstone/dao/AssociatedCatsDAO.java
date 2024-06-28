@@ -1,6 +1,7 @@
 package com.example.d424capstone.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,6 +22,7 @@ public interface AssociatedCatsDAO {
      * If there is a conflict, the insertion is ignored.
      *
      * @param associatedCat The associated cat to be inserted.
+     * @return The row ID of the newly inserted associated cat.
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(AssociatedCats associatedCat);
@@ -57,4 +59,21 @@ public interface AssociatedCatsDAO {
      */
     @Query("SELECT * FROM associated_cats ORDER BY catID ASC")
     List<AssociatedCats> getAllCats();
+
+    /**
+     * Retrieves all associated cats for a specific user from the associated_cats table ordered by catID in ascending order.
+     *
+     * @param userID The ID of the user whose associated cats are to be retrieved.
+     * @return A list of associated cats for the specified user.
+     */
+    @Query("SELECT * FROM associated_cats WHERE userID = :userID ORDER BY catID ASC")
+    List<AssociatedCats> getCatsForUser(int userID);
+
+    /**
+     * Deletes an associated cat from the associated_cats table.
+     *
+     * @param associatedCat The associated cat to be deleted.
+     */
+    @Delete
+    void delete(AssociatedCats associatedCat);
 }

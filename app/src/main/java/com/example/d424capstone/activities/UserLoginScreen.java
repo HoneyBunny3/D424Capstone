@@ -91,6 +91,7 @@ public class UserLoginScreen extends BaseActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("LoggedInUser", user.getUserName());
                 editor.putString("UserRole", user.getRole());
+                editor.putInt("LoggedInUserID", user.getUserID());  // Store the user ID
                 editor.apply();
 
                 String roleMessage = getRoleMessage(user.getRole());

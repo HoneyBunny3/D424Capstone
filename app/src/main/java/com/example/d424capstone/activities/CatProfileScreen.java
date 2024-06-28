@@ -1,7 +1,6 @@
 package com.example.d424capstone.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,25 +19,23 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.AssociatedCats;
-import com.example.d424capstone.entities.User;
-import com.example.d424capstone.entities.UserCatCrossRef;
-import com.example.d424capstone.entities.UserWithCats;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Activity class for displaying and managing the cat profile screen.
+ */
 public class CatProfileScreen extends BaseActivity {
 
+    // Request code for picking an image
     private static final int PICK_IMAGE_REQUEST = 1;
+
+    // Repository instance for data operations
     private Repository repository;
+
+    // UI components for cat profile details
     private EditText catNameEditText, catAgeEditText, catBioEditText;
     private ImageView catImageView;
     private Uri catImageUri;
-    private Button saveButton, cancelButton, addUserButton;
-    private TextView associatedUsersTextView, associatedCatsTextView;
-    private List<User> associatedUsers;
-    private List<User> allUsers;
-    private List<AssociatedCats> associatedCats;
+    private Button saveButton, cancelButton;
     private int catID;
 
     @Override
@@ -48,10 +44,8 @@ public class CatProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_profile_screen);
 
+        // Initialize repository
         repository = new Repository(getApplication());
-        associatedUsers = new ArrayList<>();
-        allUsers = new ArrayList<>();
-        associatedCats = new ArrayList<>();
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
@@ -61,9 +55,6 @@ public class CatProfileScreen extends BaseActivity {
 
         // Initialize buttons and set click listeners
         initializeButtons();
-
-        // Load all users from the database
-        loadAllUsers();
 
         // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -82,6 +73,9 @@ public class CatProfileScreen extends BaseActivity {
         }
     }
 
+    /**
+     * Initialize views for cat profile screen.
+     */
     private void initializeViews() {
         catNameEditText = findViewById(R.id.cat_name);
         catAgeEditText = findViewById(R.id.cat_age);
@@ -90,20 +84,17 @@ public class CatProfileScreen extends BaseActivity {
         catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save);
         cancelButton = findViewById(R.id.cancel);
-        addUserButton = findViewById(R.id.add_user);
-        associatedUsersTextView = findViewById(R.id.associated_users);
-        associatedCatsTextView = findViewById(R.id.associated_cats);
     }
 
+    /**
+     * Initialize buttons and set click listeners for saving and canceling cat profile changes.
+     */
     private void initializeButtons() {
         // Initialize the save button
         saveButton.setOnClickListener(view -> saveCatProfile());
 
         // Initialize the cancel button
         cancelButton.setOnClickListener(view -> finish());
-
-        // Initialize the add user button
-        addUserButton.setOnClickListener(view -> addUserToCatProfile());
 
         // Set an OnClickListener to the catImageView to allow picking an image
         catImageView.setOnClickListener(view -> {
@@ -114,6 +105,9 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
+    /**
+     * Save the cat profile to the database.
+     */
     private void saveCatProfile() {
         String catName = catNameEditText.getText().toString();
         String catAgeStr = catAgeEditText.getText().toString();
@@ -126,26 +120,24 @@ public class CatProfileScreen extends BaseActivity {
 
         int catAge = Integer.parseInt(catAgeStr);
         String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
+        int loggedInUserId = getLoggedInUserId();  // Assuming this method fetches the logged-in user's ID
 
         if (catID == -1) {
             // New cat profile
-            AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio);
-
+            AssociatedCats cat = new AssociatedCats(0, catName, catAge, imageUriString, catBio, loggedInUserId);
             repository.insertCat(cat, id -> {
                 if (id != -1) {
-                    int loggedInUserId = getLoggedInUserId(); // Retrieve the logged-in user's ID
-                    UserCatCrossRef crossRef = new UserCatCrossRef(loggedInUserId, (int) id);
-                    repository.insertUserCatCrossRef(crossRef);
-
                     runOnUiThread(() -> {
-                        Toast.makeText(CatProfileScreen.this, "Cat profile saved and associated with user", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CatProfileScreen.this, "Cat profile saved", Toast.LENGTH_SHORT).show();
                         finish();
                     });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, "Failed to save cat profile", Toast.LENGTH_SHORT).show());
                 }
             });
         } else {
             // Update existing cat profile
-            AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio);
+            AssociatedCats cat = new AssociatedCats(catID, catName, catAge, imageUriString, catBio, loggedInUserId);
             repository.updateCat(cat);
             runOnUiThread(() -> {
                 Toast.makeText(CatProfileScreen.this, "Cat profile updated", Toast.LENGTH_SHORT).show();
@@ -154,71 +146,11 @@ public class CatProfileScreen extends BaseActivity {
         }
     }
 
-    private void addUserToCatProfile() {
-        if (allUsers == null || allUsers.isEmpty()) {
-            Toast.makeText(this, "No users available to add", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        CharSequence[] userNames = new CharSequence[allUsers.size()];
-        boolean[] checkedItems = new boolean[allUsers.size()];
-
-        for (int i = 0; i < allUsers.size(); i++) {
-            userNames[i] = allUsers.get(i).getUserName();
-            checkedItems[i] = associatedUsers.contains(allUsers.get(i));
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Users")
-                .setMultiChoiceItems(userNames, checkedItems, (dialog, which, isChecked) -> {
-                    if (isChecked) {
-                        associatedUsers.add(allUsers.get(which));
-                    } else {
-                        associatedUsers.remove(allUsers.get(which));
-                    }
-                })
-                .setPositiveButton("OK", (dialog, which) -> {
-                    updateAssociatedUsersTextView();
-                    loadAssociatedCats();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
-
-    private void updateAssociatedUsersTextView() {
-        StringBuilder sb = new StringBuilder("Associated Users:\n");
-        for (User user : associatedUsers) {
-            sb.append(user.getUserName()).append("\n");
-        }
-        associatedUsersTextView.setText(sb.toString());
-    }
-
-    private void updateAssociatedCatsTextView() {
-        StringBuilder sb = new StringBuilder("Associated Cats:\n");
-        for (AssociatedCats cat : associatedCats) {
-            sb.append(cat.getCatName()).append("\n");
-        }
-        associatedCatsTextView.setText(sb.toString());
-    }
-
-    private void loadAllUsers() {
-        repository.executeAsync(() -> {
-            allUsers = repository.getAllUsers();
-            runOnUiThread(this::updateAssociatedUsersTextView);
-        });
-    }
-
-    private void loadAssociatedCats() {
-        associatedCats.clear();
-        for (User user : associatedUsers) {
-            List<UserWithCats> userWithCatsList = repository.getCatsForUser(user.getUserID());
-            for (UserWithCats userWithCats : userWithCatsList) {
-                associatedCats.addAll(userWithCats.getCats());
-            }
-        }
-        runOnUiThread(this::updateAssociatedCatsTextView);
-    }
-
+    /**
+     * Load the cat profile from the database.
+     *
+     * @param catID The ID of the cat to be loaded.
+     */
     private void loadCatProfile(int catID) {
         repository.executeAsync(() -> {
             AssociatedCats cat = repository.getCatByID(catID);
@@ -234,11 +166,11 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
-//    private int getLoggedInUserId() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        return sharedPreferences.getInt("LoggedInUserID", -1);
-//    }
-
+    /**
+     * Get the user ID of the currently logged-in user from SharedPreferences.
+     *
+     * @return The ID of the logged-in user.
+     */
     private int getLoggedInUserId() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.getInt("LoggedInUserID", -1);

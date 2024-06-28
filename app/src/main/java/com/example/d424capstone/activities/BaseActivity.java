@@ -25,6 +25,10 @@ import com.example.d424capstone.dialogs.LoginSignupDialogFragment;
 import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * Base activity class that all other activities extend.
+ * Provides common functionality such as drawer navigation, login check, and shared preferences listener.
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected DrawerLayout drawerLayout;
@@ -42,11 +46,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-//        // Check if the user is logged in and the current activity is not login or signup
-//        if (!isUserLoggedIn() && !shouldSkipLoginSignupDialog()) {
-//            showLoginSignupDialog();
-//        }
-
         // Initialize the SharedPreferences change listener
         listener = (sharedPreferences, key) -> {
             if ("UserRole".equals(key)) {
@@ -60,6 +59,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         // Check login status and show dialog if necessary
         checkLoginStatus();
     }
+
+    /**
+     * Checks the login status of the user and shows the login/signup dialog if not logged in.
+     */
     private void checkLoginStatus() {
         boolean userLoggedIn = isUserLoggedIn();
         boolean skipDialog = shouldSkipLoginSignupDialog();
@@ -72,6 +75,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initializes the navigation drawer and sets up the drawer toggle.
+     */
     protected void initializeDrawer() {
         drawerLayout = findViewById(R.id.main);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -105,10 +111,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Initializes the activity map with the navigation drawer item IDs and their corresponding activities.
+     */
     private void initializeActivityMap() {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
+        activityMap.put(R.id.account_login, UserLoginScreen.class);
         activityMap.put(R.id.account_signup, UserSignUpScreen.class);
         activityMap.put(R.id.profile, UserProfileScreen.class);
         activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
@@ -120,6 +129,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap.put(R.id.admin_store, AdminStoreManagementScreen.class);
     }
 
+    /**
+     * Handles user logout by clearing shared preferences and redirecting to the home screen.
+     */
     private void handleLogout() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -160,49 +172,44 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-//    private boolean isGuestUser() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
-//        return UserRoles.GUEST.equals(userRole);
-//    }
-
-//
-
-//    protected boolean isUserLoggedIn() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        // Correctly check if the user is logged in by verifying the presence of "LoggedInUserID"
-//        boolean loggedIn = sharedPreferences.contains("LoggedInUserID");
-//        Log.d(TAG, "isUserLoggedIn: " + loggedIn);
-//        return loggedIn;
-//    }
-
+    /**
+     * Checks if a user is logged in by verifying the presence of "LoggedInUserID" in shared preferences.
+     *
+     * @return true if a user is logged in, false otherwise.
+     */
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String loggedInUser = sharedPreferences.getString("LoggedInUser", null);
-        Log.d(TAG, "isUserLoggedIn: " + (loggedInUser != null));
-        return loggedInUser != null;
+        boolean loggedIn = sharedPreferences.contains("LoggedInUserID");
+        Log.d(TAG, "isUserLoggedIn: " + loggedIn);
+        return loggedIn;
     }
 
+    /**
+     * Shows the login/signup dialog.
+     */
     private void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginSignupDialogFragment loginSignupDialog = LoginSignupDialogFragment.newInstance(false);
         loginSignupDialog.show(fragmentManager, "LoginSignupDialogFragment");
     }
 
+    /**
+     * Checks if the user has access to a specific role.
+     *
+     * @param requiredRole The required role.
+     * @return true if the user has access, false otherwise.
+     */
     public boolean hasAccess(String requiredRole) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
         return userRole.equals(requiredRole);
     }
 
-//    public void checkAccessAndRedirect(String requiredRole, Class<?> targetActivity) {
-//        if (hasAccess(requiredRole)) {
-//            startActivity(new Intent(this, targetActivity));
-//        } else {
-//            showLoginSignupDialog();
-//        }
-//    }
-
+    /**
+     * Checks if the user has access to a specific role and finishes the activity if access is denied.
+     *
+     * @param requiredRole The required role.
+     */
     public void checkAccessOrFinish(String requiredRole) {
         if (!hasAccess(requiredRole)) {
             Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
@@ -210,27 +217,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-//    protected void showToast(String message) {
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//    }
-
+    /**
+     * Checks if the login/signup dialog should be skipped for the current activity.
+     *
+     * @return true if the dialog should be skipped, false otherwise.
+     */
     private boolean shouldSkipLoginSignupDialog() {
-        // Check if the current activity is UserLoginScreen or UserSignUpScreen
         boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
         Log.d(TAG, "shouldSkipLoginSignupDialog: " + skipDialog);
         return skipDialog;
     }
-
-//    protected void checkIfUserLoggedIn() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-//
-//        if (userID == -1 || repository.getUserByID(userID) == null) {
-//            // No valid user found, prompt for login or signup
-//            sharedPreferences.edit().clear().apply();
-//            if (!shouldSkipLoginSignupDialog()) {
-//                showLoginSignupDialog();
-//            }
-//        }
-//    }
 }

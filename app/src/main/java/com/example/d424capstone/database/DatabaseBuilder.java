@@ -11,12 +11,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.d424capstone.dao.AssociatedCatsDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
-import com.example.d424capstone.dao.UserCatCrossRefDAO;
 import com.example.d424capstone.dao.UserDAO;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.example.d424capstone.entities.User;
-import com.example.d424capstone.entities.UserCatCrossRef;
 import com.example.d424capstone.entities.AssociatedCats;
 
 import java.util.concurrent.ExecutorService;
@@ -25,14 +23,13 @@ import java.util.concurrent.Executors;
 /**
  * Room database builder for the application.
  */
-@Database(entities = {User.class, SocialPost.class, StoreItem.class, UserCatCrossRef.class, AssociatedCats.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, SocialPost.class, StoreItem.class, AssociatedCats.class}, version = 1, exportSchema = false)
 public abstract class DatabaseBuilder extends RoomDatabase {
 
     // Abstract methods to get the DAOs.
     public abstract UserDAO userDAO();
     public abstract SocialPostDAO socialPostDAO();
     public abstract StoreItemDAO storeItemDAO();
-    public abstract UserCatCrossRefDAO userCatCrossRefDAO();
     public abstract AssociatedCatsDAO associatedCatsDAO();
 
     // Singleton instance to ensure only one instance of the database is created.
