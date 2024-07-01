@@ -68,9 +68,6 @@ public class UserSignUpScreen extends BaseActivity {
     }
 
     private void setupEmailUsernameSync() {
-        EditText emailEditText = findViewById(R.id.email);
-        EditText usernameEditText = findViewById(R.id.username);
-
         emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String email = emailEditText.getText().toString();
@@ -82,7 +79,6 @@ public class UserSignUpScreen extends BaseActivity {
     }
 
     private void setupPasswordVisibilityToggle() {
-        EditText passwordEditText = findViewById(R.id.password);
         ImageButton togglePasswordVisibility = findViewById(R.id.toggle_password_visibility);
 
         togglePasswordVisibility.setOnClickListener(v -> {
@@ -108,20 +104,23 @@ public class UserSignUpScreen extends BaseActivity {
             return;
         }
 
-        repository.getUserByEmailAsync(email, existingUser -> {
+        new Thread(() -> {
+            User existingUser = repository.getUserByEmail(email);
             runOnUiThread(() -> {
                 if (existingUser != null) {
                     showAlert("Registration Error", "Email already exists.");
+                    Toast.makeText(UserSignUpScreen.this, "User already exists: " + email, Toast.LENGTH_SHORT).show();
                 } else {
-                    User user = new User(0, firstName, lastName, email, email, phone, password, UserRoles.REGULAR);
+                    User user = new User(0, firstName, lastName,  email, phone, password, UserRoles.REGULAR);
                     repository.insertUser(user);
+                    Toast.makeText(UserSignUpScreen.this, "User inserted: " + email, Toast.LENGTH_SHORT).show();
 
                     Toast.makeText(UserSignUpScreen.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                     showUserBanner(email);
                     startActivity(new Intent(UserSignUpScreen.this, HomeScreen.class));
                 }
             });
-        });
+        }).start();
     }
 
     private boolean validateInput(String email, String firstName, String lastName, String password) {

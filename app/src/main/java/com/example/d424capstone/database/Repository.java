@@ -1,197 +1,135 @@
 package com.example.d424capstone.database;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
-import com.example.d424capstone.dao.AssociatedCatsDAO;
+import com.example.d424capstone.dao.CatDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
 import com.example.d424capstone.dao.UserDAO;
-import com.example.d424capstone.entities.AssociatedCats;
+import com.example.d424capstone.entities.Cat;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.example.d424capstone.entities.User;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-/**
- * Repository class to manage data operations and provide a clean API to the rest of the app.
- */
 public class Repository {
 
-    // Data Access Objects (DAOs)
-    private UserDAO userDAO;
-    private StoreItemDAO storeItemDAO;
-    private SocialPostDAO socialPostDAO;
-    private AssociatedCatsDAO associatedCatsDAO;
+    private final UserDAO userDAO;
+    private final StoreItemDAO storeItemDAO;
+    private final SocialPostDAO socialPostDAO;
+    private final CatDAO catDAO;
+    private final SharedPreferences sharedPreferences;
 
-    private SharedPreferences sharedPreferences;
-
-    // Define the number of threads for the ExecutorService
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    /**
-     * Constructor to initialize the DAOs using the database builder.
-     *
-     * @param application The application context.
-     */
     public Repository(Application application) {
         DatabaseBuilder db = DatabaseBuilder.getDatabase(application);
         userDAO = db.userDAO();
         storeItemDAO = db.storeItemDAO();
         socialPostDAO = db.socialPostDAO();
-        associatedCatsDAO = db.associatedCatsDAO();
+        catDAO = db.catDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
+
+        populateInitialData(application.getApplicationContext());
     }
 
-    // Define the InsertCallback interface
-    public interface InsertCallback {
-        void onInsert(long id);
-    }
+    private void populateInitialData(Context context) {
+        databaseWriteExecutor.execute(() -> {
+            if (userDAO.getAllUsers().isEmpty()) {
+                Handler handler = new Handler(Looper.getMainLooper());
 
-    // Methods to retrieve lists of entities
-    public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
-    }
+                handler.post(() -> {
+                    Toast.makeText(context, "Populating initial data", Toast.LENGTH_SHORT).show();
+                });
 
-    public List<StoreItem> getAllStoreItems() {
-        return storeItemDAO.getAllStoreItems();
-    }
+                User adminUser = new User(0, "Admin", "Fluffy", "fluffy@example.com", "1234567890", "!234Abcd", "Admin");
+                User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "Premium");
+                User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "Regular");
 
-    public List<SocialPost> getAllSocialPosts() {
-        return socialPostDAO.getAllSocialPosts();
-    }
+                userDAO.insert(adminUser);
+                userDAO.insert(premiumUser);
+                userDAO.insert(regularUser);
 
-    public List<AssociatedCats> getCatsForUser(int userID) {
-        return associatedCatsDAO.getCatsForUser(userID);
-    }
+                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", 1);
+                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", 2);
+                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", 3);
 
-    // Methods to insert data into the database
-    public void insertUser(User user) {
-        databaseExecutor.execute(() -> userDAO.insert(user));
-    }
+                catDAO.insert(adminCat);
+                catDAO.insert(premiumCat);
+                catDAO.insert(regularCat);
 
-    public void insertStoreItem(StoreItem storeItem) {
-        databaseExecutor.execute(() -> storeItemDAO.insert(storeItem));
-    }
-
-    public void insertSocialPost(SocialPost socialPost) {
-        databaseExecutor.execute(() -> socialPostDAO.insert(socialPost));
-    }
-
-//    public void insertCat(AssociatedCats cat, InsertCallback callback) {
-//        databaseExecutor.execute(() -> {
-//            long id = associatedCatsDAO.insert(cat);
-//            callback.onInsert(id);
-//        });
-//    }
-
-    // Insert or update a cat profile
-    public void insertOrUpdateCat(AssociatedCats cat, InsertCallback callback) {
-        databaseExecutor.execute(() -> {
-            long id;
-            if (cat.getCatID() == 0) {
-                id = associatedCatsDAO.insert(cat);
-            } else {
-                associatedCatsDAO.update(cat);
-                id = cat.getCatID();
+                handler.post(() -> {
+                    Toast.makeText(context, "Inserted example users and cats into the database", Toast.LENGTH_SHORT).show();
+                });
             }
-            callback.onInsert(id);
         });
     }
 
-    // Methods to update data in the database
+    // User-related methods
+    public User getUserByID(int userID) {
+        Callable<User> callable = () -> userDAO.getUserByID(userID);
+        Future<User> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User> getAllUsers() {
+        Callable<List<User>> callable = () -> userDAO.getAllUsers();
+        Future<List<User>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void insertUser(User user) {
+        databaseWriteExecutor.execute(() -> userDAO.insert(user));
+    }
+
     public void updateUser(User user) {
-        databaseExecutor.execute(() -> userDAO.update(user));
+        databaseWriteExecutor.execute(() -> userDAO.update(user));
     }
 
-    public void updateStoreItem(StoreItem storeItem) {
-        databaseExecutor.execute(() -> storeItemDAO.update(storeItem));
-    }
-
-    public void updateSocialPost(SocialPost socialPost) {
-        databaseExecutor.execute(() -> socialPostDAO.update(socialPost));
-    }
-
-    public void updateCat(AssociatedCats cat) {
-        databaseExecutor.execute(() -> associatedCatsDAO.update(cat));
-    }
-
-    // Methods to delete data from the database
     public void deleteUser(int userID) {
-        databaseExecutor.execute(() -> userDAO.delete(userID));
+        databaseWriteExecutor.execute(() -> userDAO.delete(userID));
     }
 
-    public void deleteStoreItem(int storeItemID) {
-        databaseExecutor.execute(() -> storeItemDAO.delete(storeItemID));
+    public User getUserByEmail(String email) {
+        Callable<User> callable = () -> userDAO.getUserByEmail(email);
+        Future<User> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void deleteSocialPost(int socialPostID) {
-        databaseExecutor.execute(() -> socialPostDAO.delete(socialPostID));
-    }
-
-    public void deleteCat(int catID) {
-        databaseExecutor.execute(() -> associatedCatsDAO.delete(catID));
-    }
-
-    // Methods to retrieve a specific entity by ID
-    public AssociatedCats getCatByID(int catID) {
-        return associatedCatsDAO.getCatByID(catID);
-    }
-
-    // Methods to get featured items for the home screen
-    public StoreItem getFeaturedItem() {
-        return storeItemDAO.getFeaturedItem();
-    }
-
-    public SocialPost getMostLikedPost() {
-        return socialPostDAO.getMostLikedPost();
-    }
-
-    // Method to execute tasks asynchronously
-    public void executeAsync(Runnable task) {
-        databaseExecutor.execute(task);
-    }
-
-    // Define the UserCallback interface
-    public interface UserCallback {
-        void onUserRetrieved(User user);
-    }
-
-    // Asynchronously fetch user by ID and return via callback
-    public void getUserByIDAsync(int userID, UserCallback callback) {
-        databaseExecutor.execute(() -> {
-            User user = userDAO.getUserByID(userID);
-            callback.onUserRetrieved(user);
-        });
-    }
-
-    public void getUserByUsernameAsync(String userName, UserCallback callback) {
-        databaseExecutor.execute(() -> {
-            User user = userDAO.getUserByUsername(userName);
-            callback.onUserRetrieved(user);
-        });
-    }
-
-    public void getUserByEmailAsync(String email, UserCallback callback) {
-        databaseExecutor.execute(() -> {
-            User user = userDAO.getUserByEmail(email);
-            callback.onUserRetrieved(user);
-        });
-    }
-
-    // Method to get the current logged-in user
     public User getCurrentUser() {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-        return userDAO.getUserByID(userID);
+        return getUserByID(userID);
     }
 
-    // Methods to update storefront details
     public void updateStorefrontDetails(int userID, String storefrontName, String storefrontContactEmail) {
-        databaseExecutor.execute(() -> {
+        databaseWriteExecutor.execute(() -> {
             User user = userDAO.getUserByID(userID);
             if (user != null) {
                 user.setStorefrontName(storefrontName);
@@ -199,5 +137,128 @@ public class Repository {
                 userDAO.update(user);
             }
         });
+    }
+
+    // StoreItem-related methods
+    public List<StoreItem> getAllStoreItems() {
+        Callable<List<StoreItem>> callable = () -> storeItemDAO.getAllStoreItems();
+        Future<List<StoreItem>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void insertStoreItem(StoreItem storeItem) {
+        databaseWriteExecutor.execute(() -> storeItemDAO.insert(storeItem));
+    }
+
+    public void updateStoreItem(StoreItem storeItem) {
+        databaseWriteExecutor.execute(() -> storeItemDAO.update(storeItem));
+    }
+
+    public void deleteStoreItem(int storeItemID) {
+        databaseWriteExecutor.execute(() -> storeItemDAO.delete(storeItemID));
+    }
+
+    public StoreItem getFeaturedItem() {
+        Callable<StoreItem> callable = () -> storeItemDAO.getFeaturedItem();
+        Future<StoreItem> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // SocialPost-related methods
+    public List<SocialPost> getAllSocialPosts() {
+        Callable<List<SocialPost>> callable = () -> socialPostDAO.getAllSocialPosts();
+        Future<List<SocialPost>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void insertSocialPost(SocialPost socialPost) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.insert(socialPost));
+    }
+
+    public void updateSocialPost(SocialPost socialPost) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.update(socialPost));
+    }
+
+    public void deleteSocialPost(int socialPostID) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.delete(socialPostID));
+    }
+
+    public SocialPost getMostLikedPost() {
+        Callable<SocialPost> callable = () -> socialPostDAO.getMostLikedPost();
+        Future<SocialPost> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Cat-related methods
+    public Cat getCatByID(int catID) {
+        Callable<Cat> callable = () -> catDAO.getCatByID(catID);
+        Future<Cat> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Cat> getCatsForUser(int userID) {
+        Callable<List<Cat>> callable = () -> catDAO.getCatsForUser(userID);
+        Future<List<Cat>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public long insertCat(Cat cat) {
+        Callable<Long> callable = () -> catDAO.insert(cat);
+        Future<Long> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void updateCat(Cat cat) {
+        databaseWriteExecutor.execute(() -> catDAO.update(cat));
+    }
+
+    public void deleteCat(int catID) {
+        databaseWriteExecutor.execute(() -> catDAO.delete(catID));
+    }
+
+    public List<User> getUsersForCat(int catID) {
+        Callable<List<User>> callable = () -> userDAO.getUsersForCat(catID);
+        Future<List<User>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -9,13 +9,20 @@
     tools:context=".activities.CatProfileScreen">
 
     <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu" />
 
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/cat_profile_title"
             style="@style/HomeTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +39,7 @@
             android:hint="Cat Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintTop_toBottomOf="@id/cat_profile_title"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
@@ -67,43 +74,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_bio" />
 
-        <TextView
-            android:id="@+id/associated_users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_image" />
-
         <Button
-            android:id="@+id/save"
+            android:id="@+id/save_cat"
             style="@style/HomeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Save"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/associated_users" />
+            app:layout_constraintTop_toBottomOf="@+id/cat_image" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/cancel_cat"
             style="@style/HomeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cat_image" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/associated_users"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/save" />
+            app:layout_constraintTop_toBottomOf="@id/cancel_cat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

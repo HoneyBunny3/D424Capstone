@@ -13,7 +13,6 @@ public class User {
     private int userID;
     private String firstName;
     private String lastName;
-    private String userName;
     private String email;
     private String phoneNumber;
     private String password;
@@ -22,12 +21,16 @@ public class User {
     private String storefrontContactEmail;
 
     /**
+     * Default constructor required by Room.
+     */
+    public User() {}
+
+    /**
      * Constructor to initialize the User entity.
      *
      * @param userID                  The unique ID of the user.
      * @param firstName               The first name of the user.
      * @param lastName                The last name of the user.
-     * @param userName                The username of the user.
      * @param email                   The email address of the user.
      * @param phoneNumber             The phone number of the user.
      * @param password                The password of the user.
@@ -35,11 +38,11 @@ public class User {
      * @param storefrontName          The name of the storefront for premium users.
      * @param storefrontContactEmail  The contact email for the storefront.
      */
+
     public User(int userID, String firstName, String lastName, String userName, String email, String phoneNumber, String password, String role, String storefrontName, String storefrontContactEmail) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -51,9 +54,14 @@ public class User {
     /**
      * Constructor for regular users (without storefront fields).
      */
-    @Ignore
-    public User(int userID, String firstName, String lastName, String userName, String email, String phoneNumber, String password, String role) {
-        this(userID, firstName, lastName, userName, email, phoneNumber, password, role, null, null);
+    public User(int userID, String firstName, String lastName, String email, String phoneNumber, String password, String role) {
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.role = role;
     }
 
     // Getter and setter methods
@@ -80,14 +88,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getEmail() {
@@ -134,6 +134,11 @@ public class User {
         return storefrontContactEmail;
     }
 
+    /**
+     * Sets the storefront contact email.
+     *
+     * @param storefrontContactEmail The storefront contact email.
+     */
     public void setStorefrontContactEmail(String storefrontContactEmail) {
         this.storefrontContactEmail = storefrontContactEmail;
     }

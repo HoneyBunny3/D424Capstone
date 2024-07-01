@@ -1,12 +1,9 @@
 package com.example.d424capstone.activities;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,8 +13,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
 public class UserLoginScreen extends BaseActivity {
@@ -72,40 +71,43 @@ public class UserLoginScreen extends BaseActivity {
     }
 
     private void handleLogin() {
-        EditText usernameEditText = findViewById(R.id.login_username);
+        EditText emailEditText = findViewById(R.id.login_email);
         EditText passwordEditText = findViewById(R.id.password);
-        String username = usernameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         // Check if already logged in
         if (sharedPreferences.contains("LoggedInUser")) {
             Toast.makeText(this, "You are already logged in.", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "User already logged in.");
+            Toast.makeText(this, "User already logged in.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Validate credentials against the database
-        repository.getUserByUsernameAsync(username, user -> runOnUiThread(() -> {
-            if (user != null && user.getPassword().equals(password)) {
-                // Successful login
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("LoggedInUser", user.getUserName());
-                editor.putString("UserRole", user.getRole());
-                editor.putInt("LoggedInUserID", user.getUserID());  // Store the user ID
-                editor.apply();
+        new Thread(() -> {
+            User user = repository.getUserByEmail(email);
+            runOnUiThread(() -> {
+                if (user != null && user.getPassword().equals(password)) {
+                    // Successful login
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("LoggedInUser", user.getEmail());
+                    editor.putString("UserRole", user.getRole());
+                    editor.putInt("LoggedInUserID", user.getUserID());  // Store the user ID
+                    editor.apply();
 
-                String roleMessage = getRoleMessage(user.getRole());
-                Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "User logged in successfully: " + user.getUserName());
+                    String roleMessage = getRoleMessage(user.getRole());
+                    Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserLoginScreen.this, "User logged in successfully: " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
-                finish();
-            } else {
-                // Failed login
-                Toast.makeText(UserLoginScreen.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Invalid login attempt for username: " + username);
-            }
-        }));
+                    startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
+                    finish();
+                } else {
+                    // Failed login
+                    Toast.makeText(UserLoginScreen.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserLoginScreen.this, "Invalid login attempt for email: " + email, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
     private String getRoleMessage(String role) {

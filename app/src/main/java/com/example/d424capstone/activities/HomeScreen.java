@@ -44,7 +44,7 @@ public class HomeScreen extends BaseActivity {
     }
 
     private void displayFeaturedContent() {
-        repository.executeAsync(() -> {
+        new Thread(() -> {
             StoreItem featuredItem = repository.getFeaturedItem();
             SocialPost mostLikedPost = repository.getMostLikedPost();
 
@@ -59,7 +59,7 @@ public class HomeScreen extends BaseActivity {
                     mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
                 }
             });
-        });
+        }).start();
     }
 
     private void initializeButtons() {

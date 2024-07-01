@@ -3,41 +3,41 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.R;
+import com.example.d424capstone.adapters.CatAdapter;
 import com.example.d424capstone.database.Repository;
-import com.example.d424capstone.entities.AssociatedCats;
+import com.example.d424capstone.entities.Cat;
 import com.example.d424capstone.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Activity class for displaying and managing the user profile screen.
- */
 public class UserProfileScreen extends BaseActivity {
 
-    // Repository instance for data operations
+    private EditText editFirstName, editLastName, editEmailAddress, editPhoneNumber;
     private Repository repository;
-    // UI components for displaying user information and associated cats
+    private int userID = -1;
     private TextView firstNameTextView;
     private TextView lastNameTextView;
     private TextView emailTextView;
-    private ListView associatedCatsListView;
-
-    // Lists to hold associated cats and their names
-    private List<AssociatedCats> associatedCatsList;
-    private ArrayAdapter<String> catsAdapter;
+    private TextView phoneTextView;
+    private ListView catListView;
+    private ArrayAdapter<String> catAdapter;
+    private List<Cat> catList = new ArrayList<>();
     private List<String> catNames;
 
     @Override
@@ -46,16 +46,21 @@ public class UserProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_profile_screen);
 
+        // Initialize UI components
+        initViews();
+        setupRecyclerView();
+
         // Initialize repository and lists
         repository = new Repository(getApplication());
-        associatedCatsList = new ArrayList<>();
+        catList = new ArrayList<>();
         catNames = new ArrayList<>();
 
         // Initialize UI components
-        firstNameTextView = findViewById(R.id.first_name);
-        lastNameTextView = findViewById(R.id.last_name);
-        emailTextView = findViewById(R.id.email_address);
-        associatedCatsListView = findViewById(R.id.associated_cats_list_view);
+        firstNameTextView = findViewById(R.id.edit_first_name);
+        lastNameTextView = findViewById(R.id.edit_last_name);
+        emailTextView = findViewById(R.id.edit_email_address);
+        phoneTextView = findViewById(R.id.edit_phone_number);
+        catListView = findViewById(R.id.catRecyclerView);
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
@@ -73,22 +78,23 @@ public class UserProfileScreen extends BaseActivity {
             return insets;
         });
 
+        // Load associated cat profiles
+        loadAssociatedCats();
+
         // Set item click listener for associated cats list view
-        associatedCatsListView.setOnItemClickListener((parent, view, position, id) -> {
-            AssociatedCats selectedCat = associatedCatsList.get(position);
+        catListView.setOnItemClickListener((parent, view, position, id) -> {
+            Cat selectedCat = catList.get(position);
             Intent intent = new Intent(UserProfileScreen.this, CatProfileScreen.class);
             intent.putExtra("catID", selectedCat.getCatID());
+            intent.putExtra("userID", userID);
             startActivity(intent);
         });
 
         // Set up adapter for associated cats list view
-        catsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, catNames);
-        associatedCatsListView.setAdapter(catsAdapter);
+        catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, catNames);
+        catListView.setAdapter(catAdapter);
     }
 
-    /**
-     * Initialize buttons and set click listeners for navigation.
-     */
     private void initializeButtons() {
         // Initialize the button that navigates to the Shopping screen
         Button buttonShopping = findViewById(R.id.toshoppingscreen);
@@ -112,71 +118,103 @@ public class UserProfileScreen extends BaseActivity {
         });
     }
 
-    /**
-     * Load user profile and associated cats from the database.
-     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAssociatedCats(); // Reload cat profiles when activity is resumed
+    }
+
+    protected void initViews() {
+        editFirstName = findViewById(R.id.edit_first_name);
+        editLastName = findViewById(R.id.edit_last_name);
+        editEmailAddress = findViewById(R.id.edit_email_address);
+        editPhoneNumber = findViewById(R.id.edit_phone_number);
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.catRecyclerView);
+        CatAdapter catRecyclerViewAdapter = new CatAdapter(this, getApplication(), catList);
+        recyclerView.setAdapter(catRecyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void loadUserDetails() {
+        userID = getIntent().getIntExtra("userID", -1);
+        editFirstName.setText(getIntent().getStringExtra("firstName"));
+        editLastName.setText(getIntent().getStringExtra("lastName"));
+        editEmailAddress.setText(getIntent().getStringExtra("emailAddress"));
+        editPhoneNumber.setText(getIntent().getStringExtra("phoneNumber"));
+    }
+
+    private void loadAssociatedCats() {
+        new Thread(() -> {
+            List<Cat> associatedCats = repository.getCatsForUser(userID);
+            runOnUiThread(() -> {
+                catList.clear();
+                catList.addAll(associatedCats);
+                catAdapter.notifyDataSetChanged();
+            });
+        }).start();
+    }
+
+    private void addNewCat() {
+        Intent intent = new Intent(this, CatProfileScreen.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
+    }
+
     private void loadUserProfileAndCats() {
         int userID = getUserID();
-        Log.d("UserProfileScreen", "Loading user profile for userID: " + userID);
+        Toast.makeText(this, "Loading user profile for userID: " + userID, Toast.LENGTH_SHORT).show();
 
         if (userID == -1) {
-            Log.e("UserProfileScreen", "No user ID found in SharedPreferences");
+            Toast.makeText(this, "No user ID found in SharedPreferences", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Fetch user details asynchronously
-        repository.getUserByIDAsync(userID, new Repository.UserCallback() {
-            @Override
-            public void onUserRetrieved(User user) {
+        new Thread(() -> {
+            User user = repository.getUserByID(userID);
+            runOnUiThread(() -> {
                 if (user != null) {
-                    runOnUiThread(() -> {
-                        Log.d("UserProfileScreen", "User retrieved: " + user.getFirstName() + " " + user.getLastName());
-                        firstNameTextView.setText(user.getFirstName());
-                        lastNameTextView.setText(user.getLastName());
-                        emailTextView.setText(user.getEmail());
-                    });
-                    // Load associated cats after user data is loaded
-                    loadAssociatedCats(userID);
+                    Toast.makeText(this, "User retrieved: " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
+                    firstNameTextView.setText(user.getFirstName());
+                    lastNameTextView.setText(user.getLastName());
+                    emailTextView.setText(user.getEmail());
+                    phoneTextView.setText(user.getPhoneNumber());
+                    loadCat(userID);
                 } else {
-                    Log.e("UserProfileScreen", "User not found with ID: " + userID);
+                    Toast.makeText(this, "User not found with ID: " + userID, Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }).start();
     }
 
-    /**
-     * Load associated cats for the specified user from the database.
-     *
-     * @param userID The ID of the user whose associated cats are to be loaded.
-     */
-    private void loadAssociatedCats(int userID) {
-        Log.d("UserProfileScreen", "Loading associated cats for userID: " + userID);
+    private void loadCat(int userID) {
+        Toast.makeText(this, "Loading associated cats for userID: " + userID, Toast.LENGTH_SHORT).show();
 
-        repository.executeAsync(() -> {
-            List<AssociatedCats> cats = repository.getCatsForUser(userID);
+        new Thread(() -> {
+            List<Cat> cats = repository.getCatsForUser(userID);
             runOnUiThread(() -> {
                 if (cats != null) {
                     catNames.clear();
-                    associatedCatsList.clear();
-                    for (AssociatedCats cat : cats) {
+                    catList.clear();
+                    for (Cat cat : cats) {
+                        Toast.makeText(this, "Loaded cat: " + cat.getCatName() + " for userID: " + userID, Toast.LENGTH_SHORT).show();
                         catNames.add(cat.getCatName());
-                        associatedCatsList.add(cat);
+                        catList.add(cat);
                     }
-                    catsAdapter.notifyDataSetChanged();
+                    catAdapter.notifyDataSetChanged();
                 } else {
-                    Log.e("UserProfileScreen", "No associated cats found for userID: " + userID);
+                    Toast.makeText(this, "No associated cats found for userID: " + userID, Toast.LENGTH_SHORT).show();
                 }
             });
-        });
+        }).start();
     }
 
-    /**
-     * Get the user ID of the currently logged-in user from SharedPreferences.
-     *
-     * @return The ID of the logged-in user.
-     */
     private int getUserID() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return sharedPreferences.getInt("LoggedInUserID", -1);
+        int userId = sharedPreferences.getInt("LoggedInUserID", -1);
+        Toast.makeText(this, "Retrieved LoggedInUserID: " + userId, Toast.LENGTH_SHORT).show();
+        return userId;
     }
 }

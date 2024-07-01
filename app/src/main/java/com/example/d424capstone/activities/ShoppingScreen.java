@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
-import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 
 public class ShoppingScreen extends BaseActivity {
@@ -44,7 +43,7 @@ public class ShoppingScreen extends BaseActivity {
     }
 
     private void displayFeaturedContent() {
-        repository.executeAsync(() -> {
+        new Thread(() -> {
             StoreItem featuredItem = repository.getFeaturedItem();
 
             runOnUiThread(() -> {
@@ -54,7 +53,7 @@ public class ShoppingScreen extends BaseActivity {
                     featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
                 }
             });
-        });
+        }).start();
     }
 
     private void initializeButtons() {

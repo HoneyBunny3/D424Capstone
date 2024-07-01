@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.SocialPost;
-import com.example.d424capstone.entities.StoreItem;
 
 public class CatSocialScreen extends BaseActivity {
 
@@ -44,17 +43,15 @@ public class CatSocialScreen extends BaseActivity {
     }
 
     private void displayFeaturedContent() {
-        repository.executeAsync(() -> {
+        new Thread(() -> {
             SocialPost mostLikedPost = repository.getMostLikedPost();
-
             runOnUiThread(() -> {
                 TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
-
                 if (mostLikedPost != null) {
                     mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
                 }
             });
-        });
+        }).start();
     }
 
     private void initializeButtons() {

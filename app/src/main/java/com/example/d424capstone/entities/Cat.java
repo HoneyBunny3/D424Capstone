@@ -3,11 +3,9 @@ package com.example.d424capstone.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/**
- * Entity class representing a cat associated with a user.
- */
-@Entity(tableName = "associated_cats")
-public class AssociatedCats {
+@Entity(tableName = "cat_table")
+public class Cat {
+
     @PrimaryKey(autoGenerate = true)
     private int catID;
     private String catName;
@@ -17,16 +15,21 @@ public class AssociatedCats {
     private int userID; // Foreign key to associate the cat with a user
 
     /**
-     * Constructor to initialize the AssociatedCats entity.
+     * Default constructor required by Room.
+     */
+    public Cat() {}
+
+    /**
+     * Constructor to initialize the Cat entity.
      *
      * @param catID   The unique ID of the cat.
      * @param catName The name of the cat.
      * @param catAge  The age of the cat.
      * @param imageUri The URI of the cat's image.
-     * @param catBio The bio of the cat.
-     * @param userID The ID of the user associated with the cat.
+     * @param catBio  The bio of the cat.
+     * @param userID  The ID of the user associated with the cat.
      */
-    public AssociatedCats(int catID, String catName, int catAge, String imageUri, String catBio, int userID) {
+    public Cat(int catID, String catName, int catAge, String imageUri, String catBio, int userID) {
         this.catID = catID;
         this.catName = catName;
         this.catAge = catAge;
