@@ -93,8 +93,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
         activityMap.put(R.id.account_login, UserLoginScreen.class);
-        activityMap.put(R.id.account_signup, UserSignUpScreen.class);
-        activityMap.put(R.id.profile, UserProfileScreen.class);
+        activityMap.put(R.id.account_signup, UserProfileScreen.class); // Consolidated to UserProfileActivity
+        activityMap.put(R.id.profile, UserProfileScreen.class); // Consolidated to UserProfileActivity
         activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
         activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
@@ -144,8 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        boolean loggedIn = sharedPreferences.contains("LoggedInUserID");
-        return loggedIn;
+        return sharedPreferences.contains("LoggedInUserID");
     }
 
     private void showLoginSignupDialog() {
@@ -167,7 +166,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private boolean shouldSkipLoginSignupDialog() {
-        boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
+        boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserProfileScreen;
         return skipDialog;
     }
 }

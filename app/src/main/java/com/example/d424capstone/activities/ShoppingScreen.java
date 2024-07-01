@@ -79,7 +79,7 @@ public class ShoppingScreen extends BaseActivity {
         buttonLogin.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, UserLoginScreen.class)));
 
         Button buttonSignup = findViewById(R.id.tousersignupscreen);
-        buttonSignup.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, UserSignUpScreen.class)));
+        buttonSignup.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, UserProfileScreen.class)));
 
         Button buttonShopping = findViewById(R.id.toshoppingscreen);
         buttonShopping.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, ShoppingScreen.class)));

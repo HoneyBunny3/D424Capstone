@@ -60,7 +60,7 @@ public class CatSocialScreen extends BaseActivity {
         buttonLogin.setOnClickListener(view -> startActivity(new Intent(CatSocialScreen.this, UserLoginScreen.class)));
 
         Button buttonSignup = findViewById(R.id.tousersignupscreen);
-        buttonSignup.setOnClickListener(view -> startActivity(new Intent(CatSocialScreen.this, UserSignUpScreen.class)));
+        buttonSignup.setOnClickListener(view -> startActivity(new Intent(CatSocialScreen.this, UserProfileScreen.class)));
 
         Button buttonShopping = findViewById(R.id.toshoppingscreen);
         buttonShopping.setOnClickListener(view -> startActivity(new Intent(CatSocialScreen.this, ShoppingScreen.class)));

@@ -90,7 +90,7 @@ public class CatProfileScreen extends BaseActivity {
         catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
-        associatedUsersRecyclerView = findViewById(R.id.associated_users);
+//        associatedUsersRecyclerView = findViewById(R.id.associated_users);
     }
 
     // Load cat profiles details if editing an existing cat profile

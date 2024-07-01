@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.d424capstone.activities.UserLoginScreen;
-import com.example.d424capstone.activities.UserSignUpScreen;
+import com.example.d424capstone.activities.UserProfileScreen;
 
 public class LoginSignupDialogFragment extends DialogFragment {
 
@@ -70,8 +70,9 @@ public class LoginSignupDialogFragment extends DialogFragment {
     }
 
     private void onSignUp() {
-        // Navigate to the sign-up screen
-        Intent signUpIntent = new Intent(requireActivity(), UserSignUpScreen.class);
+        // Navigate to the user profile screen for sign-up
+        Intent signUpIntent = new Intent(requireActivity(), UserProfileScreen.class);
+        signUpIntent.putExtra("isNewUser", true); // Pass a flag indicating this is for sign-up
         startActivity(signUpIntent);
     }
 

@@ -30,28 +30,24 @@ public class UserLoginScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_login_screen);
 
-        // Initialize repository
         repository = new Repository(getApplication());
-
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
+        setupUI();
 
-        // Set up the login button click listener
-        Button loginButton = findViewById(R.id.login_button);
-        loginButton.setOnClickListener(v -> handleLogin());
-
-        // Set up password visibility toggle
-        setupPasswordVisibilityToggle();
-
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void setupUI() {
+        Button loginButton = findViewById(R.id.login_button);
+        loginButton.setOnClickListener(v -> handleLogin());
+
+        setupPasswordVisibilityToggle();
     }
 
     private void setupPasswordVisibilityToggle() {
@@ -65,7 +61,6 @@ public class UserLoginScreen extends BaseActivity {
                 passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 togglePasswordVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
             }
-            // Move the cursor to the end of the text
             passwordEditText.setSelection(passwordEditText.getText().length());
         });
     }
@@ -76,32 +71,28 @@ public class UserLoginScreen extends BaseActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        // Check if already logged in
         if (sharedPreferences.contains("LoggedInUser")) {
-            showToast("You are already logged in.");
+            Toast.makeText(this, "You are already logged in.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Validate credentials against the database
         new Thread(() -> {
             User user = repository.getUserByEmail(email);
             runOnUiThread(() -> {
                 if (user != null && user.getPassword().equals(password)) {
-                    // Successful login
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("LoggedInUser", user.getEmail());
                     editor.putString("UserRole", user.getRole());
-                    editor.putInt("LoggedInUserID", user.getUserID());  // Store the user ID
+                    editor.putInt("LoggedInUserID", user.getUserID());
                     editor.apply();
 
                     String roleMessage = getRoleMessage(user.getRole());
-                    showToast(roleMessage);
+                    Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
 
                     startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
                     finish();
                 } else {
-                    // Failed login
-                    showToast("Invalid email or password");
+                    Toast.makeText(UserLoginScreen.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                 }
             });
         }).start();
@@ -115,13 +106,8 @@ public class UserLoginScreen extends BaseActivity {
                 return "Login successful as Premium User";
             case UserRoles.REGULAR:
                 return "Login successful as Regular User";
-            case UserRoles.GUEST:
             default:
                 return "Login successful as Guest";
         }
-    }
-
-    private void showToast(String message) {
-        runOnUiThread(() -> Toast.makeText(UserLoginScreen.this, message, Toast.LENGTH_LONG).show());
     }
 }
