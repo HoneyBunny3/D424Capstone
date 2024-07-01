@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -53,9 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void checkLoginStatus() {
         boolean userLoggedIn = isUserLoggedIn();
         boolean skipDialog = shouldSkipLoginSignupDialog();
-
-        Toast.makeText(this, "User logged in: " + userLoggedIn, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Should skip dialog: " + skipDialog, Toast.LENGTH_SHORT).show();
 
         if (!userLoggedIn && !skipDialog) {
             showLoginSignupDialog();
@@ -113,7 +109,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        Toast.makeText(this, "User logged out.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, HomeScreen.class));
         finish();
     }
@@ -150,7 +145,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         boolean loggedIn = sharedPreferences.contains("LoggedInUserID");
-        Toast.makeText(this, "isUserLoggedIn: " + loggedIn, Toast.LENGTH_SHORT).show();
         return loggedIn;
     }
 
@@ -168,14 +162,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void checkAccessOrFinish(String requiredRole) {
         if (!hasAccess(requiredRole)) {
-            Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
     private boolean shouldSkipLoginSignupDialog() {
         boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
-        Toast.makeText(this, "shouldSkipLoginSignupDialog: " + skipDialog, Toast.LENGTH_SHORT).show();
         return skipDialog;
     }
 }

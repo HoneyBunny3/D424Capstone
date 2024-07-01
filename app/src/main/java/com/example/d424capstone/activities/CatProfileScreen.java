@@ -58,7 +58,6 @@ public class CatProfileScreen extends BaseActivity {
 
         // Check if userID is valid
         if (userID == -1) {
-            showToast("Invalid user ID. Cannot proceed.");
             finish();
             return;
         }
@@ -104,13 +103,13 @@ public class CatProfileScreen extends BaseActivity {
                         editName.setText(cat.getCatName());
                         editAge.setText(String.valueOf(cat.getCatAge()));
                         editBio.setText(cat.getCatBio());
-                        if (cat.getImageUri() != null && !cat.getImageUri().isEmpty()) {
-                            catImageUri = Uri.parse(cat.getImageUri());
+                        if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
+                            catImageUri = Uri.parse(cat.getCatImage());
                             catImageView.setImageURI(catImageUri);
                         }
                     });
                 } else {
-                    runOnUiThread(() -> showToast("Error loading cat profile details"));
+                    runOnUiThread(() -> showToast("Error loading cat details"));
                 }
             }).start();
         }

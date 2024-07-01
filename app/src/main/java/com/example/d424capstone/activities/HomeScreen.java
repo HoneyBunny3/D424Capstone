@@ -27,7 +27,7 @@ public class HomeScreen extends BaseActivity {
 
         repository = new Repository(getApplication());
 
-        displayFeaturedContent();
+//        displayFeaturedContent();
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -43,24 +43,24 @@ public class HomeScreen extends BaseActivity {
         });
     }
 
-    private void displayFeaturedContent() {
-        new Thread(() -> {
-            StoreItem featuredItem = repository.getFeaturedItem();
-            SocialPost mostLikedPost = repository.getMostLikedPost();
-
-            runOnUiThread(() -> {
-                TextView featuredItemTextView = findViewById(R.id.featuredItemTextView);
-                TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
-
-                if (featuredItem != null) {
-                    featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
-                }
-                if (mostLikedPost != null) {
-                    mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
-                }
-            });
-        }).start();
-    }
+//    private void displayFeaturedContent() {
+//        new Thread(() -> {
+//            StoreItem featuredItem = repository.getFeaturedItem();
+//            SocialPost mostLikedPost = repository.getMostLikedPost();
+//
+//            runOnUiThread(() -> {
+//                TextView featuredItemTextView = findViewById(R.id.featuredItemTextView);
+//                TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
+//
+//                if (featuredItem != null) {
+//                    featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
+//                }
+//                if (mostLikedPost != null) {
+//                    mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
+//                }
+//            });
+//        }).start();
+//    }
 
     private void initializeButtons() {
         // Initialize buttons and set their click listeners

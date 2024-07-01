@@ -36,6 +36,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ListView
+            android:id="@+id/storeItemListView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tocartsummaryscreen" />
+
         <Button
             android:id="@+id/touserloginscreen"
             style="@style/HomeButtonStyle"
@@ -67,7 +78,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/toshoppingscreen"
+            android:id="@+id/tocartsummaryscreen"
             style="@style/HomeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

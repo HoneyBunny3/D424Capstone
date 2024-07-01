@@ -57,7 +57,7 @@ public class PremiumSignUpScreen extends BaseActivity {
             firstNameEditText.setText(currentUser.getFirstName());
             lastNameEditText.setText(currentUser.getLastName());
             emailEditText.setText(currentUser.getEmail());
-            phoneNumberEditText.setText(currentUser.getPhoneNumber());
+//            phoneNumberEditText.setText(currentUser.getPhoneNumber());
         }
 
         Button subscribeButton = findViewById(R.id.subscribe_button);
@@ -66,7 +66,7 @@ public class PremiumSignUpScreen extends BaseActivity {
             currentUser.setFirstName(firstNameEditText.getText().toString());
             currentUser.setLastName(lastNameEditText.getText().toString());
             currentUser.setEmail(emailEditText.getText().toString());
-            currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
+//            currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
             // currentUser.setCreditCard(creditCardEditText.getText().toString()); // Assuming there is a field for this
             currentUser.setRole(UserRoles.PREMIUM);
 

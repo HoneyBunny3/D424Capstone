@@ -3,6 +3,7 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,8 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.d424capstone.R;
+import com.example.d424capstone.adapters.StoreItemAdapter;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.StoreItem;
+
+import java.util.List;
 
 public class ShoppingScreen extends BaseActivity {
 
@@ -27,6 +31,7 @@ public class ShoppingScreen extends BaseActivity {
         repository = new Repository(getApplication());
 
         displayFeaturedContent();
+        displayStoreItems();
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -56,6 +61,18 @@ public class ShoppingScreen extends BaseActivity {
         }).start();
     }
 
+    private void displayStoreItems() {
+        new Thread(() -> {
+            List<StoreItem> storeItems = repository.getAllStoreItems();
+
+            runOnUiThread(() -> {
+                ListView listView = findViewById(R.id.storeItemListView);
+                StoreItemAdapter adapter = new StoreItemAdapter(this, storeItems);
+                listView.setAdapter(adapter);
+            });
+        }).start();
+    }
+
     private void initializeButtons() {
         // Initialize buttons and set their click listeners
         Button buttonLogin = findViewById(R.id.touserloginscreen);
@@ -69,5 +86,8 @@ public class ShoppingScreen extends BaseActivity {
 
         Button buttonSocial = findViewById(R.id.tocatsocialscreen);
         buttonSocial.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, CatSocialScreen.class)));
+
+        Button buttonCart = findViewById(R.id.tocartsummaryscreen);
+        buttonCart.setOnClickListener(view -> startActivity(new Intent(ShoppingScreen.this, CartSummaryScreen.class)));
     }
 }

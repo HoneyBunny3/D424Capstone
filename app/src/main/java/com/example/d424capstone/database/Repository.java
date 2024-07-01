@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import com.example.d424capstone.dao.CatDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
@@ -26,20 +25,19 @@ import java.util.concurrent.Future;
 public class Repository {
 
     private final UserDAO userDAO;
+    private final CatDAO catDAO;
     private final StoreItemDAO storeItemDAO;
     private final SocialPostDAO socialPostDAO;
-    private final CatDAO catDAO;
     private final SharedPreferences sharedPreferences;
-
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public Repository(Application application) {
         DatabaseBuilder db = DatabaseBuilder.getDatabase(application);
         userDAO = db.userDAO();
+        catDAO = db.catDAO();
         storeItemDAO = db.storeItemDAO();
         socialPostDAO = db.socialPostDAO();
-        catDAO = db.catDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
@@ -50,29 +48,21 @@ public class Repository {
             if (userDAO.getAllUsers().isEmpty()) {
                 Handler handler = new Handler(Looper.getMainLooper());
 
-                handler.post(() -> {
-                    Toast.makeText(context, "Populating initial data", Toast.LENGTH_SHORT).show();
-                });
-
-                User adminUser = new User(0, "Admin", "Fluffy", "fluffy@example.com", "1234567890", "!234Abcd", "Admin");
-                User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "Premium");
-                User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "Regular");
+                User adminUser = new User(0, "Admin", "Fluffy", "fluffy@example.com", "1234567890", "!234Abcd", "ADMIN");
+                User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "PREMIUM");
+                User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "REGULAR");
 
                 userDAO.insert(adminUser);
                 userDAO.insert(premiumUser);
                 userDAO.insert(regularUser);
 
-                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", 1);
-                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", 2);
-                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", 3);
+                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", adminUser.getUserID());
+                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", premiumUser.getUserID());
+                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", regularUser.getUserID());
 
                 catDAO.insert(adminCat);
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
-
-                handler.post(() -> {
-                    Toast.makeText(context, "Inserted example users and cats into the database", Toast.LENGTH_SHORT).show();
-                });
             }
         });
     }
@@ -81,6 +71,17 @@ public class Repository {
     public User getUserByID(int userID) {
         Callable<User> callable = () -> userDAO.getUserByID(userID);
         Future<User> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User> getUsersForCat(int catID) {
+        Callable<List<User>> callable = () -> userDAO.getUsersForCat(catID);
+        Future<List<User>> future = databaseWriteExecutor.submit(callable);
         try {
             return future.get();
         } catch (ExecutionException | InterruptedException e) {
@@ -109,7 +110,12 @@ public class Repository {
     }
 
     public void deleteUser(int userID) {
-        databaseWriteExecutor.execute(() -> userDAO.delete(userID));
+        databaseWriteExecutor.execute(() -> {
+            User user = userDAO.getUserByID(userID);
+            if (user != null) {
+                userDAO.delete(user);
+            }
+        });
     }
 
     public User getUserByEmail(String email) {
@@ -128,16 +134,16 @@ public class Repository {
         return getUserByID(userID);
     }
 
-    public void updateStorefrontDetails(int userID, String storefrontName, String storefrontContactEmail) {
-        databaseWriteExecutor.execute(() -> {
-            User user = userDAO.getUserByID(userID);
-            if (user != null) {
-                user.setStorefrontName(storefrontName);
-                user.setStorefrontContactEmail(storefrontContactEmail);
-                userDAO.update(user);
-            }
-        });
-    }
+//    public void updateStorefrontDetails(int userID, String storefrontName, String storefrontContactEmail) {
+//        databaseWriteExecutor.execute(() -> {
+//            User user = userDAO.getUserByID(userID);
+//            if (user != null) {
+//                user.setStorefrontName(storefrontName);
+//                user.setStorefrontContactEmail(storefrontContactEmail);
+//                userDAO.update(user);
+//            }
+//        });
+//    }
 
     // StoreItem-related methods
     public List<StoreItem> getAllStoreItems() {
@@ -248,17 +254,11 @@ public class Repository {
     }
 
     public void deleteCat(int catID) {
-        databaseWriteExecutor.execute(() -> catDAO.delete(catID));
-    }
-
-    public List<User> getUsersForCat(int catID) {
-        Callable<List<User>> callable = () -> userDAO.getUsersForCat(catID);
-        Future<List<User>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        databaseWriteExecutor.execute(() -> {
+            Cat cat = catDAO.getCatByID(catID);
+            if (cat != null) {
+                catDAO.delete(cat);
+            }
+        });
     }
 }

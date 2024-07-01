@@ -70,7 +70,7 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
             firstNameEditText.setText(currentUser.getFirstName());
             lastNameEditText.setText(currentUser.getLastName());
             emailEditText.setText(currentUser.getEmail());
-            phoneNumberEditText.setText(currentUser.getPhoneNumber());
+//            phoneNumberEditText.setText(currentUser.getPhoneNumber());
         }
 
         Button subscribeButton = findViewById(R.id.subscribe_button);
@@ -79,7 +79,7 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
             currentUser.setFirstName(firstNameEditText.getText().toString());
             currentUser.setLastName(lastNameEditText.getText().toString());
             currentUser.setEmail(emailEditText.getText().toString());
-            currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
+//            currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
             // currentUser.setCreditCard(creditCardEditText.getText().toString()); // Assuming there is a field for this
             currentUser.setRole(UserRoles.PREMIUM);
 
@@ -113,8 +113,8 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
         if (currentUser != null) {
             // Pre-fill storefront info if available
-            storefrontNameEditText.setText(currentUser.getStorefrontName());
-            storefrontContactEmailEditText.setText(currentUser.getStorefrontContactEmail());
+//            storefrontNameEditText.setText(currentUser.getStorefrontName());
+//            storefrontContactEmailEditText.setText(currentUser.getStorefrontContactEmail());
         }
 
         Button addProductButton = findViewById(R.id.add_product_button);
@@ -124,8 +124,8 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
             String storefrontContactEmail = storefrontContactEmailEditText.getText().toString();
 
             // Save storefront info to the database
-            currentUser.setStorefrontName(storefrontName);
-            currentUser.setStorefrontContactEmail(storefrontContactEmail);
+//            currentUser.setStorefrontName(storefrontName);
+//            currentUser.setStorefrontContactEmail(storefrontContactEmail);
 
             repository.updateUser(currentUser);
 

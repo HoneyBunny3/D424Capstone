@@ -1,39 +1,30 @@
 package com.example.d424capstone.entities;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import java.io.Serializable;
 
-@Entity(tableName = "cat_table")
-public class Cat {
+@Entity(tableName = "cat_table",
+        foreignKeys = @ForeignKey(entity = User.class,
+                parentColumns = "userID",
+                childColumns = "userID",
+                onDelete = ForeignKey.CASCADE))
+public class Cat implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int catID;
     private String catName;
     private int catAge;
-    private String imageUri;
+    private String catImage;
     private String catBio;
-    private int userID; // Foreign key to associate the cat with a user
+    private int userID;
 
-    /**
-     * Default constructor required by Room.
-     */
-    public Cat() {}
-
-    /**
-     * Constructor to initialize the Cat entity.
-     *
-     * @param catID   The unique ID of the cat.
-     * @param catName The name of the cat.
-     * @param catAge  The age of the cat.
-     * @param imageUri The URI of the cat's image.
-     * @param catBio  The bio of the cat.
-     * @param userID  The ID of the user associated with the cat.
-     */
-    public Cat(int catID, String catName, int catAge, String imageUri, String catBio, int userID) {
+    public Cat(int catID, String catName, int catAge, String catImage, String catBio, int userID) {
         this.catID = catID;
         this.catName = catName;
         this.catAge = catAge;
-        this.imageUri = imageUri;
+        this.catImage = catImage;
         this.catBio = catBio;
         this.userID = userID;
     }
@@ -64,12 +55,12 @@ public class Cat {
         this.catAge = catAge;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public String getCatImage() {
+        return catImage;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setCatImage(String catImage) {
+        this.catImage = catImage;
     }
 
     public String getCatBio() {

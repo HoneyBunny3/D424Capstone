@@ -78,8 +78,7 @@ public class UserLoginScreen extends BaseActivity {
 
         // Check if already logged in
         if (sharedPreferences.contains("LoggedInUser")) {
-            Toast.makeText(this, "You are already logged in.", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "User already logged in.", Toast.LENGTH_SHORT).show();
+            showToast("You are already logged in.");
             return;
         }
 
@@ -96,15 +95,13 @@ public class UserLoginScreen extends BaseActivity {
                     editor.apply();
 
                     String roleMessage = getRoleMessage(user.getRole());
-                    Toast.makeText(UserLoginScreen.this, roleMessage, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(UserLoginScreen.this, "User logged in successfully: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                    showToast(roleMessage);
 
                     startActivity(new Intent(UserLoginScreen.this, HomeScreen.class));
                     finish();
                 } else {
                     // Failed login
-                    Toast.makeText(UserLoginScreen.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(UserLoginScreen.this, "Invalid login attempt for email: " + email, Toast.LENGTH_SHORT).show();
+                    showToast("Invalid email or password");
                 }
             });
         }).start();
@@ -122,5 +119,9 @@ public class UserLoginScreen extends BaseActivity {
             default:
                 return "Login successful as Guest";
         }
+    }
+
+    private void showToast(String message) {
+        runOnUiThread(() -> Toast.makeText(UserLoginScreen.this, message, Toast.LENGTH_LONG).show());
     }
 }
