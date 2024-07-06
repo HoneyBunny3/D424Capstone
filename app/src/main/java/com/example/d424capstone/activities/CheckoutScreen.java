@@ -26,6 +26,9 @@ public class CheckoutScreen extends BaseActivity {
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeDrawer();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

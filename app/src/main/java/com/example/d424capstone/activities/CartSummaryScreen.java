@@ -19,7 +19,7 @@ import com.example.d424capstone.entities.CartItem;
 
 import java.util.List;
 
-public class CartSummaryScreen extends AppCompatActivity {
+public class CartSummaryScreen extends BaseActivity {
 
     private static final double TAX_RATE = 0.08; // 8% tax rate
 
@@ -46,6 +46,9 @@ public class CartSummaryScreen extends AppCompatActivity {
         backToShoppingButton = findViewById(R.id.backToShoppingButton);
 
         displayCartItems();
+
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeDrawer();
 
         placeOrderButton.setOnClickListener(v -> {
             Intent intent = new Intent(CartSummaryScreen.this, CheckoutScreen.class);

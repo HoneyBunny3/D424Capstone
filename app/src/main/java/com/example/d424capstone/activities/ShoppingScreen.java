@@ -15,7 +15,7 @@ import com.example.d424capstone.entities.StoreItem;
 
 import java.util.List;
 
-public class ShoppingScreen extends AppCompatActivity {
+public class ShoppingScreen extends BaseActivity {
 
     private Repository repository;
 
@@ -30,6 +30,9 @@ public class ShoppingScreen extends AppCompatActivity {
 
         // Initialize buttons and set their click listeners
         initializeButtons();
+
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeDrawer();
     }
 
     private void displayStoreItems() {

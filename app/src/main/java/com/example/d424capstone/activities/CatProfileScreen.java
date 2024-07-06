@@ -68,6 +68,9 @@ public class CatProfileScreen extends BaseActivity {
         // Initialize buttons and set click listeners
         initializeButtons();
 
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeDrawer();
+
         // Initialize RecyclerView
         initializeRecyclerView();
 
