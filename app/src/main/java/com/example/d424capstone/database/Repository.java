@@ -8,11 +8,13 @@ import android.os.Looper;
 
 import com.example.d424capstone.dao.CartItemDAO;
 import com.example.d424capstone.dao.CatDAO;
+import com.example.d424capstone.dao.OrderDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
 import com.example.d424capstone.dao.UserDAO;
 import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Cat;
+import com.example.d424capstone.entities.Order;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.example.d424capstone.entities.User;
@@ -29,6 +31,7 @@ public class Repository {
     private final CatDAO catDAO;
     private final StoreItemDAO storeItemDAO;
     private final CartItemDAO cartItemDAO;
+    private final OrderDAO orderDAO;
     private final SocialPostDAO socialPostDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
@@ -40,6 +43,7 @@ public class Repository {
         catDAO = db.catDAO();
         storeItemDAO = db.storeItemDAO();
         cartItemDAO = db.cartItemDAO();
+        orderDAO = db.orderDAO();
         socialPostDAO = db.socialPostDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
@@ -293,5 +297,21 @@ public class Repository {
 
     public void clearCartItems() {
         databaseWriteExecutor.execute(() -> cartItemDAO.clearAll());
+    }
+
+    // Order-related methods
+    public void insertOrder(Order order) {
+        databaseWriteExecutor.execute(() -> orderDAO.insert(order));
+    }
+
+    public List<Order> getAllOrders() {
+        Callable<List<Order>> callable = () -> orderDAO.getAllOrders();
+        Future<List<Order>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
