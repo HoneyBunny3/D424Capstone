@@ -32,17 +32,66 @@
             app:layout_constraintTop_toBottomOf="@id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/totalAmountTextView" />
+            app:layout_constraintBottom_toTopOf="@id/subtotalTextView" />
+
+        <TextView
+            android:id="@+id/subtotalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Subtotal: $0.00"
+            app:layout_constraintBottom_toTopOf="@id/taxTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/taxTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Tax: $0.00"
+            app:layout_constraintBottom_toTopOf="@id/totalAmountTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/totalAmountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
+            android:text="Total: $0.00"
+            app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="Total Amount: $0.00" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/placeOrderButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Place Order" />
+
+            <Button
+                android:id="@+id/clearCartButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear Cart" />
+
+            <Button
+                android:id="@+id/backToShoppingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Shopping" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

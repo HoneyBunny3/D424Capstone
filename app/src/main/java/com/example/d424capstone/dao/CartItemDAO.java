@@ -22,6 +22,9 @@ public interface CartItemDAO {
     @Query("DELETE FROM cart_item_table WHERE cartItemID = :cartItemID")
     void delete(int cartItemID);
 
+    @Query("DELETE FROM cart_item_table")
+    void clearAll();
+
     @Query("SELECT * FROM cart_item_table ORDER BY cartItemID ASC")
     List<CartItem> getAllCartItems();
 }

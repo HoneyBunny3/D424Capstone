@@ -290,4 +290,8 @@ public class Repository {
     public void deleteCartItem(int cartItemID) {
         databaseWriteExecutor.execute(() -> cartItemDAO.delete(cartItemID));
     }
+
+    public void clearCartItems() {
+        databaseWriteExecutor.execute(() -> cartItemDAO.clearAll());
+    }
 }
