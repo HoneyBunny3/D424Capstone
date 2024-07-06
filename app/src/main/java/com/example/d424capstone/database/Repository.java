@@ -11,6 +11,7 @@ import com.example.d424capstone.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -78,9 +79,19 @@ public class Repository {
     // User-related methods
     public User getUserByID(int userID) {
         final User[] user = new User[1];
-        databaseWriteExecutor.execute(() -> user[0] = userDAO.getUserByID(userID));
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            user[0] = userDAO.getUserByID(userID);
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return user[0];
     }
+
 
     public List<User> getUsersForCat(int catID) {
         final List<User>[] users = new List[1];

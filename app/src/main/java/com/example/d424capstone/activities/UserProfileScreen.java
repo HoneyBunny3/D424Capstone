@@ -65,6 +65,9 @@ public class UserProfileScreen extends BaseActivity {
         cancelButton = findViewById(R.id.cancel_user);
         loginButton = findViewById(R.id.login_button);
         setupPasswordVisibilityToggle();
+
+        // Set up the Cancel button click listener
+        cancelButton.setOnClickListener(v -> finish());
     }
 
     private void setupUI() {
@@ -167,20 +170,18 @@ public class UserProfileScreen extends BaseActivity {
 
         new Thread(() -> {
             User user = repository.getUserByID(userID);
-            if (user != null) {
-                runOnUiThread(() -> {
+            runOnUiThread(() -> {
+                if (user != null) {
                     firstNameEditText.setText(user.getFirstName());
                     lastNameEditText.setText(user.getLastName());
                     emailEditText.setText(user.getEmail());
                     phoneNumberEditText.setText(user.getPhone());
                     passwordEditText.setText(user.getPassword());
-                });
-            } else {
-                runOnUiThread(() -> {
+                } else {
                     showToast("User not found");
                     finish();
-                });
-            }
+                }
+            });
         }).start();
     }
 
