@@ -21,6 +21,7 @@ import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -130,7 +131,8 @@ public class CheckoutScreen extends BaseActivity {
             if (currentUser != null) {
                 int userID = currentUser.getUserID();
                 List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
-                saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems, userID);
+                Date orderDate = new Date(); // Current date and time
+                saveOrder(userID, cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems, orderDate);
                 clearCart();
                 Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
                 intent.putExtra("confirmationNumber", confirmationNumber);
@@ -150,9 +152,9 @@ public class CheckoutScreen extends BaseActivity {
         return cardNumber.equals("1234567812345678") && cardExpiry.equals("12/34") && cardCVV.equals("123");
     }
 
-    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, int userID) {
+    private void saveOrder(int userID, String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, Date orderDate) {
         new Thread(() -> {
-            Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems);
+            Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems, orderDate);
             order.setConfirmationNumber(confirmationNumber);
             repository.insertOrderForCurrentUser(order);
         }).start();

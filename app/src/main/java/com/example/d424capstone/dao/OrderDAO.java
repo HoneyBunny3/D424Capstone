@@ -26,4 +26,7 @@ public interface OrderDAO {
 
     @Query("SELECT * FROM order_table ORDER BY orderId ASC")
     List<Order> getAllOrders();
+
+    @Query("SELECT * FROM order_table ORDER BY orderDate DESC")
+    List<Order> getAllOrdersOrderedByDate();
 }

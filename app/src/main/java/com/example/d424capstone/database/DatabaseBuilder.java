@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.d424capstone.dao.CartItemDAO;
@@ -24,7 +25,8 @@ import com.example.d424capstone.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 3)
+@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 5)
+@TypeConverters({com.example.d424capstone.database.Converters.class})
 public abstract class DatabaseBuilder extends RoomDatabase {
 
     public abstract UserDAO userDAO();

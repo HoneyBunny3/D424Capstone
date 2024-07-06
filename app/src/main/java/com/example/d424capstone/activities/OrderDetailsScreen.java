@@ -59,7 +59,8 @@ public class OrderDetailsScreen extends BaseActivity {
                 Order order = repository.getLatestOrderForUser(currentUser.getUserID());
                 if (order != null) {
                     String orderDetails = "Order ID: " + order.getOrderId() + "\n"
-                            + "Confirmation Number: " + order.getConfirmationNumber() + "\n\n"
+                            + "Confirmation Number: " + order.getConfirmationNumber() + "\n"
+                            + "Order Date: " + order.getOrderDate().toString() + "\n\n"
                             + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
                             + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
                             + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4);
@@ -73,7 +74,6 @@ public class OrderDetailsScreen extends BaseActivity {
             }
         }).start();
     }
-
 
     private void shareOrderDetails() {
         String orderDetails = orderDetailsTextView.getText().toString();

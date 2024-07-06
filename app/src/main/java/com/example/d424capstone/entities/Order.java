@@ -3,6 +3,8 @@ package com.example.d424capstone.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "order_table")
 public class Order {
     @PrimaryKey(autoGenerate = true)
@@ -14,14 +16,16 @@ public class Order {
     private String confirmationNumber;
     private double totalPaid;
     private String purchasedItems;
+    private Date orderDate;
 
-    public Order(int userId, String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems) {
+    public Order(int userId, String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems, Date orderDate) {
         this.userId = userId;
         this.cardNumber = cardNumber;
         this.cardExpiry = cardExpiry;
         this.cardCVV = cardCVV;
         this.totalPaid = totalPaid;
         this.purchasedItems = purchasedItems;
+        this.orderDate = orderDate;
     }
 
     public int getOrderId() {
@@ -38,6 +42,14 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getCardNumber() {
