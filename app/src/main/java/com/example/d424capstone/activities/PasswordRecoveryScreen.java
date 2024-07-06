@@ -7,6 +7,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 
@@ -20,7 +21,7 @@ public class PasswordRecoveryScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_password_recovery_screen);
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();

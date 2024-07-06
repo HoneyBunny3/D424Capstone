@@ -10,9 +10,6 @@ import com.example.d424capstone.entities.StoreItem;
 
 import java.util.List;
 
-/**
- * Data Access Object (DAO) for the StoreItem entity.
- */
 @Dao
 public interface StoreItemDAO {
 

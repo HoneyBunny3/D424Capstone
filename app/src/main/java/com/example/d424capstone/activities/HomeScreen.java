@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.SocialPost;
@@ -25,9 +26,9 @@ public class HomeScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_screen);
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
-//        displayFeaturedContent();
+        displayFeaturedContent();
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -43,24 +44,24 @@ public class HomeScreen extends BaseActivity {
         });
     }
 
-//    private void displayFeaturedContent() {
-//        new Thread(() -> {
-//            StoreItem featuredItem = repository.getFeaturedItem();
-//            SocialPost mostLikedPost = repository.getMostLikedPost();
-//
-//            runOnUiThread(() -> {
-//                TextView featuredItemTextView = findViewById(R.id.featuredItemTextView);
-//                TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
-//
-//                if (featuredItem != null) {
-//                    featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
-//                }
-//                if (mostLikedPost != null) {
-//                    mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
-//                }
-//            });
-//        }).start();
-//    }
+    private void displayFeaturedContent() {
+        new Thread(() -> {
+            StoreItem featuredItem = repository.getFeaturedItem();
+            SocialPost mostLikedPost = repository.getMostLikedPost();
+
+            runOnUiThread(() -> {
+                TextView featuredItemTextView = findViewById(R.id.featuredItemTextView);
+                TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
+
+                if (featuredItem != null) {
+                    featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
+                }
+                if (mostLikedPost != null) {
+                    mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
+                }
+            });
+        }).start();
+    }
 
     private void initializeButtons() {
         // Initialize buttons and set their click listeners

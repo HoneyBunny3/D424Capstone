@@ -6,40 +6,34 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/storeItemNameTextView"
+        android:id="@+id/cartItemNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/storeItemDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/storeItemPriceTextView"
+        android:id="@+id/cartItemPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="italic" />
 
     <EditText
-        android:id="@+id/storeItemQuantityEditText"
+        android:id="@+id/cartItemQuantityEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Quantity"
         android:inputType="number" />
 
     <Button
-        android:id="@+id/storeItemAddToCartButton"
+        android:id="@+id/cartItemUpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to Cart" />
+        android:text="Update" />
 
     <Button
-        android:id="@+id/storeItemRemoveButton"
+        android:id="@+id/cartItemRemoveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remove" />

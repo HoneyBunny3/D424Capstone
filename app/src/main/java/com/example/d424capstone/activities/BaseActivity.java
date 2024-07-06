@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.dialogs.LoginSignupDialogFragment;
@@ -33,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository();
         initializeActivityMap();
 
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

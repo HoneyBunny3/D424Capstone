@@ -18,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 
@@ -36,7 +37,7 @@ public class ContactUsScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contact_us_screen);
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
@@ -83,29 +84,21 @@ public class ContactUsScreen extends BaseActivity {
         //Submit button with confirmation message
         Button submitBtn = findViewById(R.id.contact_submit_button);
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validateInputs()) {
-                    String confirmationMessageText = "Thank you for contacting <b>Hearth's Stop and Shop!</b><br>Our support team will email you within <b>2 business days</b>.";
-                    confirmationMessage.setText(Html.fromHtml(confirmationMessageText));
-                    confirmationMessage.setTextColor(getResources().getColor(R.color.rich_black));
-                    confirmationMessage.setVisibility(View.VISIBLE);
+        submitBtn.setOnClickListener(v -> {
+            if (validateInputs()) {
+                String confirmationMessageText = "Thank you for contacting <b>Hearth's Stop and Shop!</b><br>Our support team will email you within <b>2 business days</b>.";
+                confirmationMessage.setText(Html.fromHtml(confirmationMessageText));
+                confirmationMessage.setTextColor(getResources().getColor(R.color.rich_black));
+                confirmationMessage.setVisibility(View.VISIBLE);
 
-                    // Show success image
-                    successImage.setVisibility(View.VISIBLE);
-                }
+                // Show success image
+                successImage.setVisibility(View.VISIBLE);
             }
         });
 
         // Cancel button that clears the Contact Us page inputs
         Button cancelBtn = findViewById(R.id.contact_cancel_button);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearInputs();
-            }
-        });
+        cancelBtn.setOnClickListener(v -> clearInputs());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

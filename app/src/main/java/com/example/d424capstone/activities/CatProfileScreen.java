@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.adapters.UserAdapter;
 import com.example.d424capstone.database.Repository;
@@ -24,9 +25,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
-/**
- * Activity class for displaying and managing the cat profile screen.
- */
 public class CatProfileScreen extends BaseActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -50,7 +48,7 @@ public class CatProfileScreen extends BaseActivity {
         initViews();
 
         // Initialize repository
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Retrieve intent extras
         catID = getIntent().getIntExtra("catID", -1);
@@ -90,7 +88,7 @@ public class CatProfileScreen extends BaseActivity {
         catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
-//        associatedUsersRecyclerView = findViewById(R.id.associated_users);
+        associatedUsersRecyclerView = findViewById(R.id.associated_users);
     }
 
     // Load cat profiles details if editing an existing cat profile
@@ -115,9 +113,6 @@ public class CatProfileScreen extends BaseActivity {
         }
     }
 
-    /**
-     * Initialize buttons and set click listeners for saving, deleting, and canceling cat profile changes.
-     */
     private void initializeButtons() {
         // Initialize the save button
         saveButton.setOnClickListener(view -> saveCatProfile());
@@ -134,9 +129,6 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
-    /**
-     * Initialize RecyclerView for displaying associated users.
-     */
     private void initializeRecyclerView() {
         associatedUsersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userAdapter = new UserAdapter(this, null);
@@ -144,9 +136,6 @@ public class CatProfileScreen extends BaseActivity {
         loadAssociatedUsers();
     }
 
-    /**
-     * Load associated users for the current cat profile.
-     */
     private void loadAssociatedUsers() {
         new Thread(() -> {
             List<User> associatedUsers = repository.getUsersForCat(catID);
@@ -156,9 +145,6 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
-    /**
-     * Save the cat profile to the database.
-     */
     private void saveCatProfile() {
         String catName = editName.getText().toString();
         String catAgeStr = editAge.getText().toString();
@@ -202,9 +188,6 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
-    /**
-     * Delete the cat profile from the database.
-     */
     private void deleteCatProfile() {
         if (catID != -1) {
             new Thread(() -> {

@@ -17,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.User;
@@ -37,7 +38,7 @@ public class UserProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_profile_screen);
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         initViews();

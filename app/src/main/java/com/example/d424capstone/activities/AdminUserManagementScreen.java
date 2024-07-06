@@ -7,6 +7,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.utilities.UserRoles;
@@ -20,9 +21,9 @@ public class AdminUserManagementScreen extends BaseActivity {
         super.onCreate(savedInstanceState);
         checkAccessOrFinish(UserRoles.ADMIN);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_admin_store_management_screen);
+        setContentView(R.layout.activity_admin_user_management_screen); // Ensure the correct layout is set
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();

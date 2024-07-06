@@ -2,12 +2,12 @@ package com.example.d424capstone.activities;
 
 import android.os.Bundle;
 
-
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.utilities.UserRoles;
@@ -23,7 +23,7 @@ public class AdminStoreManagementScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_store_management_screen);
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();

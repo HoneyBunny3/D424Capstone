@@ -1,6 +1,5 @@
 package com.example.d424capstone.adapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.activities.CatProfileScreen;
 import com.example.d424capstone.database.Repository;
@@ -29,11 +29,11 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     private final Repository repository;
     private OnItemClickListener onItemClickListener;
 
-    public CatAdapter(Context context, Application application, List<Cat> cats) {
+    public CatAdapter(Context context, List<Cat> cats) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.cats = cats;
-        this.repository = new Repository(application);
+        this.repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
     }
 
     @NonNull

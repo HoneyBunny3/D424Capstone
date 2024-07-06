@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.d424capstone.dao.CartItemDAO;
 import com.example.d424capstone.dao.CatDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
 import com.example.d424capstone.dao.UserDAO;
+import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Cat;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
@@ -23,10 +25,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Repository {
-
     private final UserDAO userDAO;
     private final CatDAO catDAO;
     private final StoreItemDAO storeItemDAO;
+    private final CartItemDAO cartItemDAO;
     private final SocialPostDAO socialPostDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
@@ -37,10 +39,12 @@ public class Repository {
         userDAO = db.userDAO();
         catDAO = db.catDAO();
         storeItemDAO = db.storeItemDAO();
+        cartItemDAO = db.cartItemDAO();
         socialPostDAO = db.socialPostDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
+        preloadStoreItems();
     }
 
     private void populateInitialData(Context context) {
@@ -63,6 +67,18 @@ public class Repository {
                 catDAO.insert(adminCat);
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
+            }
+        });
+    }
+
+    private void preloadStoreItems() {
+        databaseWriteExecutor.execute(() -> {
+            if (storeItemDAO.getAllStoreItems().isEmpty()) {
+                storeItemDAO.insert(new StoreItem(0, "Cat Toy", "Fun toy for cats", 9.99, true));
+                storeItemDAO.insert(new StoreItem(0, "Cat Bed", "Comfortable bed for cats", 29.99, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Food", "Nutritious food for cats", 19.99, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Scratcher", "Durable scratcher for cats", 14.99, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Litter", "Odor-free cat litter", 10.99, false));
             }
         });
     }
@@ -133,17 +149,6 @@ public class Repository {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);
         return getUserByID(userID);
     }
-
-//    public void updateStorefrontDetails(int userID, String storefrontName, String storefrontContactEmail) {
-//        databaseWriteExecutor.execute(() -> {
-//            User user = userDAO.getUserByID(userID);
-//            if (user != null) {
-//                user.setStorefrontName(storefrontName);
-//                user.setStorefrontContactEmail(storefrontContactEmail);
-//                userDAO.update(user);
-//            }
-//        });
-//    }
 
     // StoreItem-related methods
     public List<StoreItem> getAllStoreItems() {
@@ -260,5 +265,29 @@ public class Repository {
                 catDAO.delete(cat);
             }
         });
+    }
+
+    // CartItem-related methods
+    public List<CartItem> getAllCartItems() {
+        Callable<List<CartItem>> callable = () -> cartItemDAO.getAllCartItems();
+        Future<List<CartItem>> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void insertCartItem(CartItem cartItem) {
+        databaseWriteExecutor.execute(() -> cartItemDAO.insert(cartItem));
+    }
+
+    public void updateCartItem(CartItem cartItem) {
+        databaseWriteExecutor.execute(() -> cartItemDAO.update(cartItem));
+    }
+
+    public void deleteCartItem(int cartItemID) {
+        databaseWriteExecutor.execute(() -> cartItemDAO.delete(cartItemID));
     }
 }

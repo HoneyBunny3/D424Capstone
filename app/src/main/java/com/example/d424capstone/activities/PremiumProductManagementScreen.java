@@ -7,9 +7,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
-
 
 public class PremiumProductManagementScreen extends BaseActivity {
 
@@ -19,9 +19,9 @@ public class PremiumProductManagementScreen extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_password_recovery_screen);
+        setContentView(R.layout.activity_premium_product_management_screen); // Ensure the correct layout is set
 
-        repository = new Repository(getApplication());
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
