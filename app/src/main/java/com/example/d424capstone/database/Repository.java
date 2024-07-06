@@ -6,18 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.d424capstone.dao.CartItemDAO;
-import com.example.d424capstone.dao.CatDAO;
-import com.example.d424capstone.dao.OrderDAO;
-import com.example.d424capstone.dao.SocialPostDAO;
-import com.example.d424capstone.dao.StoreItemDAO;
-import com.example.d424capstone.dao.UserDAO;
-import com.example.d424capstone.entities.CartItem;
-import com.example.d424capstone.entities.Cat;
-import com.example.d424capstone.entities.Order;
-import com.example.d424capstone.entities.SocialPost;
-import com.example.d424capstone.entities.StoreItem;
-import com.example.d424capstone.entities.User;
+import com.example.d424capstone.dao.*;
+import com.example.d424capstone.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,5 +262,9 @@ public class Repository {
         final SocialPost[] post = new SocialPost[1];
         databaseWriteExecutor.execute(() -> post[0] = socialPostDAO.getMostLikedPost());
         return post[0];
+    }
+
+    public void updateSocialPost(SocialPost socialPost) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.update(socialPost));
     }
 }

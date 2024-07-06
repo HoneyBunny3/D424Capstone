@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.R;
-import com.example.d424capstone.entities.SocialPost;
+import com.example.d424capstone.entities.*;
+import com.example.d424capstone.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +20,12 @@ import java.util.List;
 public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.SocialPostViewHolder> {
     private List<SocialPost> socialPosts;
     private LayoutInflater inflater;
+    private Repository repository;
 
-    public SocialPostAdapter(Context context, List<SocialPost> socialPosts) {
+    public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository) {
         this.inflater = LayoutInflater.from(context);
         this.socialPosts = socialPosts != null ? socialPosts : new ArrayList<>();
+        this.repository = repository;
     }
 
     @NonNull
@@ -36,6 +40,13 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         SocialPost currentPost = socialPosts.get(position);
         holder.contentTextView.setText(currentPost.getContent());
         holder.likesTextView.setText("Likes: " + currentPost.getLikes());
+
+        holder.itemView.setOnClickListener(v -> {
+            currentPost.incrementLikes();
+            repository.updateSocialPost(currentPost);
+            holder.likesTextView.setText("Likes: " + currentPost.getLikes());
+            Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override

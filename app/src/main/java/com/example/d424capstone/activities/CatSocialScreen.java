@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.adapters.SocialPostAdapter;
-import com.example.d424capstone.database.Repository;
-import com.example.d424capstone.entities.SocialPost;
+import com.example.d424capstone.adapters.*;
+import com.example.d424capstone.database.*;
+import com.example.d424capstone.entities.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class CatSocialScreen extends BaseActivity {
         new Thread(() -> {
             List<SocialPost> socialPosts = repository.getAllSocialPosts();
             runOnUiThread(() -> {
-                adapter = new SocialPostAdapter(this, socialPosts);
+                adapter = new SocialPostAdapter(this, socialPosts, repository);
                 recyclerView.setAdapter(adapter);
             });
         }).start();

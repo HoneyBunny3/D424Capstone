@@ -58,4 +58,8 @@ public class SocialPost implements Serializable {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    public void incrementLikes() {
+        this.likes++;
+    }
 }
