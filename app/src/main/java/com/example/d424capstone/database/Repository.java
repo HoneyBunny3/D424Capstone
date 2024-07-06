@@ -304,6 +304,21 @@ public class Repository {
         databaseWriteExecutor.execute(() -> orderDAO.insert(order));
     }
 
+    public void updateOrder(Order order) {
+        databaseWriteExecutor.execute(() -> orderDAO.update(order));
+    }
+
+    public Order getLatestOrder() {
+        Callable<Order> callable = () -> orderDAO.getLatestOrder();
+        Future<Order> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Order> getAllOrders() {
         Callable<List<Order>> callable = () -> orderDAO.getAllOrders();
         Future<List<Order>> future = databaseWriteExecutor.submit(callable);

@@ -10,6 +10,7 @@ public class Order {
     private String cardNumber;
     private String cardExpiry;
     private String cardCVV;
+    private String confirmationNumber;
 
     public Order(String cardNumber, String cardExpiry, String cardCVV) {
         this.cardNumber = cardNumber;
@@ -47,5 +48,13 @@ public class Order {
 
     public void setCardCVV(String cardCVV) {
         this.cardCVV = cardCVV;
+    }
+
+    public String getConfirmationNumber() {
+        return confirmationNumber;
+    }
+
+    public void setConfirmationNumber(String confirmationNumber) {
+        this.confirmationNumber = confirmationNumber;
     }
 }

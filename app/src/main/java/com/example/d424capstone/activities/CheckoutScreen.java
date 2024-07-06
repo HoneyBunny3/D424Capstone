@@ -16,7 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Order;
+
+import java.util.List;
+import java.util.Random;
 
 public class CheckoutScreen extends BaseActivity {
 
@@ -108,8 +112,13 @@ public class CheckoutScreen extends BaseActivity {
         String cardCVV = creditCardCVV.getText().toString();
 
         if (validateCard(cardNumber, cardExpiry, cardCVV)) {
-            saveOrder(cardNumber, cardExpiry, cardCVV);
+            String confirmationNumber = generateConfirmationNumber();
+            saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber);
+            clearCart();
             Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
+            intent.putExtra("confirmationNumber", confirmationNumber);
+            intent.putExtra("totalPaid", getTotalPaid());
+            intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
             startActivity(intent);
         } else {
             Toast.makeText(this, "Invalid credit card information", Toast.LENGTH_SHORT).show();
@@ -121,10 +130,29 @@ public class CheckoutScreen extends BaseActivity {
         return cardNumber.equals("1234567812345678") && cardExpiry.equals("12/34") && cardCVV.equals("123");
     }
 
-    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV) {
+    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber) {
         new Thread(() -> {
             Order order = new Order(cardNumber, cardExpiry, cardCVV);
+            order.setConfirmationNumber(confirmationNumber);
             repository.insertOrder(order);
         }).start();
+    }
+
+    private void clearCart() {
+        new Thread(() -> repository.clearCartItems()).start();
+    }
+
+    private String generateConfirmationNumber() {
+        Random random = new Random();
+        return String.valueOf(100000 + random.nextInt(900000));
+    }
+
+    private double getTotalPaid() {
+        List<CartItem> cartItems = repository.getAllCartItems();
+        double totalPaid = 0;
+        for (CartItem item : cartItems) {
+            totalPaid += item.getQuantity() * item.getItemPrice();
+        }
+        return totalPaid;
     }
 }

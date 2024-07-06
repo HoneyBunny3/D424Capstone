@@ -1,6 +1,9 @@
 package com.example.d424capstone.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -10,10 +13,22 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.CartItem;
+import com.example.d424capstone.entities.Order;
+
+import java.util.List;
+import java.util.Random;
 
 public class OrderConfirmationScreen extends BaseActivity {
 
     private Repository repository;
+    private TextView confirmationNumberTextView;
+    private TextView purchasedItemsTextView;
+    private TextView totalPaidTextView;
+    private TextView creditCardTextView;
+    private Button toUserProfileButton;
+    private Button toShoppingButton;
+    private Button toOrderDetailsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +38,31 @@ public class OrderConfirmationScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
+        confirmationNumberTextView = findViewById(R.id.confirmationNumberTextView);
+        purchasedItemsTextView = findViewById(R.id.purchasedItemsTextView);
+        totalPaidTextView = findViewById(R.id.totalPaidTextView);
+        creditCardTextView = findViewById(R.id.creditCardTextView);
+        toUserProfileButton = findViewById(R.id.toUserProfileButton);
+        toShoppingButton = findViewById(R.id.toShoppingButton);
+        toOrderDetailsButton = findViewById(R.id.toOrderDetailsButton);
+
+        displayOrderConfirmation();
+
+        toUserProfileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderConfirmationScreen.this, UserProfileScreen.class);
+            startActivity(intent);
+        });
+
+        toShoppingButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderConfirmationScreen.this, ShoppingScreen.class);
+            startActivity(intent);
+        });
+
+        toOrderDetailsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrderConfirmationScreen.this, OrderDetailsScreen.class);
+            startActivity(intent);
+        });
+
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
@@ -31,5 +71,44 @@ public class OrderConfirmationScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void displayOrderConfirmation() {
+        new Thread(() -> {
+            List<CartItem> cartItems = repository.getAllCartItems();
+            StringBuilder purchasedItems = new StringBuilder();
+            double totalPaid = 0;
+
+            for (CartItem item : cartItems) {
+                purchasedItems.append(item.getName()).append(" x").append(item.getQuantity()).append("\n");
+                totalPaid += item.getQuantity() * item.getItemPrice();
+            }
+
+            String confirmationNumber = generateConfirmationNumber();
+            String last4Digits = "****";
+
+            Order order = repository.getLatestOrder();
+            if (order != null) {
+                last4Digits = order.getCardNumber().substring(order.getCardNumber().length() - 4);
+                order.setConfirmationNumber(confirmationNumber);
+                repository.updateOrder(order);
+            }
+
+            String finalPurchasedItems = purchasedItems.toString();
+            double finalTotalPaid = totalPaid;
+            String finalLast4Digits = last4Digits;
+
+            runOnUiThread(() -> {
+                confirmationNumberTextView.setText("Confirmation Number: " + confirmationNumber);
+                purchasedItemsTextView.setText("Purchased Items:\n" + finalPurchasedItems);
+                totalPaidTextView.setText("Total Paid: $" + String.format("%.2f", finalTotalPaid));
+                creditCardTextView.setText("Credit Card (Last 4): " + finalLast4Digits);
+            });
+        }).start();
+    }
+
+    private String generateConfirmationNumber() {
+        Random random = new Random();
+        return String.valueOf(100000 + random.nextInt(900000));
     }
 }
