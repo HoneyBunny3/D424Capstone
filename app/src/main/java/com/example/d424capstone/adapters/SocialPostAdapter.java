@@ -43,6 +43,11 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         return socialPosts.size();
     }
 
+    public void addPost(SocialPost post) {
+        socialPosts.add(post);
+        notifyItemInserted(socialPosts.size() - 1);
+    }
+
     public class SocialPostViewHolder extends RecyclerView.ViewHolder {
         private TextView contentTextView;
         private TextView likesTextView;
