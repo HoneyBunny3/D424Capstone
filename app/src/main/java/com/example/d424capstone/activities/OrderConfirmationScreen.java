@@ -74,37 +74,25 @@ public class OrderConfirmationScreen extends BaseActivity {
     }
 
     private void displayOrderConfirmation() {
-        new Thread(() -> {
-            List<CartItem> cartItems = repository.getAllCartItems();
-            StringBuilder purchasedItems = new StringBuilder();
-            double totalPaid = 0;
+        Intent intent = getIntent();
+        String confirmationNumber = intent.getStringExtra("confirmationNumber");
+        double totalPaid = intent.getDoubleExtra("totalPaid", 0.0);
+        String last4Digits = intent.getStringExtra("last4Digits");
+        List<CartItem> cartItems = intent.getParcelableArrayListExtra("cartItems");
 
-            for (CartItem item : cartItems) {
-                purchasedItems.append(item.getName()).append(" x").append(item.getQuantity()).append("\n");
-                totalPaid += item.getQuantity() * item.getItemPrice();
-            }
-
-            String confirmationNumber = generateConfirmationNumber();
-            String last4Digits = "****";
-
-            Order order = repository.getLatestOrder();
-            if (order != null) {
-                last4Digits = order.getCardNumber().substring(order.getCardNumber().length() - 4);
-                order.setConfirmationNumber(confirmationNumber);
-                repository.updateOrder(order);
-            }
+        StringBuilder purchasedItems = new StringBuilder();
+        for (CartItem item : cartItems) {
+            purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
+        }
 
             String finalPurchasedItems = purchasedItems.toString();
-            double finalTotalPaid = totalPaid;
-            String finalLast4Digits = last4Digits;
 
             runOnUiThread(() -> {
                 confirmationNumberTextView.setText("Confirmation Number: " + confirmationNumber);
                 purchasedItemsTextView.setText("Purchased Items:\n" + finalPurchasedItems);
-                totalPaidTextView.setText("Total Paid: $" + String.format("%.2f", finalTotalPaid));
-                creditCardTextView.setText("Credit Card (Last 4): " + finalLast4Digits);
+                totalPaidTextView.setText("Total Paid: $" + String.format("%.2f", totalPaid));
+                creditCardTextView.setText("Credit Card (Last 4): " + last4Digits);
             });
-        }).start();
     }
 
     private String generateConfirmationNumber() {

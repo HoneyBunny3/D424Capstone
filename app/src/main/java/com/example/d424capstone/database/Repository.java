@@ -309,7 +309,7 @@ public class Repository {
     }
 
     public Order getLatestOrder() {
-        Callable<Order> callable = () -> orderDAO.getLatestOrder();
+        Callable<Order> callable = orderDAO::getLatestOrder;
         Future<Order> future = databaseWriteExecutor.submit(callable);
         try {
             return future.get();

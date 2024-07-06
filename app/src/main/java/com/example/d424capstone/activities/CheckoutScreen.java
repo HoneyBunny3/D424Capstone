@@ -16,9 +16,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
-import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Order;
+import com.example.d424capstone.entities.CartItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -44,6 +45,15 @@ public class CheckoutScreen extends BaseActivity {
         creditCardCVV = findViewById(R.id.creditCardCVV);
         submitPaymentButton = findViewById(R.id.submitPaymentButton);
         backToCartButton = findViewById(R.id.backToCartButton);
+
+        creditCardNumber.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String cardNumber = creditCardNumber.getText().toString();
+                if (cardNumber.length() != 16) {
+                    Toast.makeText(this, "Invalid credit card number", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         creditCardExpiry.addTextChangedListener(new TextWatcher() {
             private String current = "";
@@ -113,12 +123,15 @@ public class CheckoutScreen extends BaseActivity {
 
         if (validateCard(cardNumber, cardExpiry, cardCVV)) {
             String confirmationNumber = generateConfirmationNumber();
+            double totalPaid = getTotalPaid();
+            List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
             saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber);
             clearCart();
             Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
             intent.putExtra("confirmationNumber", confirmationNumber);
-            intent.putExtra("totalPaid", getTotalPaid());
+            intent.putExtra("totalPaid", totalPaid);
             intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
+            intent.putParcelableArrayListExtra("cartItems", new ArrayList<>(cartItems)); // Pass cart items
             startActivity(intent);
         } else {
             Toast.makeText(this, "Invalid credit card information", Toast.LENGTH_SHORT).show();
