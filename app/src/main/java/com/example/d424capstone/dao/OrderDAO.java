@@ -21,6 +21,9 @@ public interface OrderDAO {
     @Query("SELECT * FROM order_table ORDER BY orderId DESC LIMIT 1")
     Order getLatestOrder();
 
+    @Query("SELECT * FROM order_table WHERE userID = :userID ORDER BY orderId DESC LIMIT 1")
+    Order getLatestOrderForUser(int userID);
+
     @Query("SELECT * FROM order_table ORDER BY orderId ASC")
     List<Order> getAllOrders();
 }

@@ -17,6 +17,7 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Order;
+import com.example.d424capstone.entities.User;
 
 import java.util.List;
 
@@ -53,19 +54,26 @@ public class OrderDetailsScreen extends BaseActivity {
 
     private void displayOrderDetails() {
         new Thread(() -> {
-            Order order = repository.getLatestOrder();
+            User currentUser = repository.getCurrentUser();
+            if (currentUser != null) {
+                Order order = repository.getLatestOrderForUser(currentUser.getUserID());
+                if (order != null) {
+                    String orderDetails = "Order ID: " + order.getOrderId() + "\n"
+                            + "Confirmation Number: " + order.getConfirmationNumber() + "\n\n"
+                            + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
+                            + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
+                            + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4);
 
-            if (order != null) {
-                String orderDetails = "Order ID: " + order.getOrderId() + "\n"
-                        + "Confirmation Number: " + order.getConfirmationNumber() + "\n\n"
-                        + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
-                        + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
-                        + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4);
-
-                runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
+                    runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
+                } else {
+                    runOnUiThread(() -> Toast.makeText(OrderDetailsScreen.this, "No order found for the current user.", Toast.LENGTH_SHORT).show());
+                }
+            } else {
+                runOnUiThread(() -> Toast.makeText(OrderDetailsScreen.this, "No user is currently logged in.", Toast.LENGTH_SHORT).show());
             }
         }).start();
     }
+
 
     private void shareOrderDetails() {
         String orderDetails = orderDetailsTextView.getText().toString();

@@ -329,4 +329,23 @@ public class Repository {
             return null;
         }
     }
+
+    public void insertOrderForCurrentUser(Order order) {
+        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+        if (userID != -1) {
+            order.setUserId(userID);
+            insertOrder(order);
+        }
+    }
+
+    public Order getLatestOrderForUser(int userID) {
+        Callable<Order> callable = () -> orderDAO.getLatestOrderForUser(userID);
+        Future<Order> future = databaseWriteExecutor.submit(callable);
+        try {
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

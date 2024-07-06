@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 public class Order {
     @PrimaryKey(autoGenerate = true)
     private int orderId;
+    private int userId;
     private String cardNumber;
     private String cardExpiry;
     private String cardCVV;
@@ -14,7 +15,8 @@ public class Order {
     private double totalPaid;
     private String purchasedItems;
 
-    public Order(String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems) {
+    public Order(int userId, String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems) {
+        this.userId = userId;
         this.cardNumber = cardNumber;
         this.cardExpiry = cardExpiry;
         this.cardCVV = cardCVV;
@@ -28,6 +30,14 @@ public class Order {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getCardNumber() {

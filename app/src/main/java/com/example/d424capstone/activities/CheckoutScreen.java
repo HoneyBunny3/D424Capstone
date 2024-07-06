@@ -18,6 +18,7 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Order;
 import com.example.d424capstone.entities.CartItem;
+import com.example.d424capstone.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,15 +126,21 @@ public class CheckoutScreen extends BaseActivity {
             String confirmationNumber = generateConfirmationNumber();
             double totalPaid = getTotalPaid();
             String purchasedItems = getPurchasedItems();
-            List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
-            saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems);
-            clearCart();
-            Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
-            intent.putExtra("confirmationNumber", confirmationNumber);
-            intent.putExtra("totalPaid", totalPaid);
-            intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
-            intent.putParcelableArrayListExtra("cartItems", new ArrayList<>(cartItems)); // Pass cart items
-            startActivity(intent);
+            User currentUser = repository.getCurrentUser();
+            if (currentUser != null) {
+                int userID = currentUser.getUserID();
+                List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
+                saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems, userID);
+                clearCart();
+                Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
+                intent.putExtra("confirmationNumber", confirmationNumber);
+                intent.putExtra("totalPaid", totalPaid);
+                intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
+                intent.putParcelableArrayListExtra("cartItems", new ArrayList<>(cartItems)); // Pass cart items
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No user is currently logged in.", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(this, "Invalid credit card information", Toast.LENGTH_SHORT).show();
         }
@@ -143,11 +150,11 @@ public class CheckoutScreen extends BaseActivity {
         return cardNumber.equals("1234567812345678") && cardExpiry.equals("12/34") && cardCVV.equals("123");
     }
 
-    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems) {
+    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, int userID) {
         new Thread(() -> {
-            Order order = new Order(cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems);
+            Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems);
             order.setConfirmationNumber(confirmationNumber);
-            repository.insertOrder(order);
+            repository.insertOrderForCurrentUser(order);
         }).start();
     }
 
