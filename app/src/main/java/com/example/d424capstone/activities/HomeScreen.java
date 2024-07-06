@@ -3,7 +3,6 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -13,8 +12,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
-import com.example.d424capstone.entities.SocialPost;
-import com.example.d424capstone.entities.StoreItem;
 
 public class HomeScreen extends BaseActivity {
 

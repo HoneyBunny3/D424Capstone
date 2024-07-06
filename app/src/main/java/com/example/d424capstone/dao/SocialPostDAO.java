@@ -10,9 +10,6 @@ import com.example.d424capstone.entities.SocialPost;
 
 import java.util.List;
 
-/**
- * Data Access Object (DAO) for the SocialPost entity.
- */
 @Dao
 public interface SocialPostDAO {
 

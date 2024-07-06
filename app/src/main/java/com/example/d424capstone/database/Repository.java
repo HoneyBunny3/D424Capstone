@@ -19,12 +19,10 @@ import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
 import com.example.d424capstone.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Repository {
     private final UserDAO userDAO;
@@ -89,36 +87,21 @@ public class Repository {
 
     // User-related methods
     public User getUserByID(int userID) {
-        Callable<User> callable = () -> userDAO.getUserByID(userID);
-        Future<User> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final User[] user = new User[1];
+        databaseWriteExecutor.execute(() -> user[0] = userDAO.getUserByID(userID));
+        return user[0];
     }
 
     public List<User> getUsersForCat(int catID) {
-        Callable<List<User>> callable = () -> userDAO.getUsersForCat(catID);
-        Future<List<User>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<User>[] users = new List[1];
+        databaseWriteExecutor.execute(() -> users[0] = userDAO.getUsersForCat(catID));
+        return users[0];
     }
 
     public List<User> getAllUsers() {
-        Callable<List<User>> callable = () -> userDAO.getAllUsers();
-        Future<List<User>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<User>[] users = new List[1];
+        databaseWriteExecutor.execute(() -> users[0] = userDAO.getAllUsers());
+        return users[0];
     }
 
     public void insertUser(User user) {
@@ -139,14 +122,14 @@ public class Repository {
     }
 
     public User getUserByEmail(String email) {
-        Callable<User> callable = () -> userDAO.getUserByEmail(email);
-        Future<User> future = databaseWriteExecutor.submit(callable);
+        final User[] user = new User[1];
+        databaseWriteExecutor.execute(() -> user[0] = userDAO.getUserByEmail(email));
         try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
+            Thread.sleep(500); // Small delay to ensure background execution
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            return null;
         }
+        return user[0];
     }
 
     public User getCurrentUser() {
@@ -156,14 +139,9 @@ public class Repository {
 
     // StoreItem-related methods
     public List<StoreItem> getAllStoreItems() {
-        Callable<List<StoreItem>> callable = () -> storeItemDAO.getAllStoreItems();
-        Future<List<StoreItem>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<StoreItem>[] items = new List[1];
+        databaseWriteExecutor.execute(() -> items[0] = storeItemDAO.getAllStoreItems());
+        return items[0];
     }
 
     public void insertStoreItem(StoreItem storeItem) {
@@ -179,83 +157,28 @@ public class Repository {
     }
 
     public StoreItem getFeaturedItem() {
-        Callable<StoreItem> callable = () -> storeItemDAO.getFeaturedItem();
-        Future<StoreItem> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // SocialPost-related methods
-    public List<SocialPost> getAllSocialPosts() {
-        Callable<List<SocialPost>> callable = () -> socialPostDAO.getAllSocialPosts();
-        Future<List<SocialPost>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void insertSocialPost(SocialPost socialPost) {
-        databaseWriteExecutor.execute(() -> socialPostDAO.insert(socialPost));
-    }
-
-    public void updateSocialPost(SocialPost socialPost) {
-        databaseWriteExecutor.execute(() -> socialPostDAO.update(socialPost));
-    }
-
-    public void deleteSocialPost(int socialPostID) {
-        databaseWriteExecutor.execute(() -> socialPostDAO.delete(socialPostID));
-    }
-
-    public SocialPost getMostLikedPost() {
-        Callable<SocialPost> callable = () -> socialPostDAO.getMostLikedPost();
-        Future<SocialPost> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final StoreItem[] item = new StoreItem[1];
+        databaseWriteExecutor.execute(() -> item[0] = storeItemDAO.getFeaturedItem());
+        return item[0];
     }
 
     // Cat-related methods
     public Cat getCatByID(int catID) {
-        Callable<Cat> callable = () -> catDAO.getCatByID(catID);
-        Future<Cat> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final Cat[] cat = new Cat[1];
+        databaseWriteExecutor.execute(() -> cat[0] = catDAO.getCatByID(catID));
+        return cat[0];
     }
 
     public List<Cat> getCatsForUser(int userID) {
-        Callable<List<Cat>> callable = () -> catDAO.getCatsForUser(userID);
-        Future<List<Cat>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<Cat>[] cats = new List[1];
+        databaseWriteExecutor.execute(() -> cats[0] = catDAO.getCatsForUser(userID));
+        return cats[0];
     }
 
     public long insertCat(Cat cat) {
-        Callable<Long> callable = () -> catDAO.insert(cat);
-        Future<Long> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return -1;
-        }
+        final long[] id = new long[1];
+        databaseWriteExecutor.execute(() -> id[0] = catDAO.insert(cat));
+        return id[0];
     }
 
     public void updateCat(Cat cat) {
@@ -273,14 +196,9 @@ public class Repository {
 
     // CartItem-related methods
     public List<CartItem> getAllCartItems() {
-        Callable<List<CartItem>> callable = () -> cartItemDAO.getAllCartItems();
-        Future<List<CartItem>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<CartItem>[] items = new List[1];
+        databaseWriteExecutor.execute(() -> items[0] = cartItemDAO.getAllCartItems());
+        return items[0];
     }
 
     public void insertCartItem(CartItem cartItem) {
@@ -296,7 +214,7 @@ public class Repository {
     }
 
     public void clearCartItems() {
-        databaseWriteExecutor.execute(() -> cartItemDAO.clearAll());
+        databaseWriteExecutor.execute(cartItemDAO::clearAll);
     }
 
     // Order-related methods
@@ -309,25 +227,15 @@ public class Repository {
     }
 
     public Order getLatestOrder() {
-        Callable<Order> callable = orderDAO::getLatestOrder;
-        Future<Order> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final Order[] order = new Order[1];
+        databaseWriteExecutor.execute(() -> order[0] = orderDAO.getLatestOrder());
+        return order[0];
     }
 
     public List<Order> getAllOrders() {
-        Callable<List<Order>> callable = () -> orderDAO.getAllOrders();
-        Future<List<Order>> future = databaseWriteExecutor.submit(callable);
-        try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
+        final List<Order>[] orders = new List[1];
+        databaseWriteExecutor.execute(() -> orders[0] = orderDAO.getAllOrders());
+        return orders[0];
     }
 
     public void insertOrderForCurrentUser(Order order) {
@@ -339,13 +247,30 @@ public class Repository {
     }
 
     public Order getLatestOrderForUser(int userID) {
-        Callable<Order> callable = () -> orderDAO.getLatestOrderForUser(userID);
-        Future<Order> future = databaseWriteExecutor.submit(callable);
+        final Order[] order = new Order[1];
+        databaseWriteExecutor.execute(() -> order[0] = orderDAO.getLatestOrderForUser(userID));
+        return order[0];
+    }
+
+    // SocialPost-related methods
+    public List<SocialPost> getAllSocialPosts() {
+        final List<SocialPost>[] posts = new List[1];
+        databaseWriteExecutor.execute(() -> posts[0] = socialPostDAO.getAllSocialPosts());
         try {
-            return future.get();
-        } catch (ExecutionException | InterruptedException e) {
+            Thread.sleep(500); // Small delay to ensure background execution
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            return null;
         }
+        return posts[0] != null ? posts[0] : new ArrayList<>();
+    }
+
+    public void insertSocialPost(SocialPost socialPost) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.insert(socialPost));
+    }
+
+    public SocialPost getMostLikedPost() {
+        final SocialPost[] post = new SocialPost[1];
+        databaseWriteExecutor.execute(() -> post[0] = socialPostDAO.getMostLikedPost());
+        return post[0];
     }
 }

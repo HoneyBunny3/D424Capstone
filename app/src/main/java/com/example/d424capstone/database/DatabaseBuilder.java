@@ -25,7 +25,7 @@ import com.example.d424capstone.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 5)
+@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 3)
 @TypeConverters({com.example.d424capstone.database.Converters.class})
 public abstract class DatabaseBuilder extends RoomDatabase {
 
