@@ -124,8 +124,9 @@ public class CheckoutScreen extends BaseActivity {
         if (validateCard(cardNumber, cardExpiry, cardCVV)) {
             String confirmationNumber = generateConfirmationNumber();
             double totalPaid = getTotalPaid();
+            String purchasedItems = getPurchasedItems();
             List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
-            saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber);
+            saveOrder(cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems);
             clearCart();
             Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
             intent.putExtra("confirmationNumber", confirmationNumber);
@@ -139,13 +140,12 @@ public class CheckoutScreen extends BaseActivity {
     }
 
     private boolean validateCard(String cardNumber, String cardExpiry, String cardCVV) {
-        // Add fake card validation logic here. For example, check for a specific card number.
         return cardNumber.equals("1234567812345678") && cardExpiry.equals("12/34") && cardCVV.equals("123");
     }
 
-    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber) {
+    private void saveOrder(String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems) {
         new Thread(() -> {
-            Order order = new Order(cardNumber, cardExpiry, cardCVV);
+            Order order = new Order(cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems);
             order.setConfirmationNumber(confirmationNumber);
             repository.insertOrder(order);
         }).start();
@@ -167,5 +167,14 @@ public class CheckoutScreen extends BaseActivity {
             totalPaid += item.getQuantity() * item.getItemPrice();
         }
         return totalPaid;
+    }
+
+    private String getPurchasedItems() {
+        List<CartItem> cartItems = repository.getAllCartItems();
+        StringBuilder purchasedItems = new StringBuilder();
+        for (CartItem item : cartItems) {
+            purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
+        }
+        return purchasedItems.toString();
     }
 }

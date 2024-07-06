@@ -24,7 +24,7 @@ import com.example.d424capstone.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 3)
+@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class}, version = 1)
 public abstract class DatabaseBuilder extends RoomDatabase {
 
     public abstract UserDAO userDAO();

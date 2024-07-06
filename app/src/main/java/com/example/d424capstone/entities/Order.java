@@ -11,11 +11,15 @@ public class Order {
     private String cardExpiry;
     private String cardCVV;
     private String confirmationNumber;
+    private double totalPaid;
+    private String purchasedItems;
 
-    public Order(String cardNumber, String cardExpiry, String cardCVV) {
+    public Order(String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems) {
         this.cardNumber = cardNumber;
         this.cardExpiry = cardExpiry;
         this.cardCVV = cardCVV;
+        this.totalPaid = totalPaid;
+        this.purchasedItems = purchasedItems;
     }
 
     public int getOrderId() {
@@ -56,5 +60,21 @@ public class Order {
 
     public void setConfirmationNumber(String confirmationNumber) {
         this.confirmationNumber = confirmationNumber;
+    }
+
+    public double getTotalPaid() {
+        return totalPaid;
+    }
+
+    public void setTotalPaid(double totalPaid) {
+        this.totalPaid = totalPaid;
+    }
+
+    public String getPurchasedItems() {
+        return purchasedItems;
+    }
+
+    public void setPurchasedItems(String purchasedItems) {
+        this.purchasedItems = purchasedItems;
     }
 }

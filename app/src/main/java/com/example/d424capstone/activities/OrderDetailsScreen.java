@@ -54,23 +54,16 @@ public class OrderDetailsScreen extends BaseActivity {
     private void displayOrderDetails() {
         new Thread(() -> {
             Order order = repository.getLatestOrder();
-            List<CartItem> cartItems = repository.getAllCartItems();
 
-            StringBuilder orderDetails = new StringBuilder();
-            orderDetails.append("Order ID: ").append(order.getOrderId()).append("\n")
-                    .append("Confirmation Number: ").append(order.getConfirmationNumber()).append("\n\n")
-                    .append("Purchased Items:\n");
+            if (order != null) {
+                String orderDetails = "Order ID: " + order.getOrderId() + "\n"
+                        + "Confirmation Number: " + order.getConfirmationNumber() + "\n\n"
+                        + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
+                        + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
+                        + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4);
 
-            double totalPaid = 0;
-            for (CartItem item : cartItems) {
-                orderDetails.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
-                totalPaid += item.getQuantity() * item.getItemPrice();
+                runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
             }
-
-            orderDetails.append("\nTotal Paid: $").append(String.format("%.2f", totalPaid))
-                    .append("\nCredit Card (Last 4): ").append(order.getCardNumber().substring(order.getCardNumber().length() - 4));
-
-            runOnUiThread(() -> orderDetailsTextView.setText(orderDetails.toString()));
         }).start();
     }
 
