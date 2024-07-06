@@ -28,8 +28,6 @@ public class HomeScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
-        displayFeaturedContent();
-
         // Initialize buttons and set their click listeners
         initializeButtons();
 
@@ -42,25 +40,6 @@ public class HomeScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-
-    private void displayFeaturedContent() {
-        new Thread(() -> {
-            StoreItem featuredItem = repository.getFeaturedItem();
-            SocialPost mostLikedPost = repository.getMostLikedPost();
-
-            runOnUiThread(() -> {
-                TextView featuredItemTextView = findViewById(R.id.featuredItemTextView);
-                TextView mostLikedPostTextView = findViewById(R.id.mostLikedPostTextView);
-
-                if (featuredItem != null) {
-                    featuredItemTextView.setText("Featured Item: " + featuredItem.getName());
-                }
-                if (mostLikedPost != null) {
-                    mostLikedPostTextView.setText("Most Liked Post: " + mostLikedPost.getContent());
-                }
-            });
-        }).start();
     }
 
     private void initializeButtons() {

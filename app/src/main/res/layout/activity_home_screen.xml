@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeScreen">
 
-    <!-- Main content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,33 +20,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="75dp"
             android:text="Welcome to Hearth's Stop and Shop! \nYour One Stop Shop For All Your Cat Needs!"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/featuredItemTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
-
-        <TextView
-            android:id="@+id/featuredItemTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Featured Item"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/textView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/mostLikedPostTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Most Liked Post"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/featuredItemTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/touserloginscreen"
@@ -55,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User Login"
-            app:layout_constraintTop_toBottomOf="@id/mostLikedPostTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
             android:id="@+id/tousersignupscreen"
@@ -65,9 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User Sign Up"
-            app:layout_constraintTop_toBottomOf="@id/touserloginscreen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/touserloginscreen" />
 
         <Button
             android:id="@+id/tocatsocialscreen"
@@ -75,9 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cat Social"
-            app:layout_constraintTop_toBottomOf="@id/tousersignupscreen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tousersignupscreen" />
 
         <Button
             android:id="@+id/toshoppingscreen"
@@ -85,9 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Shopping"
-            app:layout_constraintTop_toBottomOf="@id/tocatsocialscreen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tocatsocialscreen" />
 
         <Button
             android:id="@+id/admin_user_management_button"
@@ -95,9 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Admin - User Management"
-            app:layout_constraintTop_toBottomOf="@id/toshoppingscreen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toshoppingscreen" />
 
         <Button
             android:id="@+id/admin_store_management_button"
@@ -105,12 +81,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Admin - Store Management"
-            app:layout_constraintTop_toBottomOf="@id/admin_user_management_button"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/admin_user_management_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
