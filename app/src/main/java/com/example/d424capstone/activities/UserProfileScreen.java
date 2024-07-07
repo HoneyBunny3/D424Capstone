@@ -27,9 +27,8 @@ public class UserProfileScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
-    private TextView userBanner;
     private Button saveButton, cancelButton, loginButton;
-
+    private TextView userBanner;
     private boolean isSignUpMode;
 
     @Override
@@ -42,6 +41,8 @@ public class UserProfileScreen extends BaseActivity {
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         initViews();
+
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
         // Determine if it's sign-up mode or profile mode

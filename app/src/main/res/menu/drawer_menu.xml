@@ -36,14 +36,6 @@
         android:title="Contact Us"
         android:icon="@drawable/baseline_contact_support_24" />
     <item
-        android:id="@+id/admin_user"
-        android:title="Admin - User Management"
-        android:icon="@drawable/baseline_admin_panel_settings_24" />
-    <item
-        android:id="@+id/admin_store"
-        android:title="Admin - Store Management"
-        android:icon="@drawable/baseline_admin_panel_settings_24" />
-    <item
         android:id="@+id/logout"
         android:icon="@drawable/baseline_logout_24"
         android:title="Logout" />

@@ -10,18 +10,52 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/HomeTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="100dp"
+            android:text="Hearth's User Login Page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
+
+        <!-- Login Email Label -->
+        <TextView
+            android:id="@+id/email_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Login Email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintWidth_percent="0.8" />
 
         <EditText
             android:id="@+id/login_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="100dp"
             android:hint="Email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email_label"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <!-- Login Password Label -->
+        <TextView
+            android:id="@+id/password_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_email"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
@@ -32,7 +66,7 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_email"
+            app:layout_constraintTop_toBottomOf="@id/password_label"
             app:layout_constraintWidth_percent="0.8" />
 
         <ImageButton

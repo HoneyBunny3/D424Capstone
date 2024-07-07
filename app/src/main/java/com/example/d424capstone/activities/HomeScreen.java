@@ -52,11 +52,5 @@ public class HomeScreen extends BaseActivity {
 
         Button buttonSocial = findViewById(R.id.tocatsocialscreen);
         buttonSocial.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, CatSocialScreen.class)));
-
-        Button adminUserManagementButton = findViewById(R.id.admin_user_management_button);
-        adminUserManagementButton.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, AdminUserManagementScreen.class)));
-
-        Button adminStoreManagementButton = findViewById(R.id.admin_store_management_button);
-        adminStoreManagementButton.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, AdminStoreManagementScreen.class)));
     }
 }

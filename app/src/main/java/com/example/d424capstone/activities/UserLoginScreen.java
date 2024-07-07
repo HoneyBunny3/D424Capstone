@@ -101,8 +101,6 @@ public class UserLoginScreen extends BaseActivity {
 
     private String getRoleMessage(String role) {
         switch (role) {
-            case UserRoles.ADMIN:
-                return "Login successful as Admin";
             case UserRoles.PREMIUM:
                 return "Login successful as Premium User";
             case UserRoles.REGULAR:

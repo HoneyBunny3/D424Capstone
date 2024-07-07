@@ -45,19 +45,15 @@ public class Repository {
             if (userDAO.getAllUsers().isEmpty()) {
                 Handler handler = new Handler(Looper.getMainLooper());
 
-                User adminUser = new User(0, "Admin", "Fluffy", "fluffy@example.com", "1234567890", "!234Abcd", "ADMIN");
                 User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "PREMIUM");
                 User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "REGULAR");
 
-                long adminUserId = userDAO.insert(adminUser);
                 long premiumUserId = userDAO.insert(premiumUser);
                 long regularUserId = userDAO.insert(regularUser);
 
-                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", (int)adminUserId);
                 Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", (int)premiumUserId);
                 Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", (int)regularUserId);
 
-                catDAO.insert(adminCat);
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
             }
