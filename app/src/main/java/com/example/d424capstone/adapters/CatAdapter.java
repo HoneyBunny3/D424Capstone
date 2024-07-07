@@ -27,13 +27,12 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     private final Context context;
     private final LayoutInflater mInflater;
     private final Repository repository;
-    private OnItemClickListener onItemClickListener;
 
     public CatAdapter(Context context, List<Cat> cats) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.cats = cats;
-        this.repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        this.repository = MyApplication.getInstance().getRepository();
     }
 
     @NonNull
@@ -48,11 +47,6 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
         if (cats != null) {
             Cat current = cats.get(position);
             holder.catItemView.setText(current.getCatName());
-            holder.itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(current);
-                }
-            });
         } else {
             holder.catItemView.setText("No cat profile found");
         }
@@ -66,10 +60,6 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     public void setCats(List<Cat> cats) {
         this.cats = cats;
         notifyDataSetChanged();
-    }
-
-    public List<Cat> getCats() {
-        return cats;
     }
 
     class CatViewHolder extends RecyclerView.ViewHolder {
@@ -103,13 +93,5 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
                 }).start();
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Cat cat);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
     }
 }

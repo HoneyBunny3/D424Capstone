@@ -3,6 +3,7 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -12,12 +13,17 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
+import com.example.d424capstone.adapters.CatAdapter;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Cat;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.List;
 
 public class CatProfileScreen extends BaseActivity {
 
@@ -27,6 +33,8 @@ public class CatProfileScreen extends BaseActivity {
     private ImageView catImageView;
     private Uri catImageUri;
     private Button saveButton, cancelButton;
+    private RecyclerView catRecyclerView;
+    private CatAdapter catAdapter;
     private int catID = -1; // Default value for new cat profiles
     private int userID;
 
@@ -53,6 +61,9 @@ public class CatProfileScreen extends BaseActivity {
         }
 
         initializeButtons();
+        initializeRecyclerView();
+        loadCatsForUser();
+
         initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -70,6 +81,7 @@ public class CatProfileScreen extends BaseActivity {
         catImageView.setImageResource(R.drawable.baseline_image_search_24);
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
+        catRecyclerView = findViewById(R.id.cat_recycler_view);
     }
 
     private void loadCatDetails() {
@@ -102,46 +114,74 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
+    private void initializeRecyclerView() {
+        catRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        catAdapter = new CatAdapter(this, null);
+        catRecyclerView.setAdapter(catAdapter);
+    }
+
+    private void loadCatsForUser() {
+        new Thread(() -> {
+            List<Cat> cats = repository.getCatsForUser(userID);
+            runOnUiThread(() -> {
+                if (cats != null && !cats.isEmpty()) {
+                    Log.d("CatProfileScreen", "Loaded cats: " + cats.size());
+                    catAdapter.setCats(cats);
+                } else {
+                    Log.d("CatProfileScreen", "No cats found for user: " + userID);
+                    showToast("No cats found for this user.");
+                }
+            });
+        }).start();
+    }
+
     private void saveCatProfile() {
         String catName = editName.getText().toString();
         String catAgeStr = editAge.getText().toString();
         String catBio = editBio.getText().toString();
 
-        if (catName.isEmpty() || catAgeStr.isEmpty() || catBio.isEmpty()) {
-            showToast("Please fill all fields");
+        if (catName.isEmpty()) {
+            showToast("Please enter your cat's name");
             return;
         }
 
-        int catAge;
-        try {
-            catAge = Integer.parseInt(catAgeStr);
-        } catch (NumberFormatException e) {
-            showToast("Please enter a valid age");
+        if (catAgeStr.isEmpty()) {
+            showToast("Please enter your cat's age");
             return;
         }
 
-        String imageUriString = (catImageUri != null) ? catImageUri.toString() : "";
+        int catAge = Integer.parseInt(catAgeStr);
+        String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
 
-        Cat cat = new Cat(catID == -1 ? 0 : catID, catName, catAge, imageUriString, catBio, userID);
+        if (catID == -1) {
+            catID = 0;
+        }
+
+        Cat cat = new Cat(catID, catName, catAge, imageUriString, catBio, userID);
 
         new Thread(() -> {
-            if (catID == -1) {
+            if (catID == 0) {
                 long newCatID = repository.insertCat(cat);
                 if (newCatID != -1) {
-                    runOnUiThread(() -> {
-                        showToast("Cat profile created");
-                        finish();
-                    });
+                    catID = (int) newCatID;
+                    runOnUiThread(this::finish);
                 } else {
                     runOnUiThread(() -> showToast("Error saving cat profile"));
                 }
             } else {
                 repository.updateCat(cat);
-                runOnUiThread(() -> {
-                    showToast("Cat profile updated");
-                    finish();
-                });
+                runOnUiThread(this::finish);
             }
+        }).start();
+    }
+
+    private void deleteCatProfile() {
+        new Thread(() -> {
+            repository.deleteCat(catID);
+            runOnUiThread(() -> {
+                showToast("Cat profile deleted");
+                finish();
+            });
         }).start();
     }
 

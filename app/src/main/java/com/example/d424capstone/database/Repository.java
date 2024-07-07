@@ -185,7 +185,16 @@ public class Repository {
 
     public List<Cat> getCatsForUser(int userID) {
         final List<Cat>[] cats = new List[1];
-        databaseWriteExecutor.execute(() -> cats[0] = catDAO.getCatsForUser(userID));
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            cats[0] = catDAO.getCatsForUser(userID);
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return cats[0];
     }
 
