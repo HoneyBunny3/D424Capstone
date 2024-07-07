@@ -66,7 +66,16 @@ public class UserProfileScreen extends BaseActivity {
 
         cancelButton.setOnClickListener(view -> finish());
 
-        catButton.setOnClickListener(view -> startActivity(new Intent(UserProfileScreen.this, CatProfileScreen.class)));
+        catButton.setOnClickListener(view -> {
+            int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+            if (userID == -1) {
+                showToast("Invalid user ID");
+                return;
+            }
+            Intent intent = new Intent(UserProfileScreen.this, CatProfileScreen.class);
+            intent.putExtra("userID", userID);
+            startActivity(intent);
+        });
     }
 
     private void setupPasswordVisibilityToggle() {

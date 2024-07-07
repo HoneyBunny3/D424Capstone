@@ -12,18 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.adapters.UserAdapter;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Cat;
-import com.example.d424capstone.entities.User;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 public class CatProfileScreen extends BaseActivity {
 
@@ -33,8 +27,6 @@ public class CatProfileScreen extends BaseActivity {
     private ImageView catImageView;
     private Uri catImageUri;
     private Button saveButton, cancelButton;
-//    private RecyclerView associatedUsersRecyclerView;
-    private UserAdapter userAdapter;
     private int catID = -1; // Default value for new cat profiles
     private int userID;
 
@@ -44,37 +36,25 @@ public class CatProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_profile_screen);
 
-        // Initialize activity components
         initViews();
+        repository = MyApplication.getInstance().getRepository();
 
-        // Initialize repository
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
-
-        // Retrieve intent extras
         catID = getIntent().getIntExtra("catID", -1);
         userID = getIntent().getIntExtra("userID", -1);
 
-        // Check if userID is valid
         if (userID == -1) {
+            showToast("Invalid user ID");
             finish();
             return;
         }
 
-        // Load cat profile details if editing an existing cat profile
         if (catID != -1) {
             loadCatDetails();
         }
 
-        // Initialize buttons and set click listeners
         initializeButtons();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
-        // Initialize RecyclerView
-//        initializeRecyclerView();
-
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -82,48 +62,38 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
-    // Initialize activity components
     private void initViews() {
         editName = findViewById(R.id.cat_name);
         editAge = findViewById(R.id.cat_age);
         editBio = findViewById(R.id.cat_bio);
         catImageView = findViewById(R.id.cat_image);
-        catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
+        catImageView.setImageResource(R.drawable.baseline_image_search_24);
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
-//        associatedUsersRecyclerView = findViewById(R.id.associated_users);
     }
 
-    // Load cat profiles details if editing an existing cat profile
     private void loadCatDetails() {
-        if (catID != -1) {
-            new Thread(() -> {
-                Cat cat = repository.getCatByID(catID);
+        new Thread(() -> {
+            Cat cat = repository.getCatByID(catID);
+            runOnUiThread(() -> {
                 if (cat != null) {
-                    runOnUiThread(() -> {
-                        editName.setText(cat.getCatName());
-                        editAge.setText(String.valueOf(cat.getCatAge()));
-                        editBio.setText(cat.getCatBio());
-                        if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
-                            catImageUri = Uri.parse(cat.getCatImage());
-                            catImageView.setImageURI(catImageUri);
-                        }
-                    });
+                    editName.setText(cat.getCatName());
+                    editAge.setText(String.valueOf(cat.getCatAge()));
+                    editBio.setText(cat.getCatBio());
+                    if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
+                        catImageUri = Uri.parse(cat.getCatImage());
+                        catImageView.setImageURI(catImageUri);
+                    }
                 } else {
-                    runOnUiThread(() -> showToast("Error loading cat details"));
+                    showToast("Error loading cat details");
                 }
-            }).start();
-        }
+            });
+        }).start();
     }
 
     private void initializeButtons() {
-        // Initialize the save button
         saveButton.setOnClickListener(view -> saveCatProfile());
-
-        // Initialize the cancel button
         cancelButton.setOnClickListener(view -> finish());
-
-        // Set an OnClickListener to the catImageView to allow picking an image
         catImageView.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -132,78 +102,49 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
-//    private void initializeRecyclerView() {
-//        associatedUsersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        userAdapter = new UserAdapter(this, null);
-//        associatedUsersRecyclerView.setAdapter(userAdapter);
-//        loadAssociatedUsers();
-//    }
-
-    private void loadAssociatedUsers() {
-        new Thread(() -> {
-            List<User> associatedUsers = repository.getUsersForCat(catID);
-            runOnUiThread(() -> {
-                userAdapter.setUsers(associatedUsers);
-            });
-        }).start();
-    }
-
     private void saveCatProfile() {
         String catName = editName.getText().toString();
         String catAgeStr = editAge.getText().toString();
         String catBio = editBio.getText().toString();
 
-        if (catName.isEmpty()) {
-            showToast("Please enter your cat's name");
+        if (catName.isEmpty() || catAgeStr.isEmpty() || catBio.isEmpty()) {
+            showToast("Please fill all fields");
             return;
         }
 
-        if (catAgeStr.isEmpty()) {
-            showToast("Please enter your cat's age");
+        int catAge;
+        try {
+            catAge = Integer.parseInt(catAgeStr);
+        } catch (NumberFormatException e) {
+            showToast("Please enter a valid age");
             return;
         }
 
-        int catAge = Integer.parseInt(catAgeStr);
-        String imageUriString = (catImageUri != null) ? catImageUri.toString() : "android.resource://" + getPackageName() + "/" + R.drawable.baseline_image_search_24;
+        String imageUriString = (catImageUri != null) ? catImageUri.toString() : "";
 
-        // Indicate new cat profile if ID is not set
-        if (catID == -1) {
-            catID = 0; // Indicate new cat profile
-        }
-
-        Cat cat = new Cat(catID, catName, catAge, imageUriString, catBio, userID);
+        Cat cat = new Cat(catID == -1 ? 0 : catID, catName, catAge, imageUriString, catBio, userID);
 
         new Thread(() -> {
-            if (catID == 0) {
-                // Insert new cat
+            if (catID == -1) {
                 long newCatID = repository.insertCat(cat);
                 if (newCatID != -1) {
-                    catID = (int) newCatID;
-                    runOnUiThread(this::finish);
+                    runOnUiThread(() -> {
+                        showToast("Cat profile created");
+                        finish();
+                    });
                 } else {
                     runOnUiThread(() -> showToast("Error saving cat profile"));
                 }
             } else {
-                // Update existing cat
                 repository.updateCat(cat);
-                runOnUiThread(this::finish);
+                runOnUiThread(() -> {
+                    showToast("Cat profile updated");
+                    finish();
+                });
             }
         }).start();
     }
 
-    private void deleteCatProfile() {
-        if (catID != -1) {
-            new Thread(() -> {
-                repository.deleteCat(catID);
-                runOnUiThread(() -> {
-                    showToast("Cat profile deleted");
-                    finish();
-                });
-            }).start();
-        }
-    }
-
-    // Show a toast message
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, message, Toast.LENGTH_LONG).show());
     }
