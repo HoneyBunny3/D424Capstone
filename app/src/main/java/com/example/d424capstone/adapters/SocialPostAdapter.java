@@ -44,6 +44,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         holder.itemView.setOnClickListener(v -> {
             currentPost.incrementLikes();
             repository.updateSocialPost(currentPost);
+            updatePost(currentPost);
             holder.likesTextView.setText("Likes: " + currentPost.getLikes());
             Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
         });
@@ -57,6 +58,16 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
     public void addPost(SocialPost post) {
         socialPosts.add(post);
         notifyItemInserted(socialPosts.size() - 1);
+    }
+
+    public void updatePost(SocialPost updatedPost) {
+        for (int i = 0; i < socialPosts.size(); i++) {
+            if (socialPosts.get(i).getSocialPostID() == updatedPost.getSocialPostID()) {
+                socialPosts.set(i, updatedPost);
+                notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     public class SocialPostViewHolder extends RecyclerView.ViewHolder {
