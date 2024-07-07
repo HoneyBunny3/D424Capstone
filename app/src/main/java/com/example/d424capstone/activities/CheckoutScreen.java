@@ -125,24 +125,28 @@ public class CheckoutScreen extends BaseActivity {
 
         if (validateCard(cardNumber, cardExpiry, cardCVV)) {
             String confirmationNumber = generateConfirmationNumber();
-            double totalPaid = getTotalPaid();
-            String purchasedItems = getPurchasedItems();
-            User currentUser = repository.getCurrentUser();
-            if (currentUser != null) {
-                int userID = currentUser.getUserID();
-                List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
-                Date orderDate = new Date(); // Current date and time
-                saveOrder(userID, cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems, orderDate);
-                clearCart();
-                Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
-                intent.putExtra("confirmationNumber", confirmationNumber);
-                intent.putExtra("totalPaid", totalPaid);
-                intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
-                intent.putParcelableArrayListExtra("cartItems", new ArrayList<>(cartItems)); // Pass cart items
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "No user is currently logged in.", Toast.LENGTH_SHORT).show();
-            }
+            new Thread(() -> {
+                double totalPaid = getTotalPaid();
+                String purchasedItems = getPurchasedItems();
+                User currentUser = repository.getCurrentUser();
+                if (currentUser != null) {
+                    int userID = currentUser.getUserID();
+                    List<CartItem> cartItems = repository.getAllCartItems(); // Get cart items before clearing
+                    Date orderDate = new Date(); // Current date and time
+                    saveOrder(userID, cardNumber, cardExpiry, cardCVV, confirmationNumber, totalPaid, purchasedItems, orderDate);
+                    clearCart();
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(CheckoutScreen.this, OrderConfirmationScreen.class);
+                        intent.putExtra("confirmationNumber", confirmationNumber);
+                        intent.putExtra("totalPaid", totalPaid);
+                        intent.putExtra("last4Digits", cardNumber.substring(cardNumber.length() - 4));
+                        intent.putParcelableArrayListExtra("cartItems", new ArrayList<>(cartItems)); // Pass cart items
+                        startActivity(intent);
+                    });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(this, "No user is currently logged in.", Toast.LENGTH_SHORT).show());
+                }
+            }).start();
         } else {
             Toast.makeText(this, "Invalid credit card information", Toast.LENGTH_SHORT).show();
         }
@@ -152,21 +156,24 @@ public class CheckoutScreen extends BaseActivity {
         return cardNumber.equals("1234567812345678") && cardExpiry.equals("12/34") && cardCVV.equals("123");
     }
 
+//    private void saveOrder(int userID, String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, Date orderDate) {
+//        new Thread(() -> {
+//            Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems, orderDate);
+//            order.setConfirmationNumber(confirmationNumber);
+//            repository.insertOrderForCurrentUser(order);
+//        }).start();
+//    }
+
     private void saveOrder(int userID, String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, Date orderDate) {
         new Thread(() -> {
             Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems, orderDate);
             order.setConfirmationNumber(confirmationNumber);
-            repository.insertOrderForCurrentUser(order);
+            repository.insertOrder(order);
         }).start();
     }
 
     private void clearCart() {
         new Thread(() -> repository.clearCartItems()).start();
-    }
-
-    private String generateConfirmationNumber() {
-        Random random = new Random();
-        return String.valueOf(100000 + random.nextInt(900000));
     }
 
     private double getTotalPaid() {
@@ -185,5 +192,10 @@ public class CheckoutScreen extends BaseActivity {
             purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
         }
         return purchasedItems.toString();
+    }
+
+    private String generateConfirmationNumber() {
+        Random random = new Random();
+        return String.valueOf(100000 + random.nextInt(900000));
     }
 }

@@ -129,9 +129,17 @@ public class Repository {
         return user[0];
     }
 
+//    public User getCurrentUser() {
+//        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+//        return getUserByID(userID);
+//    }
+
     public User getCurrentUser() {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-        return getUserByID(userID);
+        if (userID != -1) {
+            return getUserByID(userID);
+        }
+        return null;
     }
 
     // StoreItem-related methods
@@ -202,9 +210,11 @@ public class Repository {
 
     // CartItem-related methods
     public List<CartItem> getAllCartItems() {
-        final List<CartItem>[] items = new List[1];
-        databaseWriteExecutor.execute(() -> items[0] = cartItemDAO.getAllCartItems());
-        return items[0];
+        List<CartItem> cartItems = cartItemDAO.getAllCartItems();
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
+        }
+        return cartItems;
     }
 
     public void insertCartItem(CartItem cartItem) {
@@ -254,7 +264,14 @@ public class Repository {
 
     public Order getLatestOrderForUser(int userID) {
         final Order[] order = new Order[1];
-        databaseWriteExecutor.execute(() -> order[0] = orderDAO.getLatestOrderForUser(userID));
+        databaseWriteExecutor.execute(() -> {
+            order[0] = orderDAO.getLatestOrderForUser(userID);
+        });
+        try {
+            Thread.sleep(500); // Small delay to ensure background execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return order[0];
     }
 

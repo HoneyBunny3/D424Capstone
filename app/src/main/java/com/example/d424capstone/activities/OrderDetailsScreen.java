@@ -67,10 +67,16 @@ public class OrderDetailsScreen extends BaseActivity {
 
                     runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
                 } else {
-                    runOnUiThread(() -> Toast.makeText(OrderDetailsScreen.this, "No order found for the current user.", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> {
+                        orderDetailsTextView.setText("No order found for the current user.");
+                        Toast.makeText(OrderDetailsScreen.this, "No order found for the current user.", Toast.LENGTH_SHORT).show();
+                    });
                 }
             } else {
-                runOnUiThread(() -> Toast.makeText(OrderDetailsScreen.this, "No user is currently logged in.", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> {
+                    orderDetailsTextView.setText("No user is currently logged in.");
+                    Toast.makeText(OrderDetailsScreen.this, "No user is currently logged in.", Toast.LENGTH_SHORT).show();
+                });
             }
         }).start();
     }
