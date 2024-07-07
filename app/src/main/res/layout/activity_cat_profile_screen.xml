@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.CatProfileScreen">
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -16,10 +15,10 @@
         android:layout_gravity="start"
         app:menu="@menu/drawer_menu" />
 
-    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/cat_profile_title"
@@ -32,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@id/cat_profile_title"
             app:layout_constraintWidth_percent="0.8" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -53,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@id/cat_name"
             app:layout_constraintWidth_percent="0.8" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_bio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -92,14 +91,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cat_image" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/associated_users"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cancel_cat" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/associated_users"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/cancel_cat" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

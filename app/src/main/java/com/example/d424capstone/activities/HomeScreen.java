@@ -45,7 +45,7 @@ public class HomeScreen extends BaseActivity {
         buttonLogin.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserLoginScreen.class)));
 
         Button buttonSignup = findViewById(R.id.tousersignupscreen);
-        buttonSignup.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserProfileScreen.class)));
+        buttonSignup.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserSignUpScreen.class)));
 
         Button buttonShopping = findViewById(R.id.toshoppingscreen);
         buttonShopping.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, ShoppingScreen.class)));

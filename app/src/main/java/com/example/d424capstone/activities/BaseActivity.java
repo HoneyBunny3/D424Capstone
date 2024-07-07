@@ -94,8 +94,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.home, HomeScreen.class);
         activityMap.put(R.id.account_login, UserLoginScreen.class);
-        activityMap.put(R.id.account_signup, UserProfileScreen.class); // Consolidated to UserProfileActivity
-        activityMap.put(R.id.profile, UserProfileScreen.class); // Consolidated to UserProfileActivity
+        activityMap.put(R.id.account_signup, UserSignUpScreen.class);
+        activityMap.put(R.id.profile, UserProfileScreen.class);
         activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
         activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);

@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.UserProfileScreen">
+    tools:context=".activities.UserSignUpScreen">
 
     <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="100dp"
-            android:text="User Profile Page"
+            android:text="Sign Up Page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -149,10 +149,10 @@
             app:layout_constraintTop_toTopOf="@id/password" />
 
         <Button
-            android:id="@+id/save_user"
+            android:id="@+id/sign_up_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="Sign Up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/password" />
@@ -164,17 +164,7 @@
             android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/save_user" />
-
-        <Button
-            android:id="@+id/cat_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cat Profiles"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cancel_user" />
+            app:layout_constraintTop_toBottomOf="@id/sign_up_user" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

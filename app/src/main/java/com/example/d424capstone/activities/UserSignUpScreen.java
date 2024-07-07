@@ -1,7 +1,6 @@
 package com.example.d424capstone.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -21,26 +21,21 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
-public class UserProfileScreen extends BaseActivity {
+public class UserSignUpScreen extends AppCompatActivity {
     private Repository repository;
-    private SharedPreferences sharedPreferences;
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
-    private Button saveButton, cancelButton, catButton;
+    private Button signUpButton, cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_user_profile_screen);
+        setContentView(R.layout.activity_user_sign_up_screen);
 
-        repository = MyApplication.getInstance().getRepository();
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         initViews();
         initializeButtons();
-        initializeDrawer();
-
-        loadUserProfile();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -55,18 +50,14 @@ public class UserProfileScreen extends BaseActivity {
         lastNameEditText = findViewById(R.id.lastName);
         passwordEditText = findViewById(R.id.password);
         phoneNumberEditText = findViewById(R.id.phone_number);
-        saveButton = findViewById(R.id.save_user);
+        signUpButton = findViewById(R.id.sign_up_user);
         cancelButton = findViewById(R.id.cancel_user);
-        catButton = findViewById(R.id.cat_button);
         setupPasswordVisibilityToggle();
     }
 
     private void initializeButtons() {
-        saveButton.setOnClickListener(view -> handleProfileUpdate());
-
+        signUpButton.setOnClickListener(view -> handleSignUp());
         cancelButton.setOnClickListener(view -> finish());
-
-        catButton.setOnClickListener(view -> startActivity(new Intent(UserProfileScreen.this, CatProfileScreen.class)));
     }
 
     private void setupPasswordVisibilityToggle() {
@@ -83,13 +74,7 @@ public class UserProfileScreen extends BaseActivity {
         });
     }
 
-    private void handleProfileUpdate() {
-        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-        if (userID == -1) {
-            showToast("Invalid user ID");
-            return;
-        }
-
+    private void handleSignUp() {
         String email = emailEditText.getText().toString();
         String firstName = firstNameEditText.getText().toString();
         String lastName = lastNameEditText.getText().toString();
@@ -101,34 +86,15 @@ public class UserProfileScreen extends BaseActivity {
         }
 
         new Thread(() -> {
-            User user = new User(userID, firstName, lastName, email, phone, password, UserRoles.REGULAR);
-            repository.updateUser(user);
+            User existingUser = repository.getUserByEmail(email);
             runOnUiThread(() -> {
-                showToast("Profile updated successfully");
-                finish();
-            });
-        }).start();
-    }
-
-    private void loadUserProfile() {
-        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-        if (userID == -1) {
-            showToast("Invalid user ID");
-            finish();
-            return;
-        }
-
-        new Thread(() -> {
-            User user = repository.getUserByID(userID);
-            runOnUiThread(() -> {
-                if (user != null) {
-                    firstNameEditText.setText(user.getFirstName());
-                    lastNameEditText.setText(user.getLastName());
-                    emailEditText.setText(user.getEmail());
-                    phoneNumberEditText.setText(user.getPhone());
-                    passwordEditText.setText(user.getPassword());
+                if (existingUser != null) {
+                    showAlert("Registration Error", "Email already exists.");
                 } else {
-                    showToast("User not found");
+                    User user = new User(0, firstName, lastName, email, phone, password, UserRoles.REGULAR);
+                    repository.insertUser(user);
+                    showToast("Sign up successful");
+                    startActivity(new Intent(UserSignUpScreen.this, HomeScreen.class));
                     finish();
                 }
             });
@@ -187,6 +153,6 @@ public class UserProfileScreen extends BaseActivity {
     }
 
     private void showToast(String message) {
-        runOnUiThread(() -> Toast.makeText(UserProfileScreen.this, message, Toast.LENGTH_LONG).show());
+        runOnUiThread(() -> Toast.makeText(UserSignUpScreen.this, message, Toast.LENGTH_LONG).show());
     }
 }

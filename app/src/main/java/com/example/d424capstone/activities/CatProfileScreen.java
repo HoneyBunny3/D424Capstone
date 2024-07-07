@@ -33,7 +33,7 @@ public class CatProfileScreen extends BaseActivity {
     private ImageView catImageView;
     private Uri catImageUri;
     private Button saveButton, cancelButton;
-    private RecyclerView associatedUsersRecyclerView;
+//    private RecyclerView associatedUsersRecyclerView;
     private UserAdapter userAdapter;
     private int catID = -1; // Default value for new cat profiles
     private int userID;
@@ -72,7 +72,7 @@ public class CatProfileScreen extends BaseActivity {
         initializeDrawer();
 
         // Initialize RecyclerView
-        initializeRecyclerView();
+//        initializeRecyclerView();
 
         // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -91,7 +91,7 @@ public class CatProfileScreen extends BaseActivity {
         catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
-        associatedUsersRecyclerView = findViewById(R.id.associated_users);
+//        associatedUsersRecyclerView = findViewById(R.id.associated_users);
     }
 
     // Load cat profiles details if editing an existing cat profile
@@ -132,12 +132,12 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
-    private void initializeRecyclerView() {
-        associatedUsersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userAdapter = new UserAdapter(this, null);
-        associatedUsersRecyclerView.setAdapter(userAdapter);
-        loadAssociatedUsers();
-    }
+//    private void initializeRecyclerView() {
+//        associatedUsersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        userAdapter = new UserAdapter(this, null);
+//        associatedUsersRecyclerView.setAdapter(userAdapter);
+//        loadAssociatedUsers();
+//    }
 
     private void loadAssociatedUsers() {
         new Thread(() -> {

@@ -44,6 +44,9 @@
             android:name=".activities.UserProfileScreen"
             android:exported="false" />
         <activity
+            android:name=".activities.UserSignUpScreen"
+            android:exported="false" />
+        <activity
             android:name=".activities.PasswordRecoveryScreen"
             android:exported="false" />
         <activity
@@ -54,12 +57,6 @@
             android:exported="false" />
         <activity
             android:name=".activities.CatSocialScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activities.AdminUserManagementScreen"
-            android:exported="false" />
-        <activity
-            android:name=".activities.AdminStoreManagementScreen"
             android:exported="false" />
         <activity
             android:name=".activities.ContactUsScreen"
