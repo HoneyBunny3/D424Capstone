@@ -32,7 +32,7 @@ public class StoreItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return storeItems.size();
+        return storeItems != null ? storeItems.size() : 0;
     }
 
     @Override

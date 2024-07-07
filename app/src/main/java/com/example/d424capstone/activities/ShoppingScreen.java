@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,8 +42,12 @@ public class ShoppingScreen extends BaseActivity {
 
             runOnUiThread(() -> {
                 ListView listView = findViewById(R.id.storeItemListView);
-                StoreItemAdapter adapter = new StoreItemAdapter(this, storeItems);
-                listView.setAdapter(adapter);
+                if (storeItems != null && !storeItems.isEmpty()) {
+                    StoreItemAdapter adapter = new StoreItemAdapter(this, storeItems);
+                    listView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(this, "No store items available", Toast.LENGTH_SHORT).show();
+                }
             });
         }).start();
     }

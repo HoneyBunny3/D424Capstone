@@ -49,13 +49,13 @@ public class Repository {
                 User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "PREMIUM");
                 User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "REGULAR");
 
-                userDAO.insert(adminUser);
-                userDAO.insert(premiumUser);
-                userDAO.insert(regularUser);
+                long adminUserId = userDAO.insert(adminUser);
+                long premiumUserId = userDAO.insert(premiumUser);
+                long regularUserId = userDAO.insert(regularUser);
 
-                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", adminUser.getUserID());
-                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", premiumUser.getUserID());
-                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", regularUser.getUserID());
+                Cat adminCat = new Cat(0, "Fox", 3, "", "Playful cat", (int)adminUserId);
+                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", (int)premiumUserId);
+                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", (int)regularUserId);
 
                 catDAO.insert(adminCat);
                 catDAO.insert(premiumCat);
@@ -141,7 +141,16 @@ public class Repository {
     // StoreItem-related methods
     public List<StoreItem> getAllStoreItems() {
         final List<StoreItem>[] items = new List[1];
-        databaseWriteExecutor.execute(() -> items[0] = storeItemDAO.getAllStoreItems());
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            items[0] = storeItemDAO.getAllStoreItems();
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return items[0];
     }
 
