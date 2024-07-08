@@ -179,7 +179,16 @@ public class Repository {
     // Cat-related methods
     public Cat getCatByID(int catID) {
         final Cat[] cat = new Cat[1];
-        databaseWriteExecutor.execute(() -> cat[0] = catDAO.getCatByID(catID));
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            cat[0] = catDAO.getCatByID(catID);
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return cat[0];
     }
 

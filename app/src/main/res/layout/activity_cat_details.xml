@@ -8,13 +8,20 @@
     android:layout_height="match_parent"
     tools:context=".activities.CatDetails">
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/cat_details_title"
             style="@style/HomeTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +40,7 @@
             android:text="Cat Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintTop_toBottomOf="@id/cat_details_title"
             app:layout_constraintWidth_percent="0.8" />
 
         <TextView
@@ -44,7 +51,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cat_name_label" />
+            app:layout_constraintTop_toBottomOf="@+id/cat_name_label"
+            app:layout_constraintWidth_percent="0.8"/>
 
         <!-- Cat Age Label -->
         <TextView
@@ -64,7 +72,8 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_age_label" />
+            app:layout_constraintTop_toBottomOf="@id/cat_age_label"
+            app:layout_constraintWidth_percent="0.8"/>
 
         <!-- Cat Bio Label -->
         <TextView
@@ -84,7 +93,8 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_bio_label" />
+            app:layout_constraintTop_toBottomOf="@id/cat_bio_label"
+            app:layout_constraintWidth_percent="0.8"/>
 
         <!-- Cat Photo Label -->
         <TextView
@@ -104,7 +114,8 @@
             android:contentDescription="Cat Picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_bio_details" />
+            app:layout_constraintTop_toBottomOf="@id/cat_bio_details"
+            app:layout_constraintWidth_percent="0.8"/>
 
         <Button
             android:id="@+id/back_button"
@@ -115,12 +126,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_image_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

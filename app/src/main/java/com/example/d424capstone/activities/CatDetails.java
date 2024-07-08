@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -41,6 +42,9 @@ public class CatDetails extends BaseActivity {
 
         if (catID != -1) {
             loadCatDetails(catID);
+        } else {
+            showToast("Invalid cat ID");
+            finish();
         }
 
         backButton.setOnClickListener(view -> finish());
@@ -64,8 +68,8 @@ public class CatDetails extends BaseActivity {
     private void loadCatDetails(int catID) {
         new Thread(() -> {
             Cat cat = repository.getCatByID(catID);
-            runOnUiThread(() -> {
-                if (cat != null) {
+            if (cat != null) {
+                runOnUiThread(() -> {
                     catNameTextView.setText(cat.getCatName());
                     catAgeTextView.setText(String.valueOf(cat.getCatAge()));
                     catBioTextView.setText(cat.getCatBio());
@@ -74,8 +78,17 @@ public class CatDetails extends BaseActivity {
                     } else {
                         catImageView.setImageResource(R.drawable.baseline_image_search_24);
                     }
-                }
-            });
+                });
+            } else {
+                runOnUiThread(() -> {
+                    showToast("Error loading cat details");
+                    finish();
+                });
+            }
         }).start();
+    }
+
+    private void showToast(String message) {
+        runOnUiThread(() -> Toast.makeText(CatDetails.this, message, Toast.LENGTH_LONG).show());
     }
 }

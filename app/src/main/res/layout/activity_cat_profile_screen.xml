@@ -29,7 +29,8 @@
             android:text="Hearth's Cat Profile Page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1"/>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_name"
