@@ -21,7 +21,7 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
-public class UserSignUpScreen extends AppCompatActivity {
+public class UserSignUpScreen extends BaseActivity {
     private Repository repository;
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
     private Button signUpButton, cancelButton;
@@ -36,6 +36,9 @@ public class UserSignUpScreen extends AppCompatActivity {
 
         initViews();
         initializeButtons();
+
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

@@ -4,6 +4,7 @@
         <!-- Base application theme -->
             <item name="android:colorBackground">@color/mint_green</item>
     </style>
+
     <!--    Home Page Button Styling-->
     <style name="HomeButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
@@ -12,54 +13,155 @@
         <item name="android:textColor">@color/rich_black</item>
         <item name="android:padding">8dp</item>
     </style>
+
     <!--    Add Button Styling-->
     <style name="AddButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:backgroundTint">@color/add_new_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
     <!--    Save Button Styling-->
     <style name="SaveButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:backgroundTint">@color/save_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
-    <!--    Delete Button Styling-->
+    <!--    Delete/Remove Button Styling-->
     <style name="DeleteButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">0dp</item>
         <item name="android:backgroundTint">@color/delete_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
 
-    <!--    Set Alerts Button Styling-->
-    <style name="SetAlertsButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">20sp</item>
+    <!--    Sign-Up Button Styling-->
+    <style name="SignUpButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:backgroundTint">@color/set_alerts_button</item>
+        <item name="android:backgroundTint">@color/sign_up_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
 
     <!--    Share Button Styling-->
     <style name="ShareButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:backgroundTint">@color/share_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
 
-    <!--    Home Page Text View Styling-->
-    <style name="HomeTextViewStyle">
+    <!--    Cancel Button Styling-->
+    <style name="CancelButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/cancel_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Profile Button Styling-->
+    <style name="ProfileButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/profiles_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Back Button Styling-->
+    <style name="BackButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/back_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Go-To Button Styling-->
+    <style name="GoToButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/goto_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Login Button Styling-->
+    <style name="LoginButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/login_button</item>
+        <item name="android:textColor">@color/ghost_white</item>
+    </style>
+
+    <!--    Sign-In Button Styling-->
+    <style name="SignInButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/signin_button</item>
+        <item name="android:textColor">@color/ghost_white</item>
+    </style>
+
+    <!--    Social Button Styling-->
+    <style name="SocialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/social_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Shopping Button Styling-->
+    <style name="ShoppingButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/shopping_button</item>
+        <item name="android:textColor">@color/rich_black</item>
+    </style>
+
+    <!--    Page Title Text View Styling-->
+    <style name="TitleTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/border_page_titles</item>
+        <item name="android:hint">@color/dark_slate_gray</item>
+    </style>
+
+    <!--    Label Text View Styling-->
+    <style name="LabelTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:background">@drawable/border_background</item>
+        <item name="android:hint">@color/dark_slate_gray</item>
+    </style>
+
+    <!--    Input Text View Styling-->
+    <style name="InputTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@color/rich_black</item>
         <item name="android:textSize">16sp</item>
         <item name="android:background">@android:drawable/edit_text</item>
+        <item name="android:hint">@color/dark_slate_gray</item>
+    </style>
+
+    <!--    Display Text View Styling-->
+    <style name="DisplayTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/border_display_background</item>
         <item name="android:hint">@color/dark_slate_gray</item>
     </style>
 </resources>

@@ -17,6 +17,7 @@
 
     <Button
         android:id="@+id/button_save_post"
+        style="@style/SaveButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"

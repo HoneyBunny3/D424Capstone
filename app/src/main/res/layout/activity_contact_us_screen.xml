@@ -8,18 +8,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.ContactUsScreen">
 
-    <!-- Navigation Drawer -->
-    <FrameLayout
+    <!-- Main Content -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
             <!--Page Title-->
             <TextView
                 android:id="@+id/textView"
-                style="@style/HomeTextViewStyle"
+                style="@style/TitleTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="100dp"
@@ -151,13 +149,11 @@
             android:visibility="gone"
             android:layout_gravity="center" />
 
-    </FrameLayout>
-
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_menu" />
+    android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

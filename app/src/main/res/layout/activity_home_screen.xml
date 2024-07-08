@@ -8,59 +8,75 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeScreen">
 
+    <!-- Main Content -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
-            style="@style/HomeTextViewStyle"
+            android:id="@+id/home_text_view"
+            style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="75dp"
-            android:text="Welcome to Hearth's Stop and Shop! \nYour One Stop Shop For All Your Cat Needs!"
+            android:layout_margin="100dp"
+            android:text="Welcome to Hearth's Stop n' Shop! \n\nYour One Stop Shop For All Your Cat Needs!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
-        <Button
-            android:id="@+id/touserloginscreen"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User Login"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/home_text_view">
 
-        <Button
-            android:id="@+id/tousersignupscreen"
-            style="@style/HomeButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User Sign Up"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/touserloginscreen" />
+            <Button
+                android:id="@+id/touserloginscreen"
+                style="@style/LoginButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="User Login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <Button
+                android:id="@+id/tousersignupscreen"
+                style="@style/SignInButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="User Sign Up"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/touserloginscreen" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/tocatsocialscreen"
-            style="@style/HomeButtonStyle"
+            style="@style/SocialButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cat Social"
+            android:text="Hearth's Social Gathering"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tousersignupscreen" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonContainer" />
 
         <Button
             android:id="@+id/toshoppingscreen"
-            style="@style/HomeButtonStyle"
+            style="@style/ShoppingButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shopping"
+            android:text="Hearth's Stop and Shop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tocatsocialscreen" />

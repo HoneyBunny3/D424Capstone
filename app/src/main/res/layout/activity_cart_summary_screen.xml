@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.CartSummaryScreen">
 
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +16,7 @@
 
         <TextView
             android:id="@+id/textView"
-            style="@style/HomeTextViewStyle"
+            style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="100dp"
@@ -77,18 +78,21 @@
 
             <Button
                 android:id="@+id/placeOrderButton"
+                style="@style/HomeButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Place Order" />
 
             <Button
                 android:id="@+id/clearCartButton"
+                style="@style/HomeButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clear Cart" />
 
             <Button
                 android:id="@+id/backToShoppingButton"
+                style="@style/HomeButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Back to Shopping" />

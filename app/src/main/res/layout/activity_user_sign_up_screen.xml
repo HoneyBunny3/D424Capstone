@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.UserSignUpScreen">
 
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,11 +16,11 @@
 
         <TextView
             android:id="@+id/textView"
-            style="@style/HomeTextViewStyle"
+            style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="100dp"
-            android:text="User Sign-Up Page"
+            android:text="Hearth's User Sign-Up Page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -142,8 +143,19 @@
             app:layout_constraintStart_toEndOf="@id/password"
             app:layout_constraintTop_toTopOf="@id/password" />
 
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password">
+
         <Button
             android:id="@+id/sign_up_user"
+            style="@style/SignUpButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign Up"
@@ -153,12 +165,14 @@
 
         <Button
             android:id="@+id/cancel_user"
+            style="@style/CancelButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_up_user" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

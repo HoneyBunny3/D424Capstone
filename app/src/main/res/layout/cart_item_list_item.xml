@@ -10,31 +10,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:hint="Item" />
 
     <TextView
         android:id="@+id/cartItemPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:hint="price" />
 
     <EditText
         android:id="@+id/cartItemQuantityEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Quantity"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="Quantity" />
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
     <Button
         android:id="@+id/cartItemUpdateButton"
+        style="@style/SaveButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update" />
 
     <Button
         android:id="@+id/cartItemRemoveButton"
+        style="@style/DeleteButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remove" />
+    </LinearLayout>
 </LinearLayout>

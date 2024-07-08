@@ -70,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.logout) {
+            if (id == R.id.user_logout) {
                 handleLogout();
                 return true;
             }
@@ -92,14 +92,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initializeActivityMap() {
         activityMap = new SparseArray<>();
-        activityMap.put(R.id.home, HomeScreen.class);
+        activityMap.put(R.id.cat_home, HomeScreen.class);
         activityMap.put(R.id.account_login, UserLoginScreen.class);
         activityMap.put(R.id.account_signup, UserSignUpScreen.class);
-        activityMap.put(R.id.profile, UserProfileScreen.class);
+        activityMap.put(R.id.user_profile, UserProfileScreen.class);
         activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
         activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
-        activityMap.put(R.id.shopping, ShoppingScreen.class);
+        activityMap.put(R.id.cat_shopping, ShoppingScreen.class);
         activityMap.put(R.id.contact_us, ContactUsScreen.class);
     }
 

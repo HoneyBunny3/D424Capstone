@@ -8,43 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".activities.PremiumProductManagementScreen">
 
-    <!-- Main content -->
-
-    <!-- Navigation Drawer -->
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/touserloginscreen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.486">
-
-            <TextView
-                android:id="@+id/featuredItemTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Featured Item"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/mostLikedPostTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Most Liked Post"
-                android:textSize="18sp" />
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textView"
-            style="@style/HomeTextViewStyle"
+            style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hearth's Premium Product Management Page"

@@ -8,13 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.CatProfileScreen">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_menu" />
-
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +16,7 @@
 
         <TextView
             android:id="@+id/cat_profile_title"
-            style="@style/HomeTextViewStyle"
+            style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
@@ -34,6 +28,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_name"
+            style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Cat Name"
@@ -44,6 +39,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_age"
+            style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Cat Age"
@@ -55,6 +51,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_bio"
+            style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Cat Bio"
@@ -76,7 +73,7 @@
 
         <Button
             android:id="@+id/save_cat"
-            style="@style/HomeButtonStyle"
+            style="@style/SaveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
@@ -85,7 +82,7 @@
 
         <Button
             android:id="@+id/cancel_cat"
-            style="@style/HomeButtonStyle"
+            style="@style/CancelButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
@@ -102,4 +99,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cancel_cat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

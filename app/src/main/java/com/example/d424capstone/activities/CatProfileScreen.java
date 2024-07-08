@@ -64,6 +64,7 @@ public class CatProfileScreen extends BaseActivity {
         initializeRecyclerView();
         loadCatsForUser();
 
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
