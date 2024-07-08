@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.activities.CatProfileScreen;
+import com.example.d424capstone.activities.CatDetails;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Cat;
 
@@ -74,7 +74,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 final Cat current = cats.get(position);
-                Intent intent = new Intent(context, CatProfileScreen.class);
+                Intent intent = new Intent(context, CatDetails.class); // Navigate to CatDetails
                 intent.putExtra("catID", current.getCatID());
                 intent.putExtra("userID", current.getUserID());
                 context.startActivity(intent);

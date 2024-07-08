@@ -25,42 +25,83 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
+        <!-- Cat Name Label -->
+        <TextView
+            android:id="@+id/cat_name_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cat Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintWidth_percent="0.8" />
+
         <TextView
             android:id="@+id/cat_name_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cat Name"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/cat_name_label" />
+
+        <!-- Cat Age Label -->
+        <TextView
+            android:id="@+id/cat_age_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cat Age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_name_details"
+            app:layout_constraintWidth_percent="0.8" />
 
         <TextView
             android:id="@+id/cat_age_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cat Age"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_name_details" />
+            app:layout_constraintTop_toBottomOf="@id/cat_age_label" />
+
+        <!-- Cat Bio Label -->
+        <TextView
+            android:id="@+id/cat_bio_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cat Bio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_age_details"
+            app:layout_constraintWidth_percent="0.8" />
 
         <TextView
             android:id="@+id/cat_bio_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cat Bio"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_age_details" />
+            app:layout_constraintTop_toBottomOf="@id/cat_bio_label" />
+
+        <!-- Cat Photo Label -->
+        <TextView
+            android:id="@+id/cat_photo_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cat Picture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_bio_details"
+            app:layout_constraintWidth_percent="0.8" />
 
         <ImageView
             android:id="@+id/cat_image_details"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:contentDescription="Cat Image"
+            android:contentDescription="Cat Picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_bio_details" />
