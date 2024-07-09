@@ -15,88 +15,98 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/cart_summary_text_view"
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="100dp"
+            android:layout_margin="50dp"
             android:text="Hearth's Cart Summary Page"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:id="@+id/cartItemListView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="391dp"
+            android:layout_height="251dp"
             android:layout_marginTop="16dp"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textView"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/subtotalTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/subtotalTextView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cart_summary_text_view" />
 
         <TextView
             android:id="@+id/subtotalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_marginTop="24dp"
             android:text="Subtotal: $0.00"
-            app:layout_constraintBottom_toTopOf="@id/taxTextView"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cartItemListView" />
 
         <TextView
             android:id="@+id/taxTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
             android:text="Tax: $0.00"
-            app:layout_constraintBottom_toTopOf="@id/totalAmountTextView"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/subtotalTextView" />
 
         <TextView
             android:id="@+id/totalAmountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
             android:text="Total: $0.00"
-            app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/taxTextView" />
 
         <LinearLayout
             android:id="@+id/buttonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/totalAmountTextView">
 
             <Button
                 android:id="@+id/placeOrderButton"
-                style="@style/HomeButtonStyle"
+                style="@style/LoginButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:text="Place Order" />
 
             <Button
                 android:id="@+id/clearCartButton"
-                style="@style/HomeButtonStyle"
+                style="@style/SignUpButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="Clear Cart" />
 
-            <Button
-                android:id="@+id/backToShoppingButton"
-                style="@style/HomeButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back to Shopping" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/backToShoppingButton"
+            style="@style/ShoppingButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Shopping"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

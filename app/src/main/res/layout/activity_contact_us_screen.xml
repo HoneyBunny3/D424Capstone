@@ -106,7 +106,7 @@
             <!--Submit Button-->
             <Button
                 android:id="@+id/contact_submit_button"
-                style="@style/HomeButtonStyle"
+                style="@style/LoginButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -118,7 +118,7 @@
             <!--Cancel Button-->
             <Button
                 android:id="@+id/contact_cancel_button"
-                style="@style/HomeButtonStyle"
+                style="@style/SignUpButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"

@@ -27,10 +27,13 @@
             app:layout_constraintVertical_bias="0.1" />
 
         <!-- Cat Name Label -->
+
         <TextView
             android:id="@+id/cat_name_label"
             style="@style/LabelTextViewStyle"
+            android:layout_marginTop="4dp"
             android:text="Cat Name"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_details_title"
@@ -48,10 +51,13 @@
             app:layout_constraintWidth_percent="0.8" />
 
         <!-- Cat Age Label -->
+
         <TextView
             android:id="@+id/cat_age_label"
             style="@style/LabelTextViewStyle"
+            android:layout_marginTop="4dp"
             android:text="Cat Age"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_name_details"
@@ -69,11 +75,15 @@
             app:layout_constraintWidth_percent="0.8" />
 
         <!-- Cat Bio Label -->
+
         <TextView
             android:id="@+id/cat_bio_label"
             style="@style/LabelTextViewStyle"
+            android:layout_marginTop="4dp"
             android:text="Cat Bio"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_age_details"
             app:layout_constraintWidth_percent="0.8" />
@@ -94,6 +104,7 @@
             android:id="@+id/cat_photo_label"
             style="@style/LabelTextViewStyle"
             android:text="Cat Picture"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_bio_details"

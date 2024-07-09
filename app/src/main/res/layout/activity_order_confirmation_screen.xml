@@ -15,7 +15,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/order_confirmation_text_view"
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,8 +29,9 @@
             android:id="@+id/confirmationNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Confirmation Number:"
-            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintTop_toBottomOf="@id/order_confirmation_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -77,18 +78,21 @@
                 android:id="@+id/toUserProfileButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/LoginButtonStyle"
                 android:text="User Profile" />
 
             <Button
                 android:id="@+id/toShoppingButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/ShoppingButtonStyle"
                 android:text="Shopping" />
 
             <Button
                 android:id="@+id/toOrderDetailsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/SaveButtonStyle"
                 android:text="Order Details" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

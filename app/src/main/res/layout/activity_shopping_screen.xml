@@ -15,11 +15,11 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/shopping_text_view"
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="75dp"
+            android:layout_margin="50dp"
             android:text="Hearth's Cat Shopping"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,20 +30,21 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@id/toCartButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/shopping_text_view" />
 
         <Button
             android:id="@+id/toCartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/ShoppingButtonStyle"
             android:text="Go to Cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

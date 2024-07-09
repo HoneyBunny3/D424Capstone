@@ -15,25 +15,26 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/checkout_text_view"
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="100dp"
             android:text="Hearth's Checkout Page"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/creditCardNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="Credit Card Number"
             android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/textView"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkout_text_view"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
@@ -42,9 +43,9 @@
             android:layout_height="wrap_content"
             android:hint="MM/YY"
             android:inputType="date"
-            app:layout_constraintTop_toBottomOf="@id/creditCardNumber"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/creditCardNumber"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
@@ -53,38 +54,28 @@
             android:layout_height="wrap_content"
             android:hint="CVV"
             android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/creditCardExpiry"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/creditCardExpiry"
             app:layout_constraintWidth_percent="0.8" />
 
         <Button
             android:id="@+id/submitPaymentButton"
+            style="@style/SaveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit Payment"
-            app:layout_constraintTop_toBottomOf="@id/creditCardCVV"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/buttonContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/creditCardCVV" />
 
         <Button
             android:id="@+id/backToCartButton"
+            style="@style/CancelButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back to Cart"
-            app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submitPaymentButton" />

@@ -5,19 +5,11 @@
             <item name="android:colorBackground">@color/mint_green</item>
     </style>
 
-    <!--    Home Page Button Styling-->
-    <style name="HomeButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:backgroundTint">@color/mint_green</item>
-        <item name="android:textColor">@color/rich_black</item>
-        <item name="android:padding">8dp</item>
-    </style>
-
     <!--    Add Button Styling-->
     <style name="AddButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/add_new_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
@@ -26,6 +18,7 @@
     <style name="SaveButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/save_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
@@ -34,31 +27,25 @@
     <style name="DeleteButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">0dp</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/delete_button</item>
-        <item name="android:textColor">@color/rich_black</item>
-    </style>
-
-    <!--    Sign-Up Button Styling-->
-    <style name="SignUpButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:backgroundTint">@color/sign_up_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
     <!--    Share Button Styling-->
     <style name="ShareButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/share_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
     <!--    Cancel Button Styling-->
     <style name="CancelButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/cancel_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
@@ -67,6 +54,7 @@
     <style name="ProfileButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/profiles_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
@@ -75,6 +63,7 @@
     <style name="BackButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/back_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
@@ -83,6 +72,7 @@
     <style name="GoToButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/goto_button</item>
         <item name="android:textColor">@color/rich_black</item>
     </style>
@@ -91,15 +81,17 @@
     <style name="LoginButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/login_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
 
-    <!--    Sign-In Button Styling-->
-    <style name="SignInButtonStyle" parent="Widget.MaterialComponents.Button">
+    <!--    Sign-Up Button Styling-->
+    <style name="SignUpButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:backgroundTint">@color/signin_button</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:backgroundTint">@color/sign_up_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
 
@@ -107,16 +99,18 @@
     <style name="SocialButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/social_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
     <!--    Shopping Button Styling-->
     <style name="ShoppingButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">3dp</item>
         <item name="android:backgroundTint">@color/shopping_button</item>
-        <item name="android:textColor">@color/rich_black</item>
+        <item name="android:textColor">@color/ghost_white</item>
     </style>
 
     <!--    Page Title Text View Styling-->
@@ -132,12 +126,11 @@
 
     <!--    Label Text View Styling-->
     <style name="LabelTextViewStyle">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">3dp</item>
         <item name="android:textColor">@color/rich_black</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">italic</item>
         <item name="android:background">@drawable/border_background</item>
         <item name="android:hint">@color/dark_slate_gray</item>
     </style>

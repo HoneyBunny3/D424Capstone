@@ -28,20 +28,33 @@
     <color name="hunyadi_yellow">#FFBF69</color>
     <color name="vanilla">#E9D8A6</color>
 
+
+    <color name="bronze_toffee">#7E4113</color>
+    <color name="dark_bronze">#804A00</color>
+    <color name="orange_bronze">#B1560F</color>
+    <color name="autumn_bronze">#C66D00</color>
+    <color name="antique_bronze">#665D1E</color>
+    <color name="black_bronze">#1F1D1B</color>
+    <color name="american_bronze">#391802</color>
+    <color name="bronze_red">#B26A58</color>
+    <color name="light_bronze">#DAAA5E</color>
+    <color name="arabian_bronze">#D59940</color>
+    <color name="bronze_beige">#B5975C</color>
+
+
     <!-- Button colors -->
     <color name="add_new_button">@color/rust</color>
     <color name="save_button">@color/dark_moss_green</color>
     <color name="edit_button">@color/mimi_pink</color>
-    <color name="delete_button">@color/burnt_umber</color>
-    <color name="sign_up_button">@color/pale_azure</color>
-    <color name="share_button">@color/powder_blue</color>
+    <color name="delete_button">@color/black_bronze</color>
+    <color name="share_button">@color/bronze_toffee</color>
     <color name="cancel_button">@color/french_gray</color>
     <color name="profiles_button">@color/hunyadi_yellow</color>
     <color name="goto_button">@color/naples_yellow</color>
     <color name="back_button">@color/alloy_orange</color>
-    <color name="login_button">@color/green</color>
-    <color name="signin_button">@color/resolution_blue</color>
-    <color name="social_button">@color/orchid_pink</color>
-    <color name="shopping_button">@color/raw_umber</color>
+    <color name="login_button">@color/antique_bronze</color>
+    <color name="sign_up_button">@color/american_bronze</color>
+    <color name="social_button">@color/bronze_red</color>
+    <color name="shopping_button">@color/autumn_bronze</color>
 
 </resources>
