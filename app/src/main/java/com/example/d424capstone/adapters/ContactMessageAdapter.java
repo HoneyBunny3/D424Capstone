@@ -1,9 +1,12 @@
 package com.example.d424capstone.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +20,10 @@ public class ContactMessageAdapter extends RecyclerView.Adapter<ContactMessageAd
 
     private List<ContactMessage> contactMessages;
     private LayoutInflater inflater;
+    private Context context;
 
     public ContactMessageAdapter(Context context, List<ContactMessage> contactMessages) {
+        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.contactMessages = contactMessages != null ? contactMessages : new ArrayList<>();
     }
@@ -39,6 +44,15 @@ public class ContactMessageAdapter extends RecyclerView.Adapter<ContactMessageAd
         holder.subjectTextView.setText(currentMessage.getSubject());
         holder.messageTextView.setText(currentMessage.getMessage());
         holder.timestampTextView.setText(currentMessage.getTimestamp().toString());
+
+        holder.replyButton.setOnClickListener(v -> {
+            String email = currentMessage.getEmail();
+            String subject = "Re: " + currentMessage.getSubject();
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", email, null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        });
     }
 
     @Override
@@ -53,6 +67,7 @@ public class ContactMessageAdapter extends RecyclerView.Adapter<ContactMessageAd
         private TextView subjectTextView;
         private TextView messageTextView;
         private TextView timestampTextView;
+        private Button replyButton;
 
         public ContactMessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +77,7 @@ public class ContactMessageAdapter extends RecyclerView.Adapter<ContactMessageAd
             subjectTextView = itemView.findViewById(R.id.subjectTextView);
             messageTextView = itemView.findViewById(R.id.messageTextView);
             timestampTextView = itemView.findViewById(R.id.timestampTextView);
+            replyButton = itemView.findViewById(R.id.replyButton);
         }
     }
 }
