@@ -62,6 +62,7 @@ public class Repository {
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
             }
+            preloadSocialPosts();
         });
     }
 
@@ -83,6 +84,16 @@ public class Repository {
                 premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Toy", "Fun toy for premium cats", 19.99));
                 premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Bed", "Comfortable bed for premium cats", 49.99));
                 // Add more items as needed
+            }
+        });
+    }
+
+    private void preloadSocialPosts() {
+        databaseWriteExecutor.execute(() -> {
+            if (socialPostDAO.getAllSocialPosts().isEmpty()) {
+                socialPostDAO.insert(new SocialPost(0, 1, "Enjoying the sun with my cat!", 10));
+                socialPostDAO.insert(new SocialPost(0, 2, "My cat's new favorite toy!", 25));
+                socialPostDAO.insert(new SocialPost(0, 1, "Cat naps are the best naps.", 15));
             }
         });
     }
