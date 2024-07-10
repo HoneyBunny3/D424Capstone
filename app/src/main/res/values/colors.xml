@@ -3,31 +3,16 @@
     <!-- Colors -->
     <color name="rich_black">#001219</color>
     <color name="dark_slate_gray">#384D48</color>
-    <color name="orchid_pink">#F2BAC9</color>
     <color name="midnight_green">#005F73</color>
-    <color name="resolution_blue">#19297C</color>
-    <color name="tiffany_blue">#94D2BD</color>
     <color name="alloy_orange">#CA6702</color>
     <color name="rust">#BB3E03</color>
-    <color name="burnt_umber">#8C271E</color>
-    <color name="melon">#F0A391</color>
     <color name="mint_green">#CBF3F0</color>
     <color name="ghost_white">#F6F8FF</color>
     <color name="dark_moss_green">#40531B</color>
     <color name="green">#1C3A13</color>
-    <color name="tea_green">#C2F8CB</color>
-    <color name="misty_rose">#FDE8E9</color>
     <color name="french_gray">#BECADE</color>
-    <color name="raw_umber">#946846</color>
-    <color name="lion">#B7A078</color>
-    <color name="powder_blue">#304D6D</color>
-    <color name="pale_azure">#65CCFC</color>
-    <color name="light_sky_blue">#98CDF8</color>
     <color name="mimi_pink">#FECEF1</color>
     <color name="naples_yellow">#F4D35E</color>
-    <color name="hunyadi_yellow">#FFBF69</color>
-    <color name="vanilla">#E9D8A6</color>
-
 
     <color name="bronze_toffee">#7E4113</color>
     <color name="dark_bronze">#804A00</color>
