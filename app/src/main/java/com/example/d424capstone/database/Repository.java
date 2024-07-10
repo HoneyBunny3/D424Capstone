@@ -22,7 +22,6 @@ public class Repository {
     private final CartItemDAO cartItemDAO;
     private final OrderDAO orderDAO;
     private final SocialPostDAO socialPostDAO;
-    private final PremiumStoreItemDAO premiumStoreItemDAO;
     private final PremiumStorefrontDAO premiumStorefrontDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
@@ -36,13 +35,12 @@ public class Repository {
         cartItemDAO = db.cartItemDAO();
         orderDAO = db.orderDAO();
         socialPostDAO = db.socialPostDAO();
-        premiumStoreItemDAO = db.premiumStoreItemDAO();
         premiumStorefrontDAO = db.premiumStorefrontDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
         preloadStoreItems();
-        preloadPremiumStoreItems();
+//        preloadPremiumStoreItems();
     }
 
     private void populateInitialData(Context context) {
@@ -78,16 +76,6 @@ public class Repository {
         });
     }
 
-    private void preloadPremiumStoreItems() {
-        databaseWriteExecutor.execute(() -> {
-            if (premiumStoreItemDAO.getAllItems().isEmpty()) {
-                premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Toy", "Fun toy for premium cats", 19.99));
-                premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Bed", "Comfortable bed for premium cats", 49.99));
-                // Add more items as needed
-            }
-        });
-    }
-
     private void preloadSocialPosts() {
         databaseWriteExecutor.execute(() -> {
             if (socialPostDAO.getAllSocialPosts().isEmpty()) {
@@ -99,37 +87,37 @@ public class Repository {
     }
 
     // Premium store related methods
-    public List<PremiumStoreItem> getAllPremiumStoreItems() {
-        final List<PremiumStoreItem>[] items = new List[1];
-        CountDownLatch latch = new CountDownLatch(1);
-        databaseWriteExecutor.execute(() -> {
-            items[0] = premiumStoreItemDAO.getAllItems();
-            latch.countDown();
-        });
-        try {
-            latch.await(); // Wait for the database operation to complete
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return items[0];
-    }
+//    public List<PremiumStoreItem> getAllPremiumStoreItems() {
+//        final List<PremiumStoreItem>[] items = new List[1];
+//        CountDownLatch latch = new CountDownLatch(1);
+//        databaseWriteExecutor.execute(() -> {
+//            items[0] = premiumStoreItemDAO.getAllItems();
+//            latch.countDown();
+//        });
+//        try {
+//            latch.await(); // Wait for the database operation to complete
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        return items[0];
+//    }
 
-    public void insertPremiumStoreItem(PremiumStoreItem item) {
-        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.insert(item));
-    }
-
-    public void updatePremiumStoreItem(PremiumStoreItem item) {
-        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.update(item));
-    }
-
-    public void deletePremiumStoreItem(int itemId) {
-        databaseWriteExecutor.execute(() -> {
-            PremiumStoreItem item = premiumStoreItemDAO.getItemById(itemId);
-            if (item != null) {
-                premiumStoreItemDAO.delete(item);
-            }
-        });
-    }
+//    public void insertPremiumStoreItem(PremiumStoreItem item) {
+//        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.insert(item));
+//    }
+//
+//    public void updatePremiumStoreItem(PremiumStoreItem item) {
+//        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.update(item));
+//    }
+//
+//    public void deletePremiumStoreItem(int itemId) {
+//        databaseWriteExecutor.execute(() -> {
+//            PremiumStoreItem item = premiumStoreItemDAO.getItemById(itemId);
+//            if (item != null) {
+//                premiumStoreItemDAO.delete(item);
+//            }
+//        });
+//    }
 
     // Premium Storefront methods
     public void insertPremiumStorefront(PremiumStorefront storefront) {

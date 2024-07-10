@@ -12,7 +12,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.d424capstone.dao.CartItemDAO;
 import com.example.d424capstone.dao.CatDAO;
 import com.example.d424capstone.dao.OrderDAO;
-import com.example.d424capstone.dao.PremiumStoreItemDAO;
 import com.example.d424capstone.dao.PremiumStorefrontDAO;
 import com.example.d424capstone.dao.SocialPostDAO;
 import com.example.d424capstone.dao.StoreItemDAO;
@@ -20,7 +19,6 @@ import com.example.d424capstone.dao.UserDAO;
 import com.example.d424capstone.entities.CartItem;
 import com.example.d424capstone.entities.Cat;
 import com.example.d424capstone.entities.Order;
-import com.example.d424capstone.entities.PremiumStoreItem;
 import com.example.d424capstone.entities.PremiumStorefront;
 import com.example.d424capstone.entities.SocialPost;
 import com.example.d424capstone.entities.StoreItem;
@@ -29,7 +27,7 @@ import com.example.d424capstone.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class, PremiumStoreItem.class, PremiumStorefront.class}, version = 5)
+@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class, PremiumStorefront.class}, version = 1)
 @TypeConverters({com.example.d424capstone.database.Converters.class})
 public abstract class DatabaseBuilder extends RoomDatabase {
 
@@ -39,7 +37,6 @@ public abstract class DatabaseBuilder extends RoomDatabase {
     public abstract CartItemDAO cartItemDAO();
     public abstract OrderDAO orderDAO();
     public abstract SocialPostDAO socialPostDAO();
-    public abstract PremiumStoreItemDAO premiumStoreItemDAO();
     public abstract PremiumStorefrontDAO premiumStorefrontDAO();
 
     private static volatile DatabaseBuilder INSTANCE;
