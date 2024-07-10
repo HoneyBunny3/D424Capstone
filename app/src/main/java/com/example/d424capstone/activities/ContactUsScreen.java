@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.User;
 
 public class ContactUsScreen extends BaseActivity {
 
@@ -105,6 +106,21 @@ public class ContactUsScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Load the logged-in user's information
+        loadUserInfo();
+    }
+
+    private void loadUserInfo() {
+        new Thread(() -> {
+            User currentUser = repository.getCurrentUser();
+            if (currentUser != null) {
+                runOnUiThread(() -> {
+                    firstName.setText(currentUser.getFirstName());
+                    lastName.setText(currentUser.getLastName());
+                    email.setText(currentUser.getEmail());
+                });
+            }
+        }).start();
     }
 
     private boolean validateInputs() {

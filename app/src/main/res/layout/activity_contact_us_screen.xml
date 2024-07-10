@@ -146,7 +146,6 @@
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contact_submit_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
             android:id="@+id/success_image"
@@ -155,6 +154,7 @@
             android:src="@drawable/hearthy_moose"
             android:visibility="gone"
             android:layout_gravity="center" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
     android:id="@+id/nav_view"
