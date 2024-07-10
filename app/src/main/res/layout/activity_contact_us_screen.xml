@@ -9,139 +9,146 @@
     tools:context=".activities.ContactUsScreen">
 
     <!-- Main Content -->
+
+    <!-- Success Image -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
-            <!--Page Title-->
-            <TextView
-                android:id="@+id/textView"
-                style="@style/TitleTextViewStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="100dp"
-                android:text="Hearth's Contact Us Page"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <!--Page Title-->
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TitleTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="100dp"
+            android:text="Hearth's Contact Us Page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <!--First Name-->
-            <EditText
-                android:id="@+id/firstName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="First Name"
-                android:inputType="textPersonName"
-                android:maxLength="50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <!--First Name-->
+        <EditText
+            android:id="@+id/firstName"
+            style="@style/InputTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:maxLength="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            <!--Last Name-->
-            <EditText
-                android:id="@+id/lastName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Last Name"
-                android:inputType="textPersonName"
-                android:maxLength="50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/firstName" />
+        <!--Last Name-->
+        <EditText
+            android:id="@+id/lastName"
+            style="@style/InputTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:maxLength="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/firstName" />
 
-            <!--Email-->
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:maxLength="100"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lastName" />
+        <!--Email-->
+        <EditText
+            android:id="@+id/email"
+            style="@style/InputTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxLength="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lastName" />
 
-            <!-- Dropdown Menu (Spinner) -->
-            <Spinner
-                android:id="@+id/dropdown_menu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email"
-                android:prompt="@string/select_reason_prompt" />
+        <!-- Dropdown Menu (Spinner) -->
+        <Spinner
+            android:id="@+id/dropdown_menu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:layout_marginTop="40dp"
+            android:prompt="@string/select_reason_prompt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
-            <!-- Subject -->
-            <EditText
-                android:id="@+id/subject"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Subject"
-                android:inputType="text"
-                android:maxLength="50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dropdown_menu" />
+        <!-- Subject -->
+        <EditText
+            android:id="@+id/subject"
+            style="@style/InputTextViewStyle"
 
-            <!--Text Input Box-->
-            <EditText
-                android:id="@+id/message"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Your message (max 128 characters)"
-                android:inputType="text"
-                android:maxLength="128"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subject" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Subject"
+            android:inputType="text"
+            android:maxLength="50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dropdown_menu" />
 
-            <!--Submit Button-->
-            <Button
-                android:id="@+id/contact_submit_button"
-                style="@style/LoginButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="Submit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/message" />
+        <!--Text Input Box-->
+        <EditText
+            android:id="@+id/message"
+            style="@style/InputTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Your message (max 128 characters)"
+            android:inputType="text"
+            android:maxLength="128"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subject" />
 
-            <!--Cancel Button-->
-            <Button
-                android:id="@+id/contact_cancel_button"
-                style="@style/SignUpButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="Clear Inputs"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/message" />
+        <!--Submit Button-->
+        <Button
+            android:id="@+id/contact_submit_button"
+            style="@style/LoginButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message" />
 
-            <!--Confirmation Message-->
-            <TextView
-                android:id="@+id/confirmationMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text=""
-                android:textColor="@color/midnight_green"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contact_submit_button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--Cancel Button-->
+        <Button
+            android:id="@+id/contact_cancel_button"
+            style="@style/SignUpButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Clear Inputs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message" />
 
-        <!-- Success Image -->
-        <ImageView
+        <!--Confirmation Message-->
+        <TextView
+            android:id="@+id/confirmationMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text=""
+            android:textColor="@color/midnight_green"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact_submit_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
             android:id="@+id/success_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

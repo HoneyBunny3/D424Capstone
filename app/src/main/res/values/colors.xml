@@ -49,7 +49,7 @@
     <color name="delete_button">@color/black_bronze</color>
     <color name="share_button">@color/bronze_toffee</color>
     <color name="cancel_button">@color/french_gray</color>
-    <color name="profiles_button">@color/hunyadi_yellow</color>
+    <color name="profiles_button">@color/bronze_beige</color>
     <color name="goto_button">@color/naples_yellow</color>
     <color name="back_button">@color/alloy_orange</color>
     <color name="login_button">@color/antique_bronze</color>

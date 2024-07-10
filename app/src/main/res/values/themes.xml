@@ -25,9 +25,10 @@
 
     <!--    Delete/Remove Button Styling-->
     <style name="DeleteButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:padding">3dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">1dp</item>
         <item name="android:backgroundTint">@color/delete_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
@@ -142,7 +143,7 @@
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@color/rich_black</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:background">@android:drawable/edit_text</item>
+        <item name="android:background">@drawable/border_display_background</item>
         <item name="android:hint">@color/dark_slate_gray</item>
     </style>
 
@@ -150,9 +151,9 @@
     <style name="DisplayTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">3dp</item>
+        <item name="android:layout_marginTop">16dp</item>
         <item name="android:textColor">@color/rich_black</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/border_display_background</item>
         <item name="android:hint">@color/dark_slate_gray</item>

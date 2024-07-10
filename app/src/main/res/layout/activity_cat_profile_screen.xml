@@ -24,7 +24,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"/>
+            app:layout_constraintVertical_bias="0.1" />
+
+        <!-- Cat Name Label -->
+        <TextView
+            android:id="@+id/cat_name_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cat Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_profile_title"
+            app:layout_constraintWidth_percent="0.8" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/cat_name"
@@ -34,7 +46,19 @@
             android:hint="Cat Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_profile_title"
+            app:layout_constraintTop_toBottomOf="@id/cat_name_label"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <!-- Cat Age Label -->
+        <TextView
+            android:id="@+id/cat_age_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cat Age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_name"
             app:layout_constraintWidth_percent="0.8" />
 
         <com.google.android.material.textfield.TextInputEditText
@@ -46,7 +70,21 @@
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_name"
+            app:layout_constraintTop_toBottomOf="@id/cat_age_label"
+            app:layout_constraintWidth_percent="0.8" />
+
+
+        <!-- Cat Bio Label -->
+        <TextView
+            android:id="@+id/cat_bio_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cat Bio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cat_age"
             app:layout_constraintWidth_percent="0.8" />
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,7 +96,7 @@
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_age"
+            app:layout_constraintTop_toBottomOf="@id/cat_bio_label"
             app:layout_constraintWidth_percent="0.8" />
 
         <ImageView
@@ -76,6 +114,7 @@
             style="@style/SaveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_image" />
@@ -85,6 +124,7 @@
             style="@style/CancelButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_image" />

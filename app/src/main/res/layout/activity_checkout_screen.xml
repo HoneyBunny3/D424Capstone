@@ -27,6 +27,7 @@
 
         <EditText
             android:id="@+id/creditCardNumber"
+            style="@style/InputTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -39,8 +40,10 @@
 
         <EditText
             android:id="@+id/creditCardExpiry"
+            style="@style/InputTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="MM/YY"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,8 +53,10 @@
 
         <EditText
             android:id="@+id/creditCardCVV"
+            style="@style/InputTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="CVV"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +69,7 @@
             style="@style/SaveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Submit Payment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

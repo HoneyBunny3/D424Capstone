@@ -40,6 +40,7 @@
             android:id="@+id/toCartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             style="@style/ShoppingButtonStyle"
             android:text="Go to Cart"
             app:layout_constraintBottom_toBottomOf="parent"
