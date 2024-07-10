@@ -63,11 +63,11 @@ public class Repository {
     private void preloadStoreItems() {
         databaseWriteExecutor.execute(() -> {
             if (storeItemDAO.getAllStoreItems().isEmpty()) {
-                storeItemDAO.insert(new StoreItem(0, "Cat Toy", "Fun toy for cats", 9.99, true));
-                storeItemDAO.insert(new StoreItem(0, "Cat Bed", "Comfortable bed for cats", 29.99, false));
-                storeItemDAO.insert(new StoreItem(0, "Cat Food", "Nutritious food for cats", 19.99, false));
-                storeItemDAO.insert(new StoreItem(0, "Cat Scratcher", "Durable scratcher for cats", 14.99, false));
-                storeItemDAO.insert(new StoreItem(0, "Cat Litter", "Odor-free cat litter", 10.99, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Toy", "Fun toy for cats", 9.99, true, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Bed", "Comfortable bed for cats", 29.99, false, true)); //premium product
+                storeItemDAO.insert(new StoreItem(0, "Cat Food", "Nutritious food for cats", 19.99, false, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Scratcher", "Durable scratcher for cats", 14.99, false, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Litter", "Odor-free cat litter", 10.99, false, false));
             }
         });
     }

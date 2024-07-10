@@ -19,15 +19,16 @@ import com.example.d424capstone.entities.StoreItem;
 import java.util.List;
 
 public class StoreItemAdapter extends BaseAdapter {
-
-    private Context context;
-    private List<StoreItem> storeItems;
-    private Repository repository;
+    private final Repository repository;
+    private final Context context;
+    private final List<StoreItem> storeItems;
+    private final LayoutInflater mInflater;
 
     public StoreItemAdapter(Context context, List<StoreItem> storeItems) {
+        this.repository = ((MyApplication) context.getApplicationContext()).getRepository();
         this.context = context;
         this.storeItems = storeItems;
-        this.repository = ((MyApplication) context.getApplicationContext()).getRepository();
+        this.mInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -47,25 +48,36 @@ public class StoreItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.store_item_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.store_item_list_item, parent, false); // Updated to use the correct layout file
+            holder = new ViewHolder();
+            holder.nameTextView = convertView.findViewById(R.id.storeItemNameTextView);
+            holder.descriptionTextView = convertView.findViewById(R.id.storeItemDescriptionTextView);
+            holder.priceTextView = convertView.findViewById(R.id.storeItemPriceTextView);
+            holder.quantityEditText = convertView.findViewById(R.id.storeItemQuantityEditText);
+            holder.addToCartButton = convertView.findViewById(R.id.storeItemAddToCartButton);
+            holder.removeButton = convertView.findViewById(R.id.storeItemRemoveButton);
+            holder.premiumTextView = convertView.findViewById(R.id.storeItemPremiumTextView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         StoreItem storeItem = storeItems.get(position);
+        holder.nameTextView.setText(storeItem.getName());
+        holder.descriptionTextView.setText(storeItem.getDescription());
+        holder.priceTextView.setText(String.format("$%.2f", storeItem.getItemPrice()));
 
-        TextView nameTextView = convertView.findViewById(R.id.storeItemNameTextView);
-        TextView descriptionTextView = convertView.findViewById(R.id.storeItemDescriptionTextView);
-        TextView priceTextView = convertView.findViewById(R.id.storeItemPriceTextView);
-        EditText quantityEditText = convertView.findViewById(R.id.storeItemQuantityEditText);
-        Button addToCartButton = convertView.findViewById(R.id.storeItemAddToCartButton);
-        Button removeButton = convertView.findViewById(R.id.storeItemRemoveButton);
+        // Set visibility for the premium text view
+        if (storeItem.isPremium()) {
+            holder.premiumTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.premiumTextView.setVisibility(View.GONE);
+        }
 
-        nameTextView.setText(storeItem.getName());
-        descriptionTextView.setText(storeItem.getDescription());
-        priceTextView.setText(String.valueOf(storeItem.getItemPrice()));
-
-        addToCartButton.setOnClickListener(v -> {
-            String quantityText = quantityEditText.getText().toString();
+        holder.addToCartButton.setOnClickListener(v -> {
+            String quantityText = holder.quantityEditText.getText().toString();
             if (!quantityText.isEmpty()) {
                 int quantity = Integer.parseInt(quantityText);
                 CartItem cartItem = new CartItem(0, storeItem.getName(), storeItem.getItemPrice(), quantity);
@@ -76,7 +88,7 @@ public class StoreItemAdapter extends BaseAdapter {
             }
         });
 
-        removeButton.setOnClickListener(v -> {
+        holder.removeButton.setOnClickListener(v -> {
             repository.deleteStoreItem(storeItem.getStoreItemID());
             storeItems.remove(position);
             notifyDataSetChanged();
@@ -84,5 +96,15 @@ public class StoreItemAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        TextView nameTextView;
+        TextView descriptionTextView;
+        TextView priceTextView;
+        EditText quantityEditText;
+        Button addToCartButton;
+        Button removeButton;
+        TextView premiumTextView;
     }
 }

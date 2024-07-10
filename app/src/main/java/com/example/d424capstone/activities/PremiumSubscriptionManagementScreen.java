@@ -1,6 +1,8 @@
 package com.example.d424capstone.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -23,6 +25,9 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
+        // Initialize buttons and set their click listeners
+        initializeButtons();
+
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
@@ -31,5 +36,11 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void initializeButtons() {
+        // Initialize buttons and set their click listeners
+        Button buttonAdd = findViewById(R.id.add_product_button);
+        buttonAdd.setOnClickListener(view -> startActivity(new Intent(PremiumSubscriptionManagementScreen.this, PremiumProductManagementScreen.class)));
     }
 }

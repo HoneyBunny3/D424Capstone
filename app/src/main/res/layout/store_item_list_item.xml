@@ -28,6 +28,16 @@
         android:textStyle="italic"
         android:hint="price"/>
 
+    <!-- Indicate premium product -->
+    <TextView
+        android:id="@+id/storeItemPremiumTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/autumn_bronze"
+        android:text="Premium Product"
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/storeItemQuantityEditText"
         android:layout_width="match_parent"

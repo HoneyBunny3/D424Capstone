@@ -1,6 +1,11 @@
 package com.example.d424capstone.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -10,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.StoreItem;
 
 public class PremiumProductManagementScreen extends BaseActivity {
 
@@ -23,6 +29,9 @@ public class PremiumProductManagementScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
+        // Initialize buttons and set their click listeners
+        initializeButtons();
+
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
@@ -31,5 +40,39 @@ public class PremiumProductManagementScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void initializeButtons() {
+        // Initialize buttons and set their click listeners
+        Button buttonSave = findViewById(R.id.save);
+        buttonSave.setOnClickListener(view -> saveProduct());
+
+        Button buttonCancel = findViewById(R.id.cancel);
+        buttonCancel.setOnClickListener(view -> finish());
+    }
+
+    private void saveProduct() {
+        EditText productNameEditText = findViewById(R.id.product_name);
+        EditText productDescriptionEditText = findViewById(R.id.product_description);
+        EditText productPriceEditText = findViewById(R.id.product_price);
+        CheckBox productIsPremiumCheckBox = findViewById(R.id.product_is_premium);
+
+        String name = productNameEditText.getText().toString().trim();
+        String description = productDescriptionEditText.getText().toString().trim();
+        String priceText = productPriceEditText.getText().toString().trim();
+        boolean isPremium = productIsPremiumCheckBox.isChecked();
+
+        if (name.isEmpty() || description.isEmpty() || priceText.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double price = Double.parseDouble(priceText);
+
+        StoreItem storeItem = new StoreItem(0, name, description, price, false, isPremium); // Set isFeatured to false or as required
+        repository.insertStoreItem(storeItem);
+
+        Toast.makeText(this, "Product saved", Toast.LENGTH_SHORT).show();
+        finish(); // Close the activity and return to the previous screen
     }
 }

@@ -5,9 +5,6 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-/**
- * Entity class representing a Store Item in the database.
- */
 @Entity(tableName = "store_item_table")
 public class StoreItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
@@ -16,22 +13,15 @@ public class StoreItem implements Serializable {
     private String description;
     private double itemPrice;
     private boolean isFeatured;
+    private boolean isPremium;
 
-    /**
-     * Constructor to initialize the StoreItem entity.
-     *
-     * @param storeItemID  The unique ID of the store item.
-     * @param name         The name of the store item.
-     * @param description  The description of the store item.
-     * @param itemPrice    The price of the store item.
-     * @param isFeatured   Whether the store item is featured.
-     */
-    public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isFeatured) {
+    public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isFeatured, boolean isPremium) {
         this.storeItemID = storeItemID;
         this.name = name;
         this.description = description;
         this.itemPrice = itemPrice;
         this.isFeatured = isFeatured;
+        this.isPremium = isPremium;
     }
 
     // Getter and setter methods
@@ -74,5 +64,13 @@ public class StoreItem implements Serializable {
 
     public void setFeatured(boolean isFeatured) {
         this.isFeatured = isFeatured;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean isPremium) {
+        this.isPremium = isPremium;
     }
 }
