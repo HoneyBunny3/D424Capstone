@@ -22,6 +22,7 @@ public class Repository {
     private final CartItemDAO cartItemDAO;
     private final OrderDAO orderDAO;
     private final SocialPostDAO socialPostDAO;
+    private final PremiumStoreItemDAO premiumStoreItemDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -34,10 +35,12 @@ public class Repository {
         cartItemDAO = db.cartItemDAO();
         orderDAO = db.orderDAO();
         socialPostDAO = db.socialPostDAO();
+        premiumStoreItemDAO = db.premiumStoreItemDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
         preloadStoreItems();
+        preloadPremiumStoreItems(); // Added to ensure premium items are preloaded
     }
 
     private void populateInitialData(Context context) {
@@ -72,6 +75,49 @@ public class Repository {
         });
     }
 
+    // Premium store related methods
+    private void preloadPremiumStoreItems() {
+        databaseWriteExecutor.execute(() -> {
+            if (premiumStoreItemDAO.getAllItems().isEmpty()) {
+                premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Toy", "Fun toy for premium cats", 19.99));
+                premiumStoreItemDAO.insert(new PremiumStoreItem(0, "Premium Cat Bed", "Comfortable bed for premium cats", 49.99));
+                // Add more items as needed
+            }
+        });
+    }
+
+    public List<PremiumStoreItem> getAllPremiumStoreItems() {
+        final List<PremiumStoreItem>[] items = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            items[0] = premiumStoreItemDAO.getAllItems();
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return items[0];
+    }
+
+    public void insertPremiumStoreItem(PremiumStoreItem item) {
+        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.insert(item));
+    }
+
+    public void updatePremiumStoreItem(PremiumStoreItem item) {
+        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.update(item));
+    }
+
+    public void deletePremiumStoreItem(int itemId) {
+        databaseWriteExecutor.execute(() -> {
+            PremiumStoreItem item = premiumStoreItemDAO.getItemById(itemId);
+            if (item != null) {
+                premiumStoreItemDAO.delete(item);
+            }
+        });
+    }
+
     // User-related methods
     public User getUserByID(int userID) {
         final User[] user = new User[1];
@@ -97,7 +143,19 @@ public class Repository {
 
     public List<User> getAllUsers() {
         final List<User>[] users = new List[1];
-        databaseWriteExecutor.execute(() -> users[0] = userDAO.getAllUsers());
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            users[0] = userDAO.getAllUsers();
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (users[0] == null) {
+            users[0] = new ArrayList<>(); // Ensure the list is initialized
+        }
         return users[0];
     }
 
@@ -128,11 +186,6 @@ public class Repository {
         }
         return user[0];
     }
-
-//    public User getCurrentUser() {
-//        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
-//        return getUserByID(userID);
-//    }
 
     public User getCurrentUser() {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);

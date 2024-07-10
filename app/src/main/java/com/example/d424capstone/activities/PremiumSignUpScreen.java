@@ -52,13 +52,15 @@ public class PremiumSignUpScreen extends BaseActivity {
         EditText emailEditText = findViewById(R.id.email);
         EditText phoneNumberEditText = findViewById(R.id.phone_number);
         EditText creditCardEditText = findViewById(R.id.credit_card);
+        EditText creditCardExpiryEditText = findViewById(R.id.expiry);
+        EditText creditCardCVVEditText = findViewById(R.id.cvv);
 
         // Pre-fill user information
         if (currentUser != null) {
             firstNameEditText.setText(currentUser.getFirstName());
             lastNameEditText.setText(currentUser.getLastName());
             emailEditText.setText(currentUser.getEmail());
-//            phoneNumberEditText.setText(currentUser.getPhoneNumber());
+            phoneNumberEditText.setText(currentUser.getPhone());
         }
 
         Button subscribeButton = findViewById(R.id.subscribe_button);
@@ -67,8 +69,7 @@ public class PremiumSignUpScreen extends BaseActivity {
             currentUser.setFirstName(firstNameEditText.getText().toString());
             currentUser.setLastName(lastNameEditText.getText().toString());
             currentUser.setEmail(emailEditText.getText().toString());
-//            currentUser.setPhoneNumber(phoneNumberEditText.getText().toString());
-            // currentUser.setCreditCard(creditCardEditText.getText().toString()); // Assuming there is a field for this
+            currentUser.setPhone(phoneNumberEditText.getText().toString());
             currentUser.setRole(UserRoles.PREMIUM);
 
             repository.updateUser(currentUser);
