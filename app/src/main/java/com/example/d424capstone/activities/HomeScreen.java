@@ -18,6 +18,7 @@ import com.example.d424capstone.utilities.UserRoles;
 public class HomeScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
