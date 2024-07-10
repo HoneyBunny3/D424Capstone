@@ -23,6 +23,7 @@ public class Repository {
     private final OrderDAO orderDAO;
     private final SocialPostDAO socialPostDAO;
     private final PremiumStoreItemDAO premiumStoreItemDAO;
+    private final PremiumStorefrontDAO premiumStorefrontDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -36,11 +37,12 @@ public class Repository {
         orderDAO = db.orderDAO();
         socialPostDAO = db.socialPostDAO();
         premiumStoreItemDAO = db.premiumStoreItemDAO();
+        premiumStorefrontDAO = db.premiumStorefrontDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
         preloadStoreItems();
-        preloadPremiumStoreItems(); // Added to ensure premium items are preloaded
+        preloadPremiumStoreItems();
     }
 
     private void populateInitialData(Context context) {
@@ -54,8 +56,8 @@ public class Repository {
                 long premiumUserId = userDAO.insert(premiumUser);
                 long regularUserId = userDAO.insert(regularUser);
 
-                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", (int)premiumUserId);
-                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", (int)regularUserId);
+                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", (int) premiumUserId);
+                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", (int) regularUserId);
 
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
@@ -75,7 +77,6 @@ public class Repository {
         });
     }
 
-    // Premium store related methods
     private void preloadPremiumStoreItems() {
         databaseWriteExecutor.execute(() -> {
             if (premiumStoreItemDAO.getAllItems().isEmpty()) {
@@ -86,6 +87,7 @@ public class Repository {
         });
     }
 
+    // Premium store related methods
     public List<PremiumStoreItem> getAllPremiumStoreItems() {
         final List<PremiumStoreItem>[] items = new List[1];
         CountDownLatch latch = new CountDownLatch(1);
@@ -118,6 +120,39 @@ public class Repository {
         });
     }
 
+    // Premium Storefront methods
+    public void insertPremiumStorefront(PremiumStorefront storefront) {
+        databaseWriteExecutor.execute(() -> premiumStorefrontDAO.insert(storefront));
+    }
+
+    public void updatePremiumStorefront(PremiumStorefront storefront) {
+        databaseWriteExecutor.execute(() -> premiumStorefrontDAO.update(storefront));
+    }
+
+    public void deletePremiumStorefront(int storefrontID) {
+        databaseWriteExecutor.execute(() -> {
+            PremiumStorefront storefront = premiumStorefrontDAO.getStorefrontByID(storefrontID);
+            if (storefront != null) {
+                premiumStorefrontDAO.delete(storefront);
+            }
+        });
+    }
+
+    public List<PremiumStorefront> getPremiumStorefrontsByUserID(int userID) {
+        final List<PremiumStorefront>[] storefronts = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            storefronts[0] = premiumStorefrontDAO.getStorefrontsByUserID(userID);
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return storefronts[0];
+    }
+
     // User-related methods
     public User getUserByID(int userID) {
         final User[] user = new User[1];
@@ -133,7 +168,6 @@ public class Repository {
         }
         return user[0];
     }
-
 
     public List<User> getUsersForCat(int catID) {
         final List<User>[] users = new List[1];
@@ -321,7 +355,13 @@ public class Repository {
 
     public List<Order> getAllOrders() {
         final List<Order>[] orders = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
         databaseWriteExecutor.execute(() -> orders[0] = orderDAO.getAllOrders());
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return orders[0];
     }
 
