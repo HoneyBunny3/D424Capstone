@@ -1,6 +1,7 @@
 package com.example.d424capstone.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -12,11 +13,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.utilities.UserRoles;
 
 public class HomeScreen extends BaseActivity {
-
     private Repository repository;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +25,7 @@ public class HomeScreen extends BaseActivity {
         setContentView(R.layout.activity_home_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -37,10 +39,16 @@ public class HomeScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Show or hide the Admin button based on the user role
+        setAdminButtonVisibility();
     }
 
     private void initializeButtons() {
         // Initialize buttons and set their click listeners
+        Button buttonAdmin = findViewById(R.id.toadminscreen);
+        buttonAdmin.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, AdminScreen.class)));
+
         Button buttonLogin = findViewById(R.id.touserloginscreen);
         buttonLogin.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserLoginScreen.class)));
 
@@ -52,5 +60,15 @@ public class HomeScreen extends BaseActivity {
 
         Button buttonSocial = findViewById(R.id.tocatsocialscreen);
         buttonSocial.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, CatSocialScreen.class)));
+    }
+
+    private void setAdminButtonVisibility() {
+        Button buttonAdmin = findViewById(R.id.toadminscreen);
+        String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
+        if (UserRoles.ADMIN.equals(userRole)) {
+            buttonAdmin.setVisibility(Button.VISIBLE);
+        } else {
+            buttonAdmin.setVisibility(Button.GONE);
+        }
     }
 }

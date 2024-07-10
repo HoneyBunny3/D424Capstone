@@ -28,6 +28,7 @@
 
 
     <!-- Button colors -->
+    <color name="admin_button">@color/midnight_green</color>
     <color name="add_new_button">@color/rust</color>
     <color name="save_button">@color/dark_moss_green</color>
     <color name="edit_button">@color/mimi_pink</color>

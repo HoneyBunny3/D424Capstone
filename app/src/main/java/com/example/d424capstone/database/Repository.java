@@ -50,9 +50,11 @@ public class Repository {
             if (userDAO.getAllUsers().isEmpty()) {
                 Handler handler = new Handler(Looper.getMainLooper());
 
+                User adminUser = new User(0, "Admin", "Hearthy", "hearthy@example.com", "1234567890", "!234Abcd", "ADMIN");
                 User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "PREMIUM");
                 User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "REGULAR");
 
+                long adminUserId = userDAO.insert(adminUser);
                 long premiumUserId = userDAO.insert(premiumUser);
                 long regularUserId = userDAO.insert(regularUser);
 
@@ -87,39 +89,6 @@ public class Repository {
             }
         });
     }
-
-    // Premium store related methods
-//    public List<PremiumStoreItem> getAllPremiumStoreItems() {
-//        final List<PremiumStoreItem>[] items = new List[1];
-//        CountDownLatch latch = new CountDownLatch(1);
-//        databaseWriteExecutor.execute(() -> {
-//            items[0] = premiumStoreItemDAO.getAllItems();
-//            latch.countDown();
-//        });
-//        try {
-//            latch.await(); // Wait for the database operation to complete
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        return items[0];
-//    }
-
-//    public void insertPremiumStoreItem(PremiumStoreItem item) {
-//        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.insert(item));
-//    }
-//
-//    public void updatePremiumStoreItem(PremiumStoreItem item) {
-//        databaseWriteExecutor.execute(() -> premiumStoreItemDAO.update(item));
-//    }
-//
-//    public void deletePremiumStoreItem(int itemId) {
-//        databaseWriteExecutor.execute(() -> {
-//            PremiumStoreItem item = premiumStoreItemDAO.getItemById(itemId);
-//            if (item != null) {
-//                premiumStoreItemDAO.delete(item);
-//            }
-//        });
-//    }
 
     // Premium Storefront methods
     public void insertPremiumStorefront(PremiumStorefront storefront) {

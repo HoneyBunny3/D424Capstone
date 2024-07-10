@@ -50,27 +50,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return (users != null) ? users.size() : 0;
     }
 
-    /**
-     * Updates the list of users and notifies the adapter of the data change.
-     *
-     * @param users The updated list of users.
-     */
     public void setUsers(List<User> users) {
         this.users = users;
         notifyDataSetChanged();
     }
 
-    /**
-     * ViewHolder class for managing individual user items in the RecyclerView.
-     */
     class UserViewHolder extends RecyclerView.ViewHolder {
         private final TextView userEmailView; // TextView to display the user email.
 
-        /**
-         * Constructor for the UserViewHolder.
-         *
-         * @param itemView The view for the individual user item.
-         */
         private UserViewHolder(View itemView) {
             super(itemView);
             userEmailView = itemView.findViewById(R.id.email);
