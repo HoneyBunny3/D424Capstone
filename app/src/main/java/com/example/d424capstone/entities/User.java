@@ -1,10 +1,14 @@
 package com.example.d424capstone.entities;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.d424capstone.Converters;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(tableName = "user_table")
 public class User implements Serializable {
@@ -17,6 +21,9 @@ public class User implements Serializable {
     private String password;
     private String role;
 
+    @TypeConverters(Converters.class)
+    private Set<Integer> likedPosts;
+
     public User(int userID, String firstName, String lastName, String email, String phone, String password, String role) {
         this.userID = userID;
         this.firstName = firstName;
@@ -25,6 +32,7 @@ public class User implements Serializable {
         this.phone = phone;
         this.password = password;
         this.role = role;
+        this.likedPosts = new HashSet<>();
     }
 
     // Getter and setter methods
@@ -83,5 +91,21 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<Integer> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(Set<Integer> likedPosts) {
+        this.likedPosts = likedPosts;
+    }
+
+    public void addLikedPost(int postId) {
+        this.likedPosts.add(postId);
+    }
+
+    public boolean hasLikedPost(int postId) {
+        return this.likedPosts.contains(postId);
     }
 }

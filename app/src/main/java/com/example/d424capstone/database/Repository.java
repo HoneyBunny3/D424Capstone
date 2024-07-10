@@ -401,13 +401,19 @@ public class Repository {
         databaseWriteExecutor.execute(() -> socialPostDAO.insert(socialPost));
     }
 
-    public SocialPost getMostLikedPost() {
-        final SocialPost[] post = new SocialPost[1];
-        databaseWriteExecutor.execute(() -> post[0] = socialPostDAO.getMostLikedPost());
-        return post[0];
-    }
-
     public void updateSocialPost(SocialPost socialPost) {
         databaseWriteExecutor.execute(() -> socialPostDAO.update(socialPost));
+    }
+
+    public void likePost(int userID, SocialPost socialPost) {
+        User currentUser = getUserByID(userID);
+        if (currentUser != null && !currentUser.hasLikedPost(socialPost.getSocialPostID())) {
+            socialPost.incrementLikes();
+            currentUser.addLikedPost(socialPost.getSocialPostID());
+            databaseWriteExecutor.execute(() -> {
+                userDAO.update(currentUser);
+                socialPostDAO.update(socialPost);
+            });
+        }
     }
 }

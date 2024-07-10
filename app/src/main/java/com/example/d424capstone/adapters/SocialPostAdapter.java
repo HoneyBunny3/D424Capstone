@@ -42,11 +42,14 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         holder.likesTextView.setText("Likes: " + currentPost.getLikes());
 
         holder.itemView.setOnClickListener(v -> {
-            currentPost.incrementLikes();
-            repository.updateSocialPost(currentPost);
-            updatePost(currentPost);
-            holder.likesTextView.setText("Likes: " + currentPost.getLikes());
-            Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
+            User currentUser = repository.getCurrentUser();
+            if (currentUser != null && !currentUser.hasLikedPost(currentPost.getSocialPostID())) {
+                repository.likePost(currentUser.getUserID(), currentPost);
+                holder.likesTextView.setText("Likes: " + currentPost.getLikes());
+                Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(holder.itemView.getContext(), "You have already liked this post", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
