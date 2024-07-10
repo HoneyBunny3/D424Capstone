@@ -21,7 +21,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.ContactMessage;
 import com.example.d424capstone.entities.User;
+
+import java.util.Date;
 
 public class ContactUsScreen extends BaseActivity {
 
@@ -94,6 +97,17 @@ public class ContactUsScreen extends BaseActivity {
 
                 // Show success image
                 successImage.setVisibility(View.VISIBLE);
+                // Save message to database
+                ContactMessage contactMessage = new ContactMessage(
+                        repository.getCurrentUser().getUserID(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        email.getText().toString(),
+                        subject.getText().toString(),
+                        message.getText().toString(),
+                        new Date()
+                );
+                repository.insertContactMessage(contactMessage);
             }
         });
 

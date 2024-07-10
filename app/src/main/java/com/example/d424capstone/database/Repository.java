@@ -23,6 +23,7 @@ public class Repository {
     private final OrderDAO orderDAO;
     private final SocialPostDAO socialPostDAO;
     private final PremiumStorefrontDAO premiumStorefrontDAO;
+    private final ContactMessageDAO contactMessageDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -36,6 +37,7 @@ public class Repository {
         orderDAO = db.orderDAO();
         socialPostDAO = db.socialPostDAO();
         premiumStorefrontDAO = db.premiumStorefrontDAO();
+        contactMessageDAO = db.contactMessageDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
@@ -415,5 +417,24 @@ public class Repository {
                 socialPostDAO.update(socialPost);
             });
         }
+    }
+
+    public void insertContactMessage(ContactMessage contactMessage) {
+        databaseWriteExecutor.execute(() -> contactMessageDAO.insert(contactMessage));
+    }
+
+    public List<ContactMessage> getAllContactMessages() {
+        final List<ContactMessage>[] messages = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            messages[0] = contactMessageDAO.getAllMessages();
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return messages[0];
     }
 }
