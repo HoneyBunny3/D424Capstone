@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ContactMessagesScreen">
+    tools:context=".activities.ContactMessageScreen">
 
     <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,12 +15,12 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/contact_messages_text_view"
+            android:id="@+id/contact_message_text_view"
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="100dp"
-            android:text="Hearth's Contact Messages Page"
+            android:text="Hearth's Admin Actions Page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_messages_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/contact_message_text_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

@@ -12,36 +12,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.adapters.CatAdapter;
 import com.example.d424capstone.adapters.ContactMessageAdapter;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.ContactMessage;
 
 import java.util.List;
 
-public class ContactMessagesScreen extends BaseActivity {
-
+public class ContactMessageScreen extends BaseActivity {
     private Repository repository;
     private ContactMessageAdapter contactMessageAdapter;
     private RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_contact_messages_screen);
+        setContentView(R.layout.activity_contact_message_screen);
+
+        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         initViews();
-        repository = MyApplication.getInstance().getRepository();
-
         loadContactMessages();
 
+        // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return WindowInsetsCompat.CONSUMED;
+            return insets;
         });
     }
 
@@ -66,6 +64,6 @@ public class ContactMessagesScreen extends BaseActivity {
     }
 
     private void showToast(String message) {
-        runOnUiThread(() -> Toast.makeText(ContactMessagesScreen.this, message, Toast.LENGTH_LONG).show());
+        runOnUiThread(() -> Toast.makeText(ContactMessageScreen.this, message, Toast.LENGTH_LONG).show());
     }
 }

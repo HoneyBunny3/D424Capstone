@@ -16,12 +16,11 @@ import com.example.d424capstone.database.Repository;
 public class UserManagementScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.activity_user_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -29,7 +28,6 @@ public class UserManagementScreen extends BaseActivity {
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

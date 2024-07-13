@@ -44,7 +44,7 @@ public class AdminScreen extends BaseActivity {
 
     private void initializeButtons() {
         Button buttonToContactMessages = findViewById(R.id.to_contact_messages_screen);
-        buttonToContactMessages.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, ContactMessagesScreen.class)));
+        buttonToContactMessages.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, ContactMessageScreen.class)));
 
         Button buttonToUserManagement = findViewById(R.id.to_user_management_screen);
         buttonToUserManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, UserManagementScreen.class)));

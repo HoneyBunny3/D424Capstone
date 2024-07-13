@@ -9,9 +9,11 @@
     tools:context=".activities.AdminScreen">
 
     <!-- Main Content -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
         android:padding="16dp">
 
         <TextView
@@ -19,58 +21,38 @@
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="100dp"
-            android:text="Hearth's Admin Actions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            android:layout_marginBottom="16dp"
+            android:text="Hearth's Admin Actions" />
 
         <Button
             android:id="@+id/to_contact_messages_screen"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="View Contact Messages"
-            app:layout_constraintTop_toBottomOf="@+id/admin_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="View Contact Messages" />
 
         <Button
             android:id="@+id/to_user_management_screen"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="User Management"
-            app:layout_constraintTop_toBottomOf="@+id/to_contact_messages_screen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="User Management" />
 
         <Button
             android:id="@+id/to_social_post_moderation_screen"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Social Post Moderation"
-            app:layout_constraintTop_toBottomOf="@+id/to_user_management_screen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Social Post Moderation" />
 
         <Button
             android:id="@+id/to_store_management_screen"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Store Product Management"
-            app:layout_constraintTop_toBottomOf="@+id/to_social_post_moderation_screen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Store Product Management" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

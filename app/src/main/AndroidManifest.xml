@@ -14,10 +14,13 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".activities.SocialPostModerationScreen"
+            android:name=".activities.ContactMessageScreen"
             android:exported="false" />
         <activity
             android:name=".activities.UserManagementScreen"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SocialPostModerationScreen"
             android:exported="false" />
         <activity
             android:name=".activities.StoreManagementScreen"
