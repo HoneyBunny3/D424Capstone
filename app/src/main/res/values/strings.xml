@@ -19,6 +19,17 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="user_roles_array">
+        <item>REGULAR</item>
+        <item>PREMIUM</item>
+        <item>ADMIN</item>
+    </string-array>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/custom_spinner_selector</item>
+        <item name="android:popupBackground">@color/ghost_white</item>
+    </style>
+
     <string name="confirmation_message"><![CDATA[Thank you for contacting <b>Hearth\'s Stop and Shop!</b> <br> Our support team will email you within <b>2 business days</b>.]]>
     </string>
 </resources>
