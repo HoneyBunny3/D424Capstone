@@ -376,6 +376,10 @@ public class Repository {
         databaseWriteExecutor.execute(() -> socialPostDAO.update(socialPost));
     }
 
+    public void deleteSocialPost(int socialPostID) {
+        databaseWriteExecutor.execute(() -> socialPostDAO.delete(socialPostID));
+    }
+
     public void likePost(int userID, SocialPost socialPost) {
         User currentUser = getUserByID(userID);
         if (currentUser != null && !currentUser.hasLikedPost(socialPost.getSocialPostID())) {

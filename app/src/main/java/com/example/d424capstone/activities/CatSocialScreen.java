@@ -1,3 +1,5 @@
+// CatSocialScreen.java
+
 package com.example.d424capstone.activities;
 
 import android.app.AlertDialog;
@@ -16,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.adapters.*;
-import com.example.d424capstone.database.*;
-import com.example.d424capstone.entities.*;
+import com.example.d424capstone.adapters.SocialPostAdapter;
+import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.SocialPost;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -43,7 +45,17 @@ public class CatSocialScreen extends BaseActivity {
         new Thread(() -> {
             List<SocialPost> socialPosts = repository.getAllSocialPosts();
             runOnUiThread(() -> {
-                adapter = new SocialPostAdapter(this, socialPosts, repository);
+                adapter = new SocialPostAdapter(this, socialPosts, repository, new SocialPostAdapter.OnItemClickListener() {
+                    @Override
+                    public void onEditClick(SocialPost socialPost) {
+                        // Handle edit click if needed
+                    }
+
+                    @Override
+                    public void onDeleteClick(SocialPost socialPost) {
+                        // Handle delete click if needed
+                    }
+                }, false); // Pass false to indicate normal mode
                 recyclerView.setAdapter(adapter);
             });
         }).start();
