@@ -26,31 +26,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
-        <!-- Email Label -->
-        <TextView
-            android:id="@+id/email_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_profile_text_view"
-            app:layout_constraintWidth_percent="0.8" />
-
-        <EditText
-            android:id="@+id/email"
-            style="@style/InputTextViewStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_label"
-            app:layout_constraintWidth_percent="0.8" />
-
         <!-- First Name Label -->
         <TextView
             android:id="@+id/first_name_label"
@@ -60,7 +35,7 @@
             android:text="First Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email"
+            app:layout_constraintTop_toBottomOf="@id/user_profile_text_view"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
@@ -101,6 +76,31 @@
             app:layout_constraintTop_toBottomOf="@id/last_name_label"
             app:layout_constraintWidth_percent="0.8" />
 
+        <!-- Email Label -->
+        <TextView
+            android:id="@+id/email_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lastName"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/InputTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_label"
+            app:layout_constraintWidth_percent="0.8" />
+
         <!-- Phone Number Label -->
         <TextView
             android:id="@+id/phone_number_label"
@@ -110,7 +110,7 @@
             android:text="Phone Number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lastName"
+            app:layout_constraintTop_toBottomOf="@id/email"
             app:layout_constraintWidth_percent="0.8" />
 
         <EditText
