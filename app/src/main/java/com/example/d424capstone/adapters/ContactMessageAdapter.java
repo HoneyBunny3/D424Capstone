@@ -60,6 +60,11 @@ public class ContactMessageAdapter extends RecyclerView.Adapter<ContactMessageAd
         return contactMessages.size();
     }
 
+    public void setContactMessages(List<ContactMessage> contactMessages) {
+        this.contactMessages = contactMessages;
+        notifyDataSetChanged();
+    }
+
     public static class ContactMessageViewHolder extends RecyclerView.ViewHolder {
         private TextView firstNameTextView;
         private TextView lastNameTextView;

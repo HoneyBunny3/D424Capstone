@@ -1,11 +1,10 @@
 package com.example.d424capstone.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -14,8 +13,7 @@ import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 
-public class AdminScreen extends BaseActivity {
-
+public class StoreManagementScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
 
@@ -23,36 +21,18 @@ public class AdminScreen extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_admin_screen);
+        setContentView(R.layout.activity_store_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-        // Initialize buttons and set their click listeners
-        initializeButtons();
-
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();
 
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-
-    private void initializeButtons() {
-        Button buttonToContactMessages = findViewById(R.id.to_contact_messages_screen);
-        buttonToContactMessages.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, ContactMessagesScreen.class)));
-
-        Button buttonToUserManagement = findViewById(R.id.to_user_management_screen);
-        buttonToUserManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, UserManagementScreen.class)));
-
-        Button buttonToSocialPostModeration = findViewById(R.id.to_social_post_moderation_screen);
-        buttonToSocialPostModeration.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, SocialPostModerationScreen.class)));
-
-        Button buttonToStoreManagement = findViewById(R.id.to_store_management_screen);
-        buttonToStoreManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, StoreManagementScreen.class)));
     }
 }
