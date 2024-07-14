@@ -47,6 +47,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/orderDetailsTextView" />
 
+        <Button
+            android:id="@+id/set_alert_button"
+            style="@style/ShareButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Set Order Tracking Alert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shareButton" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
