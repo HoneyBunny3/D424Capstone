@@ -1,11 +1,14 @@
 package com.example.d424capstone.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,13 +28,21 @@ import java.util.List;
 
 public class ReportGenerationScreen extends BaseActivity {
     private Repository repository;
+    private TextView reportTextView;
+    private Button shareButton;
+    private File csvFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report_generation_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository();
+
+        reportTextView = findViewById(R.id.report_text_view);
+        shareButton = findViewById(R.id.share_button);
+        shareButton.setOnClickListener(v -> shareCSVFile());
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -78,18 +89,29 @@ public class ReportGenerationScreen extends BaseActivity {
     }
 
     private void displayData(String data) {
-        // Display the data in a TextView or similar widget
-        Toast.makeText(this, "Data generated and displayed", Toast.LENGTH_SHORT).show();
+        reportTextView.setText(data);
     }
 
     private void exportToCSVFile(String data, String fileName) {
-        File file = new File(Environment.getExternalStorageDirectory(), fileName);
-        try (FileWriter writer = new FileWriter(file)) {
+        csvFile = new File(getFilesDir(), fileName);
+        try (FileWriter writer = new FileWriter(csvFile)) {
             writer.write(data);
-            Toast.makeText(this, "CSV file saved: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "CSV file saved: " + csvFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(this, "Error saving CSV file", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        }
+    }
+
+    private void shareCSVFile() {
+        if (csvFile != null && csvFile.exists()) {
+            Uri fileUri = FileProvider.getUriForFile(this, "com.example.d424capstone.fileprovider", csvFile);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/csv");
+            intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+            startActivity(Intent.createChooser(intent, "Share CSV file"));
+        } else {
+            Toast.makeText(this, "No CSV file to share", Toast.LENGTH_SHORT).show();
         }
     }
 }

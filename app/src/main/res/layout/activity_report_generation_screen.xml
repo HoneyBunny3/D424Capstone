@@ -45,6 +45,23 @@
             android:layout_height="wrap_content"
             android:text="Generate Social Report" />
 
+        <TextView
+            android:id="@+id/report_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Report will be displayed here"
+            android:padding="8dp"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share Report"
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
