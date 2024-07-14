@@ -24,7 +24,7 @@ import java.util.List;
 public class OrderDetailsScreen extends BaseActivity {
 
     private Repository repository;
-    private TextView orderDetailsTextView, trackingNumberTextView, carrierNameTextView;
+    private TextView orderDetailsTextView;
     private Button shareButton;
 
     @Override
