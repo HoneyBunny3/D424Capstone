@@ -11,17 +11,16 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Order;
-import com.example.d424capstone.entities.User;
 
 public class OrderDetailsScreen extends BaseActivity {
 
@@ -38,13 +37,18 @@ public class OrderDetailsScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_details_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository();
 
         orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
         shareButton = findViewById(R.id.shareButton);
         setAlertButton = findViewById(R.id.set_alert_button);
 
-        displayOrderDetails();
+        int orderID = getIntent().getIntExtra("orderID", -1);
+        if (orderID != -1) {
+            displayOrderDetails(orderID);
+        } else {
+            orderDetailsTextView.setText("Order ID is invalid");
+        }
 
         shareButton.setOnClickListener(v -> shareOrderDetails());
         setAlertButton.setOnClickListener(v -> setOrderTrackingAlert());
@@ -59,34 +63,26 @@ public class OrderDetailsScreen extends BaseActivity {
         });
     }
 
-    private void displayOrderDetails() {
+    private void displayOrderDetails(int orderID) {
         new Thread(() -> {
-            User currentUser = repository.getCurrentUser();
-            if (currentUser != null) {
-                Order order = repository.getLatestOrderForUser(currentUser.getUserID());
-                if (order != null) {
-                    String trackingNumber = order.getTrackingNumber() != null ? order.getTrackingNumber() : "Not available";
-                    String carrierName = order.getCarrierName() != null ? order.getCarrierName() : "Not available";
-                    String orderDetails = "Order ID: " + order.getOrderID() + "\n"
-                            + "Confirmation Number: " + order.getConfirmationNumber() + "\n"
-                            + "Order Date: " + order.getOrderDate().toString() + "\n\n"
-                            + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
-                            + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
-                            + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4) + "\n\n"
-                            + "Tracking Number: " + trackingNumber + "\n"
-                            + "Carrier Name: " + carrierName;
+            currentOrder = repository.getOrderByID(orderID);
+            if (currentOrder != null) {
+                String trackingNumber = currentOrder.getTrackingNumber() != null ? currentOrder.getTrackingNumber() : "Not available";
+                String carrierName = currentOrder.getCarrierName() != null ? currentOrder.getCarrierName() : "Not available";
+                String orderDetails = "Order ID: " + currentOrder.getOrderID() + "\n"
+                        + "Confirmation Number: " + currentOrder.getConfirmationNumber() + "\n"
+                        + "Order Date: " + currentOrder.getOrderDate().toString() + "\n\n"
+                        + "Purchased Items:\n" + currentOrder.getPurchasedItems() + "\n"
+                        + "Total Paid: $" + String.format("%.2f", currentOrder.getTotalPaid()) + "\n"
+                        + "Credit Card (Last 4): " + currentOrder.getCardNumber().substring(currentOrder.getCardNumber().length() - 4) + "\n\n"
+                        + "Tracking Number: " + trackingNumber + "\n"
+                        + "Carrier Name: " + carrierName;
 
-                    runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
-                } else {
-                    runOnUiThread(() -> {
-                        orderDetailsTextView.setText("No order found for the current user.");
-                        Toast.makeText(OrderDetailsScreen.this, "No order found for the current user.", Toast.LENGTH_SHORT).show();
-                    });
-                }
+                runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
             } else {
                 runOnUiThread(() -> {
-                    orderDetailsTextView.setText("No user is currently logged in.");
-                    Toast.makeText(OrderDetailsScreen.this, "No user is currently logged in.", Toast.LENGTH_SHORT).show();
+                    orderDetailsTextView.setText("No order found");
+                    Toast.makeText(OrderDetailsScreen.this, "No order found", Toast.LENGTH_SHORT).show();
                 });
             }
         }).start();
@@ -104,11 +100,12 @@ public class OrderDetailsScreen extends BaseActivity {
     }
 
     private void setOrderTrackingAlert() {
-        String orderDetails = orderDetailsTextView.getText().toString();
-        // Send notification logic here
-        Toast.makeText(this, "Order tracking alert set.", Toast.LENGTH_SHORT).show();
-    }
+        String message = "Your order with confirmation number " + currentOrder.getConfirmationNumber() +
+                " has been shipped via " + currentOrder.getCarrierName() + " with tracking number " + currentOrder.getTrackingNumber() +
+                ". Please be on the lookout for your package.";
 
+        sendNotification(message);
+    }
 
     private void sendNotification(String message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
