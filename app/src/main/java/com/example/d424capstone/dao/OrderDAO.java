@@ -29,4 +29,7 @@ public interface OrderDAO {
 
     @Query("SELECT * FROM order_table ORDER BY orderDate DESC")
     List<Order> getAllOrdersOrderedByDate();
+
+    @Query("SELECT * FROM order_table WHERE userId = :userId ORDER BY orderDate DESC")
+    List<Order> getOrdersByUserId(int userId);
 }

@@ -356,6 +356,21 @@ public class Repository {
         return order[0];
     }
 
+    public List<Order> getOrdersByUserID(int userID) {
+        final List<Order>[] orders = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            orders[0] = orderDAO.getOrdersByUserId(userID);
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return orders[0];
+    }
+
     // SocialPost-related methods
     public List<SocialPost> getAllSocialPosts() {
         final List<SocialPost>[] posts = new List[1];

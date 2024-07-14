@@ -14,18 +14,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
+import com.example.d424capstone.adapters.OrderAdapter;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.Order;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
+
+import java.util.List;
 
 public class UserProfileScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
     private Button saveButton, cancelButton, catButton;
+    private RecyclerView ordersRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class UserProfileScreen extends BaseActivity {
         initializeDrawer();
 
         loadUserProfile();
+        loadUserOrders();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -58,6 +66,8 @@ public class UserProfileScreen extends BaseActivity {
         saveButton = findViewById(R.id.save_user);
         cancelButton = findViewById(R.id.cancel_user);
         catButton = findViewById(R.id.cat_button);
+        ordersRecyclerView = findViewById(R.id.orders_recycler_view);
+        ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         setupPasswordVisibilityToggle();
     }
 
@@ -139,6 +149,26 @@ public class UserProfileScreen extends BaseActivity {
                 } else {
                     showToast("User not found");
                     finish();
+                }
+            });
+        }).start();
+    }
+
+    private void loadUserOrders() {
+        int userID = sharedPreferences.getInt("LoggedInUserID", -1);
+        if (userID == -1) {
+            showToast("Invalid user ID");
+            return;
+        }
+
+        new Thread(() -> {
+            List<Order> orders = repository.getOrdersByUserID(userID);
+            runOnUiThread(() -> {
+                if (orders != null && !orders.isEmpty()) {
+                    OrderAdapter orderAdapter = new OrderAdapter(orders, UserProfileScreen.this);
+                    ordersRecyclerView.setAdapter(orderAdapter);
+                } else {
+                    showToast("No orders found");
                 }
             });
         }).start();
