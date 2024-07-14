@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.R;
+import com.example.d424capstone.models.Tip;
 
 import java.util.List;
 
