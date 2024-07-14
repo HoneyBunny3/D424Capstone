@@ -1,15 +1,18 @@
-// CatSocialScreen.java
-
 package com.example.d424capstone.activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -42,6 +45,47 @@ public class CatSocialScreen extends BaseActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        loadSocialPosts();
+
+        FloatingActionButton fabAddPost = findViewById(R.id.fab_add_post);
+        fabAddPost.setOnClickListener(v -> openAddPostDialog());
+
+        initializeDrawer();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle search query submission here
+                searchSocialPosts(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle search query text change here if needed
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    private void loadSocialPosts() {
         new Thread(() -> {
             List<SocialPost> socialPosts = repository.getAllSocialPosts();
             runOnUiThread(() -> {
@@ -59,17 +103,13 @@ public class CatSocialScreen extends BaseActivity {
                 recyclerView.setAdapter(adapter);
             });
         }).start();
+    }
 
-        FloatingActionButton fabAddPost = findViewById(R.id.fab_add_post);
-        fabAddPost.setOnClickListener(v -> openAddPostDialog());
-
-        initializeDrawer();
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+    private void searchSocialPosts(String query) {
+        new Thread(() -> {
+            List<SocialPost> searchResults = repository.searchSocialPosts(query);
+            runOnUiThread(() -> adapter.updateData(searchResults));
+        }).start();
     }
 
     private void openAddPostDialog() {

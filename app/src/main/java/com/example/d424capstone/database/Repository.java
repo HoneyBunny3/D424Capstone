@@ -453,4 +453,17 @@ public class Repository {
         }
         return items[0];
     }
+
+    public List<SocialPost> searchSocialPosts(String query) {
+        final List<SocialPost>[] posts = new List[1];
+        databaseWriteExecutor.execute(() -> {
+            posts[0] = socialPostDAO.searchSocialPosts("%" + query + "%");
+        });
+        try {
+            Thread.sleep(500); // Small delay to ensure background execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return posts[0];
+    }
 }

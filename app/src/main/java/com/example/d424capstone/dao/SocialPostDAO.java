@@ -28,6 +28,9 @@ public interface SocialPostDAO {
     @Query("SELECT * FROM social_post_table ORDER BY socialPostID ASC")
     List<SocialPost> getAllSocialPosts();
 
+    @Query("SELECT * FROM social_post_table WHERE content LIKE :query")
+    List<SocialPost> searchSocialPosts(String query);
+
     @Query("SELECT * FROM social_post_table ORDER BY likes DESC LIMIT 1")
     SocialPost getMostLikedPost();
 }
