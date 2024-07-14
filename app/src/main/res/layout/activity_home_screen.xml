@@ -30,9 +30,9 @@
             android:id="@+id/buttonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_text_view">
@@ -41,16 +41,16 @@
                 android:id="@+id/touserloginscreen"
                 style="@style/LoginButtonStyle"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="16dp"
                 android:text="User Login" />
 
             <Button
                 android:id="@+id/tousersignupscreen"
                 style="@style/SignUpButtonStyle"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:layout_marginLeft="5dp"
                 android:text="User Sign Up" />
         </LinearLayout>
 
@@ -75,15 +75,25 @@
             app:layout_constraintTop_toBottomOf="@id/tocatsocialscreen" />
 
         <Button
+            android:id="@+id/tocatlovescreen"
+            style="@style/EditButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Hearth's Love Your Cat Page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toshoppingscreen" />
+
+        <Button
             android:id="@+id/toadminscreen"
             style="@style/AdminButtonStyle"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="Admin Actions"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toshoppingscreen"
-            android:visibility="gone" />
+            app:layout_constraintTop_toBottomOf="@id/tocatlovescreen" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

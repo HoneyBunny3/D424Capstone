@@ -61,6 +61,9 @@ public class HomeScreen extends BaseActivity {
 
         Button buttonSocial = findViewById(R.id.tocatsocialscreen);
         buttonSocial.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, CatSocialScreen.class)));
+
+        Button buttonCatLove = findViewById(R.id.tocatlovescreen);
+        buttonCatLove.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, LoveYourCatScreen.class)));
     }
 
     private void setAdminButtonVisibility() {
