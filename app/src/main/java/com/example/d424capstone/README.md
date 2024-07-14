@@ -1,6 +1,3 @@
-
----
-
 # D424Capstone
 
 D424Capstone is a cat care application mobile application designed to debunk stereotypes about cats and showcase their unique personalities, 
@@ -107,5 +104,3 @@ This project is unlicensed.
 ## Acknowledgements
 
 - Thanks to all contributors and users for their support.
-
----
