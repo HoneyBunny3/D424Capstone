@@ -85,6 +85,7 @@ This project will culminate in a demonstrable prototype.
 - **Post**: Users can create posts about their cats.
 - **Like**: Users can like posts. Each user can only like a post once.
 - **View**: Users can view posts from other users.
+- **Share**: Users can share posts.
 
 ## Contributing
 
