@@ -36,8 +36,6 @@ public class OrderDetailsScreen extends BaseActivity {
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
-        trackingNumberTextView = findViewById(R.id.tracking_number);
-        carrierNameTextView = findViewById(R.id.carrier_name);
         shareButton = findViewById(R.id.shareButton);
 
         displayOrderDetails();
