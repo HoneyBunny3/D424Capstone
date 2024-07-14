@@ -43,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="Quantity" />
+        android:hint="Quantity"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/buttonContainer"
@@ -53,12 +54,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/storeItemAddToCartButton"
+            android:id="@+id/storeItemUpdateButton"
             style="@style/SaveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:text="Add to Cart" />
+            android:text="Update" />
 
         <Button
             android:id="@+id/storeItemRemoveButton"
@@ -69,4 +70,3 @@
             android:text="Remove" />
     </LinearLayout>
 </LinearLayout>
-
