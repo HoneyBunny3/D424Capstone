@@ -1,7 +1,9 @@
+// UserProfileScreen.java
 package com.example.d424capstone.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -174,7 +177,6 @@ public class UserProfileScreen extends BaseActivity {
         }).start();
     }
 
-
     private boolean validateInput(String email, String firstName, String lastName, String password) {
         if (email.isEmpty() || !isValidEmail(email)) {
             showAlert("Email Input Error", "Please enter a valid email.\nEnsure format is test@test.test");
@@ -224,6 +226,19 @@ public class UserProfileScreen extends BaseActivity {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == OrderAdapter.NOTIFICATION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void showToast(String message) {
