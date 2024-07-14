@@ -14,7 +14,9 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.activities.OrderDetailsScreen;
 import com.example.d424capstone.entities.Order;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
     private List<Order> orders;
@@ -35,9 +37,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orders.get(position);
-        holder.itemName.setText(order.getPurchasedItems());
-        holder.purchaseDate.setText(order.getOrderDate().toString());
-        holder.amount.setText(String.valueOf(order.getTotalPaid()));
+        holder.confirmationNumber.setText(order.getConfirmationNumber());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+        holder.orderDate.setText(sdf.format(order.getOrderDate()));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, OrderDetailsScreen.class);
@@ -46,19 +48,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         });
     }
 
+
     @Override
     public int getItemCount() {
         return orders.size();
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView itemName, purchaseDate, amount;
+        TextView confirmationNumber, orderDate;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemName = itemView.findViewById(R.id.item_name);
-            purchaseDate = itemView.findViewById(R.id.purchase_date);
-            amount = itemView.findViewById(R.id.amount);
+            confirmationNumber = itemView.findViewById(R.id.confirmation_number);
+            orderDate = itemView.findViewById(R.id.order_date);
         }
     }
 }

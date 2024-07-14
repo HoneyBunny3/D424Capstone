@@ -174,6 +174,7 @@ public class UserProfileScreen extends BaseActivity {
         }).start();
     }
 
+
     private boolean validateInput(String email, String firstName, String lastName, String password) {
         if (email.isEmpty() || !isValidEmail(email)) {
             showAlert("Email Input Error", "Please enter a valid email.\nEnsure format is test@test.test");
