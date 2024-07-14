@@ -44,7 +44,6 @@ public class OrderConfirmationScreen extends BaseActivity {
         creditCardTextView = findViewById(R.id.creditCardTextView);
         toUserProfileButton = findViewById(R.id.toUserProfileButton);
         toShoppingButton = findViewById(R.id.toShoppingButton);
-        toOrderDetailsButton = findViewById(R.id.toOrderDetailsButton);
 
         displayOrderConfirmation();
 
@@ -55,11 +54,6 @@ public class OrderConfirmationScreen extends BaseActivity {
 
         toShoppingButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrderConfirmationScreen.this, ShoppingScreen.class);
-            startActivity(intent);
-        });
-
-        toOrderDetailsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderConfirmationScreen.this, OrderDetailsScreen.class);
             startActivity(intent);
         });
 
