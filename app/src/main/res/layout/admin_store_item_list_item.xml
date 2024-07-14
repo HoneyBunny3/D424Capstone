@@ -5,28 +5,28 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/storeItemNameTextView"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/storeItemNameEditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="Item" />
 
-    <TextView
-        android:id="@+id/storeItemDescriptionTextView"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/storeItemDescriptionEditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:hint="Description"/>
 
-    <TextView
-        android:id="@+id/storeItemPriceTextView"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/storeItemPriceEditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="italic"
-        android:hint="price"/>
+        android:hint="Price" />
 
     <!-- Indicate premium product -->
     <TextView
@@ -36,14 +36,6 @@
         android:textSize="14sp"
         android:textColor="@color/autumn_bronze"
         android:text="Premium Product"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/storeItemQuantityEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Quantity"
         android:visibility="gone" />
 
     <LinearLayout
