@@ -30,4 +30,7 @@ public interface StoreItemDAO {
 
     @Query("SELECT * FROM store_item_table WHERE isFeatured = 1 LIMIT 1")
     StoreItem getFeaturedItem();
+
+    @Query("SELECT * FROM store_item_table WHERE name LIKE :query OR description LIKE :query")
+    List<StoreItem> searchStoreItems(String query);
 }

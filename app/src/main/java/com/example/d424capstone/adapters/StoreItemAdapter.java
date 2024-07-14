@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
@@ -18,52 +20,26 @@ import com.example.d424capstone.entities.StoreItem;
 
 import java.util.List;
 
-public class StoreItemAdapter extends BaseAdapter {
+public class StoreItemAdapter extends RecyclerView.Adapter<StoreItemAdapter.ViewHolder> {
     private final Repository repository;
     private final Context context;
     private final List<StoreItem> storeItems;
-    private final LayoutInflater mInflater;
 
     public StoreItemAdapter(Context context, List<StoreItem> storeItems) {
         this.repository = ((MyApplication) context.getApplicationContext()).getRepository();
         this.context = context;
         this.storeItems = storeItems;
-        this.mInflater = LayoutInflater.from(context);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.store_item_list_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return storeItems != null ? storeItems.size() : 0;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return storeItems.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return storeItems.get(position).getStoreItemID();
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.store_item_list_item, parent, false); // Updated to use the correct layout file
-            holder = new ViewHolder();
-            holder.nameTextView = convertView.findViewById(R.id.storeItemNameTextView);
-            holder.descriptionTextView = convertView.findViewById(R.id.storeItemDescriptionTextView);
-            holder.priceTextView = convertView.findViewById(R.id.storeItemPriceTextView);
-            holder.quantityEditText = convertView.findViewById(R.id.storeItemQuantityEditText);
-            holder.addToCartButton = convertView.findViewById(R.id.storeItemAddToCartButton);
-            holder.removeButton = convertView.findViewById(R.id.storeItemRemoveButton);
-            holder.premiumTextView = convertView.findViewById(R.id.storeItemPremiumTextView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StoreItem storeItem = storeItems.get(position);
         holder.nameTextView.setText(storeItem.getName());
         holder.descriptionTextView.setText(storeItem.getDescription());
@@ -94,11 +70,14 @@ public class StoreItemAdapter extends BaseAdapter {
             notifyDataSetChanged();
             Toast.makeText(context, "Removed " + storeItem.getName() + " from store", Toast.LENGTH_SHORT).show();
         });
-
-        return convertView;
     }
 
-    static class ViewHolder {
+    @Override
+    public int getItemCount() {
+        return storeItems != null ? storeItems.size() : 0;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
         TextView descriptionTextView;
         TextView priceTextView;
@@ -106,5 +85,16 @@ public class StoreItemAdapter extends BaseAdapter {
         Button addToCartButton;
         Button removeButton;
         TextView premiumTextView;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nameTextView = itemView.findViewById(R.id.storeItemNameTextView);
+            descriptionTextView = itemView.findViewById(R.id.storeItemDescriptionTextView);
+            priceTextView = itemView.findViewById(R.id.storeItemPriceTextView);
+            quantityEditText = itemView.findViewById(R.id.storeItemQuantityEditText);
+            addToCartButton = itemView.findViewById(R.id.storeItemAddToCartButton);
+            removeButton = itemView.findViewById(R.id.storeItemRemoveButton);
+            premiumTextView = itemView.findViewById(R.id.storeItemPremiumTextView);
+        }
     }
 }

@@ -440,4 +440,17 @@ public class Repository {
         }
         return messages[0];
     }
+
+    public List<StoreItem> searchStoreItems(String query) {
+        final List<StoreItem>[] items = new List[1];
+        databaseWriteExecutor.execute(() -> {
+            items[0] = storeItemDAO.searchStoreItems("%" + query + "%");
+        });
+        try {
+            Thread.sleep(500); // Small delay to ensure background execution
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return items[0];
+    }
 }

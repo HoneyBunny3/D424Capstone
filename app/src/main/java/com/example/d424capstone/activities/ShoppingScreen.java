@@ -3,10 +3,10 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
@@ -19,6 +19,8 @@ import java.util.List;
 public class ShoppingScreen extends BaseActivity {
 
     private Repository repository;
+    private RecyclerView recyclerView;
+    private StoreItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public class ShoppingScreen extends BaseActivity {
         setContentView(R.layout.activity_shopping_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+
+        recyclerView = findViewById(R.id.storeItemRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         displayStoreItems();
 
@@ -41,10 +46,9 @@ public class ShoppingScreen extends BaseActivity {
             List<StoreItem> storeItems = repository.getAllStoreItems();
 
             runOnUiThread(() -> {
-                ListView listView = findViewById(R.id.storeItemListView);
                 if (storeItems != null && !storeItems.isEmpty()) {
-                    StoreItemAdapter adapter = new StoreItemAdapter(this, storeItems);
-                    listView.setAdapter(adapter);
+                    adapter = new StoreItemAdapter(this, storeItems);
+                    recyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(this, "No store items available", Toast.LENGTH_SHORT).show();
                 }
