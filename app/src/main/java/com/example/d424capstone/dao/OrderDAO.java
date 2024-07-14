@@ -18,6 +18,9 @@ public interface OrderDAO {
     @Update
     void update(Order order);
 
+    @Query("SELECT * FROM order_table WHERE orderId = :orderId")
+    Order getOrderById(int orderId);
+    
     @Query("SELECT * FROM order_table ORDER BY orderId DESC LIMIT 1")
     Order getLatestOrder();
 

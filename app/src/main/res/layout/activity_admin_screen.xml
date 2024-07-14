@@ -47,6 +47,12 @@
             android:text="Store Product Management" />
 
         <Button
+            android:id="@+id/to_product_shipping_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Product Shipment Tracking" />
+
+        <Button
             android:id="@+id/to_report_generation_screen"
             style="@style/AdminButtonStyle"
             android:layout_marginBottom="16dp"

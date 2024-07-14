@@ -8,8 +8,8 @@ import java.util.Date;
 @Entity(tableName = "order_table")
 public class Order {
     @PrimaryKey(autoGenerate = true)
-    private int orderId;
-    private int userId;
+    private int orderID;
+    private int userID;
     private String cardNumber;
     private String cardExpiry;
     private String cardCVV;
@@ -17,9 +17,11 @@ public class Order {
     private double totalPaid;
     private String purchasedItems;
     private Date orderDate;
+    private String trackingNumber;
+    private String carrierName;
 
-    public Order(int userId, String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems, Date orderDate) {
-        this.userId = userId;
+    public Order(int userID, String cardNumber, String cardExpiry, String cardCVV, double totalPaid, String purchasedItems, Date orderDate) {
+        this.userID = userID;
         this.cardNumber = cardNumber;
         this.cardExpiry = cardExpiry;
         this.cardCVV = cardCVV;
@@ -28,20 +30,20 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getOrderID() {
+        return orderID;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public Date getOrderDate() {
@@ -98,5 +100,21 @@ public class Order {
 
     public void setPurchasedItems(String purchasedItems) {
         this.purchasedItems = purchasedItems;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public String getCarrierName() {
+        return carrierName;
+    }
+
+    public void setCarrierName(String carrierName) {
+        this.carrierName = carrierName;
     }
 }

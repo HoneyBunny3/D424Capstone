@@ -338,7 +338,7 @@ public class Repository {
     public void insertOrderForCurrentUser(Order order) {
         int userID = sharedPreferences.getInt("LoggedInUserID", -1);
         if (userID != -1) {
-            order.setUserId(userID);
+            order.setUserID(userID);
             insertOrder(order);
         }
     }
@@ -369,6 +369,21 @@ public class Repository {
             e.printStackTrace();
         }
         return orders[0];
+    }
+
+    public Order getOrderByID(int orderID) {
+        final Order[] order = new Order[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            order[0] = orderDAO.getOrderById(orderID);
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return order[0];
     }
 
     // SocialPost-related methods

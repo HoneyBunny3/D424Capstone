@@ -58,7 +58,7 @@ public class OrderDetailsScreen extends BaseActivity {
             if (currentUser != null) {
                 Order order = repository.getLatestOrderForUser(currentUser.getUserID());
                 if (order != null) {
-                    String orderDetails = "Order ID: " + order.getOrderId() + "\n"
+                    String orderDetails = "Order ID: " + order.getOrderID() + "\n"
                             + "Confirmation Number: " + order.getConfirmationNumber() + "\n"
                             + "Order Date: " + order.getOrderDate().toString() + "\n\n"
                             + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
