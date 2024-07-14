@@ -93,4 +93,9 @@ public class OrderConfirmationScreen extends BaseActivity {
         Random random = new Random();
         return String.valueOf(100000 + random.nextInt(900000));
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

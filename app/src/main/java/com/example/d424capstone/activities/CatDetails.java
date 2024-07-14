@@ -91,4 +91,9 @@ public class CatDetails extends BaseActivity {
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(CatDetails.this, message, Toast.LENGTH_LONG).show());
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

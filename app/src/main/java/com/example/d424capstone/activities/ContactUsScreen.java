@@ -194,4 +194,9 @@ public class ContactUsScreen extends BaseActivity {
         confirmationMessage.setVisibility(View.GONE);
         successImage.setVisibility(View.GONE);
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

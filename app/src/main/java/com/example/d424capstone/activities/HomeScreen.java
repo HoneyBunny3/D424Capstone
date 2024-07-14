@@ -72,4 +72,9 @@ public class HomeScreen extends BaseActivity {
             buttonAdmin.setVisibility(Button.GONE);
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

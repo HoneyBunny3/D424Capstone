@@ -114,4 +114,9 @@ public class ReportGenerationScreen extends BaseActivity {
             Toast.makeText(this, "No CSV file to share", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

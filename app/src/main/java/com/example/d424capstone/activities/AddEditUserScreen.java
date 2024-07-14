@@ -117,4 +117,9 @@ public class AddEditUserScreen extends BaseActivity {
             });
         }).start();
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

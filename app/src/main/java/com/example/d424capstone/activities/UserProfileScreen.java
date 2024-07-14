@@ -237,4 +237,9 @@ public class UserProfileScreen extends BaseActivity {
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(UserProfileScreen.this, message, Toast.LENGTH_LONG).show());
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

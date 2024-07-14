@@ -123,4 +123,9 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
             Toast.makeText(this, "Error: User not premium or not logged in", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

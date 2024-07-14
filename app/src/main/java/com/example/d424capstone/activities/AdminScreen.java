@@ -61,4 +61,9 @@ public class AdminScreen extends BaseActivity {
         Button buttonToReportGeneration = findViewById(R.id.to_report_generation_screen);
         buttonToReportGeneration.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, ReportGenerationScreen.class)));
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

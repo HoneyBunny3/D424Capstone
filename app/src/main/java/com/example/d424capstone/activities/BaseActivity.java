@@ -53,31 +53,36 @@ public abstract class BaseActivity extends AppCompatActivity {
         checkLoginStatus();
     }
 
+    protected boolean shouldShowSearch() {
+        return true; // By default, show the search feature
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
+        if (shouldShowSearch()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_search, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) searchItem.getActionView();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Handle search query submission here
-                Intent intent = new Intent(BaseActivity.this, SearchResultsActivity.class);
-                intent.putExtra("QUERY", query);
-                startActivity(intent);
-                return false;
-            }
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // Handle search query submission here
+                    Intent intent = new Intent(BaseActivity.this, SearchResultsActivity.class);
+                    intent.putExtra("QUERY", query);
+                    startActivity(intent);
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Handle search query text change here if needed
-                return false;
-            }
-        });
-
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    // Handle search query text change here if needed
+                    return false;
+                }
+            });
+        }
         return true;
     }
 

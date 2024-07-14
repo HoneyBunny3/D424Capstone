@@ -80,4 +80,9 @@ public class UserManagementScreen extends BaseActivity {
             loadUsers();
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

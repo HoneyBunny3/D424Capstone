@@ -104,4 +104,9 @@ public class CartSummaryScreen extends BaseActivity {
             runOnUiThread(this::displayCartItems);
         }).start();
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

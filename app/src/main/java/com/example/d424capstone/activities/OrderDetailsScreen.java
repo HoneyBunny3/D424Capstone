@@ -139,4 +139,9 @@ public class OrderDetailsScreen extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

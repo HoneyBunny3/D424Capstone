@@ -111,4 +111,9 @@ public class UserLoginScreen extends BaseActivity {
                 return "Login successful as Guest";
         }
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }

@@ -75,4 +75,9 @@ public class PremiumProductManagementScreen extends BaseActivity {
         Toast.makeText(this, "Product saved", Toast.LENGTH_SHORT).show();
         finish(); // Close the activity and return to the previous screen
     }
+
+    @Override
+    protected boolean shouldShowSearch() {
+        return false; // Disable the search feature on this activity
+    }
 }
