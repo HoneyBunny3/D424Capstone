@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AdminScreen">
+    tools:context=".activities.ReportGenerationScreen">
 
     <!-- Main Content -->
     <LinearLayout
@@ -22,42 +22,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Hearth's Admin Actions" />
+            android:text="Hearth's Report Generation Page" />
 
         <Button
-            android:id="@+id/to_contact_messages_screen"
+            android:id="@+id/generate_user_report"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View Contact Messages" />
+            android:text="Generate User Report" />
 
         <Button
-            android:id="@+id/to_user_management_screen"
+            android:id="@+id/generate_shopping_report"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Management" />
+            android:text="Generate Shopping Report" />
 
         <Button
-            android:id="@+id/to_social_post_moderation_screen"
+            android:id="@+id/generate_social_report"
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Social Post Moderation" />
-
-        <Button
-            android:id="@+id/to_store_management_screen"
-            style="@style/AdminButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Store Product Management" />
-
-        <Button
-            android:id="@+id/to_report_generation_screen"
-            style="@style/AdminButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Generate Reports" />
+            android:text="Generate Social Report" />
 
     </LinearLayout>
 
