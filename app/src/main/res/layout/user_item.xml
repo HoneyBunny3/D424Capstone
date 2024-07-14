@@ -11,6 +11,7 @@
         style="@style/DisplayTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="User Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -20,6 +21,7 @@
         style="@style/DeleteButtonStyle"
         android:layout_width="73dp"
         android:layout_height="38dp"
+        android:layout_margin="16dp"
         android:text="Remove"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/user_name" />
