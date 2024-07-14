@@ -67,8 +67,6 @@
         <Button
             android:id="@+id/submitPaymentButton"
             style="@style/SaveButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Submit Payment"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,8 +76,8 @@
         <Button
             android:id="@+id/backToCartButton"
             style="@style/CancelButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Back to Cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

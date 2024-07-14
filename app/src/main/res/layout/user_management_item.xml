@@ -10,6 +10,7 @@
         android:id="@+id/first_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="First Name" />
@@ -18,6 +19,7 @@
         android:id="@+id/last_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="Last Name" />
@@ -26,6 +28,7 @@
         android:id="@+id/user_email_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="User Email" />
@@ -34,6 +37,7 @@
         android:id="@+id/user_role_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="User Role" />
@@ -42,22 +46,23 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/edit_user_button"
             style="@style/EditButtonStyle"
-            android:layout_width="73dp"
-            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:text="Edit" />
 
         <Button
             android:id="@+id/delete_user_button"
             style="@style/DeleteButtonStyle"
-            android:layout_width="73dp"
-            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:text="Remove" />
     </LinearLayout>

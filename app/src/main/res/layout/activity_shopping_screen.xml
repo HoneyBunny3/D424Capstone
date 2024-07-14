@@ -19,11 +19,12 @@
             style="@style/TitleTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:text="Hearth's Cat Shopping"
+            android:layout_margin="100dp"
+            android:text="Hearth's Shopping Page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <ListView
             android:id="@+id/storeItemListView"
@@ -38,10 +39,9 @@
 
         <Button
             android:id="@+id/toCartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             style="@style/ShoppingButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Go to Cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

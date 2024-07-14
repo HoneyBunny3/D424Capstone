@@ -10,6 +10,7 @@
         android:id="@+id/storeItemNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:hint="Item" />
@@ -18,6 +19,7 @@
         android:id="@+id/storeItemDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="14sp"
         android:hint="Description"/>
 
@@ -25,6 +27,7 @@
         android:id="@+id/storeItemPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="16sp"
         android:textStyle="italic"
         android:hint="price"/>
@@ -34,6 +37,7 @@
         android:id="@+id/storeItemPremiumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textSize="14sp"
         android:textColor="@color/autumn_bronze"
         android:text="Premium Product"
@@ -43,6 +47,7 @@
         android:id="@+id/storeItemQuantityEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:inputType="number"
         android:hint="Quantity" />
 
@@ -50,22 +55,23 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/storeItemAddToCartButton"
             style="@style/SaveButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:text="Add to Cart" />
 
         <Button
             android:id="@+id/storeItemRemoveButton"
             style="@style/DeleteButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:text="Remove" />
     </LinearLayout>

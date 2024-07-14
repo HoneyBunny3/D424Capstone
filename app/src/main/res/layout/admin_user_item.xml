@@ -11,8 +11,9 @@
         android:id="@+id/user_name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="User Name"
-        app:layout_constraintEnd_toStartOf="@+id/edit_user_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="User Name" />
@@ -21,8 +22,9 @@
         android:id="@+id/user_email_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="User Email"
-        app:layout_constraintEnd_toStartOf="@+id/edit_user_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_name_text_view"
         tools:text="User Email" />
@@ -31,25 +33,39 @@
         android:id="@+id/user_role_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="User Role"
-        app:layout_constraintEnd_toStartOf="@+id/edit_user_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_email_text_view"
         tools:text="User Role" />
 
-    <Button
-        android:id="@+id/edit_user_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_role_text_view">
 
-    <Button
-        android:id="@+id/delete_user_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_user_button" />
+        <Button
+            android:id="@+id/edit_user_button"
+            style="@style/EditButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/delete_user_button"
+            style="@style/DeleteButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Delete" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

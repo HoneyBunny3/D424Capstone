@@ -7,6 +7,8 @@
 
     <!--    Admin Button Styling-->
     <style name="AdminButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -16,6 +18,8 @@
 
     <!--    Add Button Styling-->
     <style name="AddButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -23,8 +27,10 @@
         <item name="android:textColor">@color/ghost_white</item>
     </style>
 
-    <!--    Add Button Styling-->
+    <!--    Edit Button Styling-->
     <style name="EditButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -34,6 +40,8 @@
 
     <!--    Save Button Styling-->
     <style name="SaveButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -41,18 +49,20 @@
         <item name="android:textColor">@color/ghost_white</item>
     </style>
 
-    <!--    Delete/Remove Button Styling-->
+    <!--    Delete or Remove Button Styling-->
     <style name="DeleteButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">12sp</item>
         <item name="android:padding">1dp</item>
         <item name="android:backgroundTint">@color/delete_button</item>
         <item name="android:textColor">@color/ghost_white</item>
     </style>
 
-    <!--    Share Button Styling-->
+    <!--    Share or Reply Button Styling-->
     <style name="ShareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -62,6 +72,8 @@
 
     <!--    Cancel Button Styling-->
     <style name="CancelButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -71,6 +83,8 @@
 
     <!--    Profile Button Styling-->
     <style name="ProfileButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -80,6 +94,8 @@
 
     <!--    Back Button Styling-->
     <style name="BackButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -89,6 +105,8 @@
 
     <!--    Go-To Button Styling-->
     <style name="GoToButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -98,6 +116,8 @@
 
     <!--    Login Button Styling-->
     <style name="LoginButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -107,6 +127,8 @@
 
     <!--    Sign-Up Button Styling-->
     <style name="SignUpButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -116,6 +138,8 @@
 
     <!--    Social Button Styling-->
     <style name="SocialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>
@@ -125,6 +149,8 @@
 
     <!--    Shopping Button Styling-->
     <style name="ShoppingButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">3dp</item>

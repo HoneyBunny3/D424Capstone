@@ -40,16 +40,16 @@
             <Button
                 android:id="@+id/touserloginscreen"
                 style="@style/LoginButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginRight="5dp"
                 android:text="User Login" />
 
             <Button
                 android:id="@+id/tousersignupscreen"
                 style="@style/SignUpButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="5dp"
                 android:text="User Sign Up" />
         </LinearLayout>
@@ -57,8 +57,8 @@
         <Button
             android:id="@+id/tocatsocialscreen"
             style="@style/SocialButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Hearth's Social Gathering"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,8 +67,8 @@
         <Button
             android:id="@+id/toshoppingscreen"
             style="@style/ShoppingButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Hearth's Stop and Shop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +77,8 @@
         <Button
             android:id="@+id/toadminscreen"
             style="@style/AdminButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Admin Actions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

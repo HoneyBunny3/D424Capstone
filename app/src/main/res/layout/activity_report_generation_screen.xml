@@ -29,6 +29,7 @@
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Generate User Report" />
 
         <Button
@@ -36,6 +37,7 @@
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Generate Shopping Report" />
 
         <Button
@@ -43,6 +45,7 @@
             style="@style/AdminButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Generate Social Report" />
 
         <TextView
@@ -58,10 +61,9 @@
 
         <Button
             android:id="@+id/share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Share Report"
-            android:layout_marginTop="16dp"/>
+            style="@style/ShareButtonStyle"
+            android:layout_marginTop="16dp"
+            android:text="Share Report" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
