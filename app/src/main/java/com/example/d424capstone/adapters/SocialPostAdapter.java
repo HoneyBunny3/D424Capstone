@@ -1,6 +1,7 @@
 package com.example.d424capstone.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
     private Repository repository;
     private OnItemClickListener listener;
     private boolean isModerationMode;
+    private Context context;
 
     public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository, OnItemClickListener listener, boolean isModerationMode) {
         this.inflater = LayoutInflater.from(context);
@@ -33,6 +35,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         this.repository = repository;
         this.listener = listener;
         this.isModerationMode = isModerationMode;
+        this.context = context;
     }
 
     @NonNull
@@ -63,6 +66,15 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
 
         holder.editButton.setOnClickListener(v -> listener.onEditClick(currentPost));
         holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(currentPost));
+
+        holder.shareButton.setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            String shareBody = currentPost.getContent();
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this post!");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+            context.startActivity(Intent.createChooser(shareIntent, "Share via"));
+        });
     }
 
     @Override
@@ -100,6 +112,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         private TextView likesTextView;
         private Button editButton;
         private Button deleteButton;
+        private Button shareButton;
 
         public SocialPostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +120,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
             likesTextView = itemView.findViewById(R.id.postLikesTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            shareButton = itemView.findViewById(R.id.shareButton);
         }
     }
 }

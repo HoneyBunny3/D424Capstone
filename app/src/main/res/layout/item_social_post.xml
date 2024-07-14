@@ -58,5 +58,11 @@
             android:text="Delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/postLikesTextView" />
+
+        <Button
+            android:id="@+id/shareButton"
+            style="@style/ShareButtonStyle"
+            android:layout_marginLeft="32dp"
+            android:text="Share" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
