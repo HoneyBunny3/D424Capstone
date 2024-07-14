@@ -137,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
         activityMap.put(R.id.cat_shopping, ShoppingScreen.class);
         activityMap.put(R.id.contact_us, ContactUsScreen.class);
+        activityMap.put(R.id.love_your_cat, LoveYourCatScreen.class);
     }
 
     private void handleLogout() {

@@ -39,4 +39,8 @@
         android:id="@+id/user_logout"
         android:icon="@drawable/baseline_logout_24"
         android:title="Logout" />
+    <item
+        android:id="@+id/love_your_cat"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Love Your Cat"/>
 </menu>
