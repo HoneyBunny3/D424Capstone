@@ -87,6 +87,15 @@ This project will culminate in a demonstrable prototype.
 - **View**: Users can view posts from other users.
 - **Share**: Users can share posts.
 
+## Love Your Cat Page
+
+- **Cat Care Tips**: Information about proper nutrition, grooming, health, exercise, and litter box maintenance. 
+- (Source: American Society for the Prevention of Cruelty to Animals (ASPCA), Humane Society of the United States)
+- **Cat Socialization Tips**: Tips on introducing new cats, interacting with humans, interacting with other pets, and environmental enrichment. 
+- (Source: International Cat Care, American Association of Feline Practitioners (AAFP))
+- **Promoting Positivity Towards Felines**: Address common misconceptions about cats, share success stories, and encourage community engagement. 
+- (Source: Cat Behavior Associates)
+
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
