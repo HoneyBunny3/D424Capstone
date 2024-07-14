@@ -24,7 +24,7 @@ import java.util.List;
 public class OrderDetailsScreen extends BaseActivity {
 
     private Repository repository;
-    private TextView orderDetailsTextView;
+    private TextView orderDetailsTextView, trackingNumberTextView, carrierNameTextView;
     private Button shareButton;
 
     @Override
@@ -36,6 +36,8 @@ public class OrderDetailsScreen extends BaseActivity {
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
 
         orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
+        trackingNumberTextView = findViewById(R.id.tracking_number);
+        carrierNameTextView = findViewById(R.id.carrier_name);
         shareButton = findViewById(R.id.shareButton);
 
         displayOrderDetails();
@@ -63,7 +65,9 @@ public class OrderDetailsScreen extends BaseActivity {
                             + "Order Date: " + order.getOrderDate().toString() + "\n\n"
                             + "Purchased Items:\n" + order.getPurchasedItems() + "\n"
                             + "Total Paid: $" + String.format("%.2f", order.getTotalPaid()) + "\n"
-                            + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4);
+                            + "Credit Card (Last 4): " + order.getCardNumber().substring(order.getCardNumber().length() - 4) + "\n\n"
+                            + "Tracking Number: " + (order.getTrackingNumber() != null ? order.getTrackingNumber() : "Not available") + "\n"
+                            + "Carrier Name: " + (order.getCarrierName() != null ? order.getCarrierName() : "Not available");
 
                     runOnUiThread(() -> orderDetailsTextView.setText(orderDetails));
                 } else {
