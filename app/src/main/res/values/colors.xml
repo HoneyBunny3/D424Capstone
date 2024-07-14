@@ -31,7 +31,7 @@
     <color name="admin_button">@color/midnight_green</color>
     <color name="add_new_button">@color/rust</color>
     <color name="save_button">@color/dark_moss_green</color>
-    <color name="edit_button">@color/mimi_pink</color>
+    <color name="edit_button">@color/light_bronze</color>
     <color name="delete_button">@color/black_bronze</color>
     <color name="share_button">@color/bronze_toffee</color>
     <color name="cancel_button">@color/french_gray</color>
