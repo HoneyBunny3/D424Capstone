@@ -56,12 +56,12 @@ public class StoreItemAdapter extends RecyclerView.Adapter<StoreItemAdapter.View
             String quantityText = holder.quantityEditText.getText().toString();
             if (!quantityText.isEmpty()) {
                 int quantity = Integer.parseInt(quantityText);
-                if (quantity > 0) {
+                if (storeItem.getItemPrice() == 0) {
+                    Toast.makeText(context, "Items with a price of $0 cannot be added to the cart", Toast.LENGTH_SHORT).show();
+                } else {
                     CartItem cartItem = new CartItem(0, storeItem.getName(), storeItem.getItemPrice(), quantity);
                     repository.insertCartItem(cartItem);
                     Toast.makeText(context, "Added " + quantity + " " + storeItem.getName() + " to cart", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Quantity must be greater than 0", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "Please enter a quantity", Toast.LENGTH_SHORT).show();

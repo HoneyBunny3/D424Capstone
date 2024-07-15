@@ -56,7 +56,19 @@ public class StoreItemManagementAdapter extends RecyclerView.Adapter<StoreItemMa
         holder.updateButton.setOnClickListener(v -> {
             String updatedName = holder.nameEditText.getText().toString();
             String updatedDescription = holder.descriptionEditText.getText().toString();
-            double updatedPrice = Double.parseDouble(holder.priceEditText.getText().toString().replace("$", ""));
+            String priceText = holder.priceEditText.getText().toString().replace("$", "");
+
+            if (priceText.isEmpty()) {
+                Toast.makeText(context, "Please enter a price", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double updatedPrice = Double.parseDouble(priceText);
+            if (updatedPrice == 0) {
+                Toast.makeText(context, "Price cannot be $0", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             storeItem.setName(updatedName);
             storeItem.setDescription(updatedDescription);
             storeItem.setItemPrice(updatedPrice);

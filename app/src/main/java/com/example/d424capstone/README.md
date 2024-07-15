@@ -252,9 +252,10 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 - There are several areas for improvement that were identified during testing
 
 ### Improved Logic: 
-- CatDetails.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully, also found cat details page was not editable.
-- CatProfileScreen.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully.
-- CatSocialScreen.java page improvements:
+- CatDetails.java page improvements: 
+  - Added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully, also found cat details page was not editable.
+- CatProfileScreen.java page improvements: 
+  - Added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully.
 
 - SocialPostAdapter.java page improvements:
   - Modified the constructor to accept and store the `currentUserID`.
@@ -277,5 +278,5 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 - StoreItemAdapter.java page improvements:
   - Added validation so a user cannot enter '0' in the quantity field and save it to the shopping cart
 
-### Added Tests: 
-- Mention any additional tests added to cover edge cases or newly identified scenarios.
+- 
+  - 

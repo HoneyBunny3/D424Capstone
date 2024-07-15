@@ -69,6 +69,12 @@ public class PremiumProductManagementScreen extends BaseActivity {
 
         double price = Double.parseDouble(priceText);
 
+        // Validate the premium item price
+        if (isPremium && price == 0) {
+            Toast.makeText(this, "Premium items cannot have a price of $0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         StoreItem storeItem = new StoreItem(0, name, description, price, false, isPremium); // Set isFeatured to false or as required
         repository.insertStoreItem(storeItem);
 
