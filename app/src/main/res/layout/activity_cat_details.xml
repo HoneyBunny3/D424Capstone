@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@id/cat_details_title"
             app:layout_constraintWidth_percent="0.8" />
 
-        <TextView
+        <EditText
             android:id="@+id/cat_name_details"
             style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
@@ -60,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@id/cat_name_details"
             app:layout_constraintWidth_percent="0.8" />
 
-        <TextView
+        <EditText
             android:id="@+id/cat_age_details"
             style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/cat_age_details"
             app:layout_constraintWidth_percent="0.8" />
 
-        <TextView
+        <EditText
             android:id="@+id/cat_bio_details"
             style="@style/DisplayTextViewStyle"
             android:layout_width="0dp"
@@ -107,8 +107,8 @@
 
         <ImageView
             android:id="@+id/cat_image_details"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:contentDescription="Cat Picture"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,6 +125,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_image_details" />
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/SaveButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
