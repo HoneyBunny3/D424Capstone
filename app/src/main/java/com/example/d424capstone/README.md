@@ -252,8 +252,9 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 - There are several areas for improvement that were identified during testing
 
 ### Improved Logic: 
-- CatDetails.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully
-- CatProfileScreen.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully
+- CatDetails.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully, also found cat details page was not editable.
+- CatProfileScreen.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully.
+- 
 
 ### Added Tests: 
 - Mention any additional tests added to cover edge cases or newly identified scenarios.

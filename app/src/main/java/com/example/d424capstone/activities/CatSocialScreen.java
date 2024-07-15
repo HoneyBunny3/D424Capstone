@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.widget.SearchView;
@@ -33,6 +34,7 @@ public class CatSocialScreen extends BaseActivity {
     private Repository repository;
     private SocialPostAdapter adapter;
     private RecyclerView recyclerView;
+    private int currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CatSocialScreen extends BaseActivity {
         setContentView(R.layout.activity_cat_social_screen);
 
         repository = MyApplication.getInstance().getRepository();
+        currentUserID = getCurrentUserID(); // Assuming you have a way to get the current user ID
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,14 +73,12 @@ public class CatSocialScreen extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Handle search query submission here
                 searchSocialPosts(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Handle search query text change here if needed
                 return false;
             }
         });
@@ -92,14 +93,12 @@ public class CatSocialScreen extends BaseActivity {
                 adapter = new SocialPostAdapter(this, socialPosts, repository, new SocialPostAdapter.OnItemClickListener() {
                     @Override
                     public void onEditClick(SocialPost socialPost) {
-                        // Handle edit click if needed
                     }
 
                     @Override
                     public void onDeleteClick(SocialPost socialPost) {
-                        // Handle delete click if needed
                     }
-                }, false); // Pass false to indicate normal mode
+                }, false, currentUserID); // Pass currentUserID here
                 recyclerView.setAdapter(adapter);
             });
         }).start();
@@ -126,7 +125,7 @@ public class CatSocialScreen extends BaseActivity {
         buttonSavePost.setOnClickListener(v -> {
             String content = editPostContent.getText().toString();
             if (!content.isEmpty()) {
-                SocialPost newPost = new SocialPost(0, 1, content, 0); // Assuming userID 1 for simplicity
+                SocialPost newPost = new SocialPost(0, currentUserID, content, 0); // Use currentUserID
                 new Thread(() -> {
                     repository.insertSocialPost(newPost);
                     runOnUiThread(() -> {
@@ -139,5 +138,10 @@ public class CatSocialScreen extends BaseActivity {
         });
 
         dialog.show();
+    }
+
+    private int getCurrentUserID() {
+        // Your logic to get the current user ID
+        return 1; // Placeholder
     }
 }

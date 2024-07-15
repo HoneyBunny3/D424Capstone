@@ -8,6 +8,7 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     private Repository repository;
+    private int currentUserID; // Add this field to store the current user ID
 
     @Override
     public void onCreate() {
@@ -22,5 +23,13 @@ public class MyApplication extends Application {
 
     public Repository getRepository() {
         return repository;
+    }
+
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(int userID) {
+        this.currentUserID = userID;
     }
 }

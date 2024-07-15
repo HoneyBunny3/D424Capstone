@@ -28,14 +28,16 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
     private OnItemClickListener listener;
     private boolean isModerationMode;
     private Context context;
+    private int currentUserID;
 
-    public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository, OnItemClickListener listener, boolean isModerationMode) {
+    public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository, OnItemClickListener listener, boolean isModerationMode, int currentUserID) {
         this.inflater = LayoutInflater.from(context);
         this.socialPosts = socialPosts != null ? socialPosts : new ArrayList<>();
         this.repository = repository;
         this.listener = listener;
         this.isModerationMode = isModerationMode;
         this.context = context;
+        this.currentUserID = currentUserID;
     }
 
     @NonNull
@@ -54,12 +56,16 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         if (!isModerationMode) {
             holder.itemView.setOnClickListener(v -> {
                 User currentUser = repository.getCurrentUser();
-                if (currentUser != null && !currentUser.hasLikedPost(currentPost.getSocialPostID())) {
-                    repository.likePost(currentUser.getUserID(), currentPost);
-                    holder.likesTextView.setText("Likes: " + currentPost.getLikes());
-                    Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(holder.itemView.getContext(), "You have already liked this post", Toast.LENGTH_SHORT).show();
+                if (currentUser != null) {
+                    if (currentPost.getUserID() == currentUserID) {
+                        Toast.makeText(holder.itemView.getContext(), "You cannot like your own post", Toast.LENGTH_SHORT).show();
+                    } else if (!currentUser.hasLikedPost(currentPost.getSocialPostID())) {
+                        repository.likePost(currentUser.getUserID(), currentPost);
+                        holder.likesTextView.setText("Likes: " + currentPost.getLikes());
+                        Toast.makeText(holder.itemView.getContext(), "Liked!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(holder.itemView.getContext(), "You have already liked this post", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
