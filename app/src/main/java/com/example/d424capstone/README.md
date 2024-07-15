@@ -20,6 +20,8 @@ This project will culminate in a demonstrable prototype.
 
 - **Social Media**: Users can connect and share posts about their cats.
 
+- **Cat Care**: Users can view information and resources for cat care and facts.
+
 ## Project Structure
 
 - `app`: Contains the main application code.
@@ -93,6 +95,22 @@ This project will culminate in a demonstrable prototype.
 - **Cat Socialization Tips**: Tips on introducing new cats, interacting with humans, interacting with other pets, and environmental enrichment. (Source: International Cat Care, American Association of Feline Practitioners (AAFP))
 - **Promoting Positivity Towards Felines**: Address common misconceptions about cats, share success stories, and encourage community engagement. (Source: Cat Behavior Associates)
 
+### Admin Functionality
+
+**Manage Tips**:
+  - Add Tip: Admin users can add new tips to the Love Your Cat page.
+  - Edit Tip: Admin users can edit existing tips.
+  - Delete Tip: Admin users can delete tips.
+
+**Store Management**:
+  - Admin users can add new items to the store.
+  - Admin users can edit existing store items.
+  - Admin users can remove items from the store.
+
+**Additional Features**:
+  - Admin users have exclusive access to the Love Your Cat Management Page where they can manage cat care tips and other informational content.
+  - The admin role ensures that only authorized users can modify critical content and manage storefront items, maintaining the integrity and quality of the application.
+
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
@@ -118,7 +136,6 @@ This project is unlicensed.
 ## Objectives
 
 The objective of these tests is to verify the correctness of validation logic implemented in the Validator, UserValidator, CatValidator, StorefrontValidator, and PostValidator classes.
-
 ## Scope
 
 The scope of these tests includes:
