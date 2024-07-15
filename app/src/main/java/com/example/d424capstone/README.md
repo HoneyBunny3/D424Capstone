@@ -141,91 +141,91 @@ Unit tests will be written using JUnit to validate the logic in isolation from t
 - Objective: Verify that the email validation logic works correctly.
 - Method: Validator.isValidEmail
 - Inputs:
-- - "test@example.com" (valid)
-- - "test@" (invalid)
-- - "test.com" (invalid)
+  - "test@example.com" (valid)
+  - "test@" (invalid)
+  - "test.com" (invalid)
 - Expected Outputs:
-- - true for "test@example.com"
-- - false for "test@"
-- - false for "test.com"
+  - true for "test@example.com"
+  - false for "test@"
+  - false for "test.com"
 
 ### Test Case 2: Validate Alphabetic Characters
 
 - Objective: Verify that the alphabetic character validation logic works correctly.
 - Method: Validator.isAlphabetic
 - Inputs:
-- - "John" (valid)
-- - "John123" (invalid)
+  - "John" (valid)
+  - "John123" (invalid)
 - Expected Outputs:
-- - true for "John"
-- - false for "John123"
+  - true for "John"
+  - false for "John123"
 
 ### Test Case 3: Validate Password
 
 - Objective: Verify that the password validation logic works correctly.
 - Method: Validator.isPasswordValid
 - Inputs:
-- - "Password1!" (valid)
-- - "pass" (invalid)
+  - "Password1!" (valid)
+  - "pass" (invalid)
 - Expected Outputs:
-- - true for "Password1!"
-- - false for "pass"
+  - true for "Password1!"
+  - false for "pass"
 
 ### Test Case 4: Validate User Sign-Up Input
 
 - Objective: Verify that the user sign-up input validation logic works correctly.
 - Method: UserValidator.validateSignUpInput
 - Inputs:
-- - ("test@example.com", "John", "Doe", "Password1!") (valid)
-- - ("test@", "John", "Doe", "Password1!") (invalid email)
-- - ("test@example.com", "John123", "Doe", "Password1!") (invalid first name)
-- - ("test@example.com", "John", "Doe!", "Password1!") (invalid last name)
-- - ("test@example.com", "John", "Doe", "pass") (invalid password)
+  - ("test@example.com", "John", "Doe", "Password1!") (valid)
+  - ("test@", "John", "Doe", "Password1!") (invalid email)
+  - ("test@example.com", "John123", "Doe", "Password1!") (invalid first name)
+  - ("test@example.com", "John", "Doe!", "Password1!") (invalid last name)
+  - ("test@example.com", "John", "Doe", "pass") (invalid password)
 - Expected Outputs:
-- - true for ("test@example.com", "John", "Doe", "Password1!")
-- - false for ("test@", "John", "Doe", "Password1!")
-- - false for ("test@example.com", "John123", "Doe", "Password1!")
-- - false for ("test@example.com", "John", "Doe!", "Password1!")
-- - false for ("test@example.com", "John", "Doe", "pass")
+  - true for ("test@example.com", "John", "Doe", "Password1!")
+  - false for ("test@", "John", "Doe", "Password1!")
+  - false for ("test@example.com", "John123", "Doe", "Password1!")
+  - false for ("test@example.com", "John", "Doe!", "Password1!")
+  - false for ("test@example.com", "John", "Doe", "pass")
 
 ### Test Case 5: Validate Cat Profile
 
 - Objective: Verify that the cat profile validation logic works correctly.
 - Method: CatValidator.validateCatProfile
 - Inputs:
-- - ("Whiskers", 2, "A friendly cat") (valid)
-- - ("", 2, "A friendly cat") (invalid name)
-- - ("Whiskers", -1, "A friendly cat") (invalid age)
-- - ("Whiskers", 2, "") (invalid description)
+  - ("Whiskers", 2, "A friendly cat") (valid)
+  - ("", 2, "A friendly cat") (invalid name)
+  - ("Whiskers", -1, "A friendly cat") (invalid age)
+  - ("Whiskers", 2, "") (invalid description)
 - Expected Outputs:
-- - true for ("Whiskers", 2, "A friendly cat")
-- - false for ("", 2, "A friendly cat")
-- - false for ("Whiskers", -1, "A friendly cat")
-- - false for ("Whiskers", 2, "")
+  - true for ("Whiskers", 2, "A friendly cat")
+  - false for ("", 2, "A friendly cat")
+  - false for ("Whiskers", -1, "A friendly cat")
+  - false for ("Whiskers", 2, "")
 
 ### Test Case 6: Validate Storefront
 
 - Objective: Verify that the storefront validation logic works correctly.
 - Method: StorefrontValidator.validateStorefront
 - Inputs:
-- - ("Cat Store", "A store for cat lovers") (valid)
-- - ("", "A store for cat lovers") (invalid name)
-- - ("Cat Store", "") (invalid description)
+  - ("Cat Store", "A store for cat lovers") (valid)
+  - ("", "A store for cat lovers") (invalid name)
+  - ("Cat Store", "") (invalid description)
 - Expected Outputs:
-- - true for ("Cat Store", "A store for cat lovers")
-- - false for ("", "A store for cat lovers")
-- - false for ("Cat Store", "")
+  - true for ("Cat Store", "A store for cat lovers")
+  - false for ("", "A store for cat lovers")
+  - false for ("Cat Store", "")
 
 ### Test Case 7: Validate Post
 
 - Objective: Verify that the social media post validation logic works correctly.
 - Method: PostValidator.validatePost
 - Inputs:
-- - "This is a post about my cat" (valid)
-- - "" (invalid)
+  - "This is a post about my cat" (valid)
+  - "" (invalid)
 - Expected Outputs:
-- - true for "This is a post about my cat"
-- - false for ""
+  - true for "This is a post about my cat"
+  - false for ""
 
 ## Test Environment
 
@@ -257,22 +257,25 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 - CatSocialScreen.java page improvements:
 
 - SocialPostAdapter.java page improvements:
-- - Modified the constructor to accept and store the `currentUserID`.
+  - Modified the constructor to accept and store the `currentUserID`.
 - MyApplication improvements:
-- - Added a field `currentUserID` to store the ID of the currently logged-in user.
-- - Added methods `getCurrentUserID()` and `setCurrentUserID(int userID)` to retrieve and set the current user ID.
+  - Added a field `currentUserID` to store the ID of the currently logged-in user.
+  - Added methods `getCurrentUserID()` and `setCurrentUserID(int userID)` to retrieve and set the current user ID.
 - CatSocialScreen.java page improvements:
-- - Updated the `SocialPostAdapter` initialization to pass the `currentUserID` to the adapter.
-- - Added logic to prevent users from liking their own posts.
-- - Displayed appropriate toast messages based on whether the user can like the post or not.
-- - The current user ID is retrieved from `MyApplication` using the method `getCurrentUserID()`.
-- - Added validation to prevent users from liking their own posts.
-- - Displayed a toast message if the user attempts to like their own post.
+  - Updated the `SocialPostAdapter` initialization to pass the `currentUserID` to the adapter.
+  - Added logic to prevent users from liking their own posts.
+  - Displayed appropriate toast messages based on whether the user can like the post or not.
+  - The current user ID is retrieved from `MyApplication` using the method `getCurrentUserID()`.
+  - Added validation to prevent users from liking their own posts.
+  - Displayed a toast message if the user attempts to like their own post.
 - SocialPostModerationScreen.java improvements:
-- - Updated the `SocialPostAdapter` initialization to pass `true` for moderation mode.
-- - Implemented a method `showEditDialog` to allow editing of social posts.
-- - Updated post content in the repository upon saving changes.
-- - Implemented a method `refreshPosts` to refresh the list of social posts after edit or delete operations.
+  - Updated the `SocialPostAdapter` initialization to pass `true` for moderation mode.
+  - Implemented a method `showEditDialog` to allow editing of social posts.
+  - Updated post content in the repository upon saving changes.
+  - Implemented a method `refreshPosts` to refresh the list of social posts after edit or delete operations.
+
+- StoreItemAdapter.java page improvements:
+  - Added validation so a user cannot enter '0' in the quantity field and save it to the shopping cart
 
 ### Added Tests: 
 - Mention any additional tests added to cover edge cases or newly identified scenarios.
