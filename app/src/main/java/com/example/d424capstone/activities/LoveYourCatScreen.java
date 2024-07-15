@@ -10,9 +10,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
-import com.example.d424capstone.adapters.TipsAdapter;
+import com.example.d424capstone.models.TipsAdapter;
 import com.example.d424capstone.entities.Tip;
+import com.example.d424capstone.entities.User;
+import com.example.d424capstone.database.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,8 @@ public class LoveYourCatScreen extends BaseActivity {
     private RecyclerView recyclerView;
     private TipsAdapter tipsAdapter;
     private List<Tip> tipList;
+    private Repository repository;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +43,18 @@ public class LoveYourCatScreen extends BaseActivity {
             return insets;
         });
 
+        // Initialize repository and current user
+        repository = MyApplication.getInstance().getRepository();
+        currentUser = repository.getCurrentUser();
+
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.love_your_cat_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Load tips
         tipList = loadTips();
-        tipsAdapter = new TipsAdapter(tipList, tip -> {}, tip -> {}); // Passing empty consumers for edit and delete
+        String userRole = currentUser != null ? currentUser.getRole() : "";
+        tipsAdapter = new TipsAdapter(tipList, tip -> {}, tip -> {}, userRole); // Passing empty consumers for edit and delete
         recyclerView.setAdapter(tipsAdapter);
     }
 

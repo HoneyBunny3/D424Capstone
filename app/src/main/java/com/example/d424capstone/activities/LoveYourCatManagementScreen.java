@@ -18,7 +18,7 @@ import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Tip;
-import com.example.d424capstone.adapters.TipsAdapter;
+import com.example.d424capstone.models.TipsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
     private RecyclerView recyclerView;
     private TipsAdapter tipsAdapter;
     private List<Tip> tipList;
+    private String userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
         setContentView(R.layout.activity_love_your_cat_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        userRole = repository.getCurrentUser().getRole(); // Get the current user's role
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -56,7 +58,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
 
         // Load tips
         tipList = loadTips();
-        tipsAdapter = new TipsAdapter(tipList, this::showEditTipDialog, this::deleteTip);
+        tipsAdapter = new TipsAdapter(tipList, this::showEditTipDialog, this::deleteTip, userRole);
         recyclerView.setAdapter(tipsAdapter);
     }
 
@@ -90,7 +92,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
                 return;
             }
 
-            Tip newTip = new Tip(0, title, content, source); // Using 0 as the initial value for id
+            Tip newTip = new Tip(0, title, content, source);
             long id = repository.insertTip(newTip); // Get the generated ID
             newTip.setId((int) id); // Set the ID on the Tip object
             tipList.add(newTip);

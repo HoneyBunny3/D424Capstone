@@ -1,4 +1,4 @@
-package com.example.d424capstone.adapters;
+package com.example.d424capstone.models;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +20,13 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
     private List<Tip> tips;
     private Consumer<Tip> editTipConsumer;
     private Consumer<Tip> deleteTipConsumer;
+    private String userRole;
 
-    public TipsAdapter(List<Tip> tips, Consumer<Tip> editTipConsumer, Consumer<Tip> deleteTipConsumer) {
+    public TipsAdapter(List<Tip> tips, Consumer<Tip> editTipConsumer, Consumer<Tip> deleteTipConsumer, String userRole) {
         this.tips = tips;
         this.editTipConsumer = editTipConsumer;
         this.deleteTipConsumer = deleteTipConsumer;
+        this.userRole = userRole;
     }
 
     @NonNull
@@ -41,8 +43,14 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
         holder.tipContent.setText(tip.getContent());
         holder.tipSource.setText(tip.getSource());
 
-        holder.editButton.setOnClickListener(v -> editTipConsumer.accept(tip));
-        holder.deleteButton.setOnClickListener(v -> deleteTipConsumer.accept(tip));
+        // Hide edit and delete buttons if the user role is not ADMIN
+        if (!"ADMIN".equals(userRole)) {
+            holder.editButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.GONE);
+        } else {
+            holder.editButton.setOnClickListener(v -> editTipConsumer.accept(tip));
+            holder.deleteButton.setOnClickListener(v -> deleteTipConsumer.accept(tip));
+        }
     }
 
     @Override
