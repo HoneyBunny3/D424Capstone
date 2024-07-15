@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder> {
-
     private List<Tip> tips;
     private Consumer<Tip> editTipConsumer;
     private Consumer<Tip> deleteTipConsumer;
@@ -43,13 +42,14 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
         holder.tipContent.setText(tip.getContent());
         holder.tipSource.setText(tip.getSource());
 
-        // Hide edit and delete buttons if the user role is not ADMIN
-        if (!"ADMIN".equals(userRole)) {
-            holder.editButton.setVisibility(View.GONE);
-            holder.deleteButton.setVisibility(View.GONE);
-        } else {
+        if ("ADMIN".equals(userRole)) {
+            holder.editButton.setVisibility(View.VISIBLE);
+            holder.deleteButton.setVisibility(View.VISIBLE);
             holder.editButton.setOnClickListener(v -> editTipConsumer.accept(tip));
             holder.deleteButton.setOnClickListener(v -> deleteTipConsumer.accept(tip));
+        } else {
+            holder.editButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.GONE);
         }
     }
 

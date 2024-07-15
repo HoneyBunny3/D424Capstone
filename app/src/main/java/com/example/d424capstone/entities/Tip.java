@@ -1,4 +1,3 @@
-// Tip.java
 package com.example.d424capstone.entities;
 
 import androidx.room.Entity;

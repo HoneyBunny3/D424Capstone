@@ -1,4 +1,3 @@
-// Repository.java
 package com.example.d424capstone.database;
 
 import android.app.Application;
@@ -68,6 +67,7 @@ public class Repository {
                 catDAO.insert(regularCat);
             }
             preloadSocialPosts();
+            preloadTips();
         });
     }
 
@@ -89,6 +89,19 @@ public class Repository {
                 socialPostDAO.insert(new SocialPost(0, 1, "Enjoying the sun with my cat!", 10));
                 socialPostDAO.insert(new SocialPost(0, 2, "My cat's new favorite toy!", 25));
                 socialPostDAO.insert(new SocialPost(0, 1, "Cat naps are the best naps.", 15));
+            }
+        });
+    }
+
+    private void preloadTips() {
+        databaseWriteExecutor.execute(() -> {
+            if (tipDAO.getAllTips().isEmpty()) {
+                tipDAO.insert(new Tip(0, "Feeding", "Ensure your cat has a balanced diet with proper nutrition. Provide fresh water at all times.", "Source: American Society for the Prevention of Cruelty to Animals (ASPCA)"));
+                tipDAO.insert(new Tip(0, "Grooming", "Regular brushing and grooming are essential for your cat's health.", "Source: Humane Society of the United States"));
+                tipDAO.insert(new Tip(0, "Introducing New Cats", "Take it slow and provide separate spaces for new cats to get comfortable.", "Source: International Cat Care"));
+                tipDAO.insert(new Tip(0, "Interaction with Humans", "Spend quality time playing and interacting with your cat daily.", "Source: American Association of Feline Practitioners (AAFP)"));
+                tipDAO.insert(new Tip(0, "Myth-Busting", "Cats are not aloof; they can be very affectionate and loving.", "Source: Cat Behavior Associates"));
+                tipDAO.insert(new Tip(0, "Success Stories", "Share your cat's success story and inspire others.", "Source: Your Family!"));
             }
         });
     }

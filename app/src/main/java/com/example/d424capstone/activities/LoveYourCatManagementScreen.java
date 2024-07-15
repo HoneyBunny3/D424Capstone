@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoveYourCatManagementScreen extends BaseActivity {
-
     private Repository repository;
     private RecyclerView recyclerView;
     private TipsAdapter tipsAdapter;
@@ -38,7 +37,6 @@ public class LoveYourCatManagementScreen extends BaseActivity {
         setContentView(R.layout.activity_love_your_cat_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
-        userRole = repository.getCurrentUser().getRole(); // Get the current user's role
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -58,7 +56,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
 
         // Load tips
         tipList = loadTips();
-        tipsAdapter = new TipsAdapter(tipList, this::showEditTipDialog, this::deleteTip, userRole);
+        tipsAdapter = new TipsAdapter(tipList, this::showEditTipDialog, this::deleteTip, userRole); // Passing userRole
         recyclerView.setAdapter(tipsAdapter);
     }
 
