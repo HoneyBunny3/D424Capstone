@@ -254,7 +254,25 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 ### Improved Logic: 
 - CatDetails.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully, also found cat details page was not editable.
 - CatProfileScreen.java page improvements: added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully.
-- 
+- CatSocialScreen.java page improvements:
+
+- SocialPostAdapter.java page improvements:
+- - Modified the constructor to accept and store the `currentUserID`.
+- MyApplication improvements:
+- - Added a field `currentUserID` to store the ID of the currently logged-in user.
+- - Added methods `getCurrentUserID()` and `setCurrentUserID(int userID)` to retrieve and set the current user ID.
+- CatSocialScreen.java page improvements:
+- - Updated the `SocialPostAdapter` initialization to pass the `currentUserID` to the adapter.
+- - Added logic to prevent users from liking their own posts.
+- - Displayed appropriate toast messages based on whether the user can like the post or not.
+- - The current user ID is retrieved from `MyApplication` using the method `getCurrentUserID()`.
+- - Added validation to prevent users from liking their own posts.
+- - Displayed a toast message if the user attempts to like their own post.
+- SocialPostModerationScreen.java improvements:
+- - Updated the `SocialPostAdapter` initialization to pass `true` for moderation mode.
+- - Implemented a method `showEditDialog` to allow editing of social posts.
+- - Updated post content in the repository upon saving changes.
+- - Implemented a method `refreshPosts` to refresh the list of social posts after edit or delete operations.
 
 ### Added Tests: 
 - Mention any additional tests added to cover edge cases or newly identified scenarios.
