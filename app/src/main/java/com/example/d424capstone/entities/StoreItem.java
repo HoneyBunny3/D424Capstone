@@ -12,15 +12,13 @@ public class StoreItem implements Serializable {
     private String name;
     private String description;
     private double itemPrice;
-    private boolean isFeatured;
     private boolean isPremium;
 
-    public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isFeatured, boolean isPremium) {
+    public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isPremium) {
         this.storeItemID = storeItemID;
         this.name = name;
         this.description = description;
         this.itemPrice = itemPrice;
-        this.isFeatured = isFeatured;
         this.isPremium = isPremium;
     }
 
@@ -56,14 +54,6 @@ public class StoreItem implements Serializable {
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
-    }
-
-    public boolean isFeatured() {
-        return isFeatured;
-    }
-
-    public void setFeatured(boolean isFeatured) {
-        this.isFeatured = isFeatured;
     }
 
     public boolean isPremium() {

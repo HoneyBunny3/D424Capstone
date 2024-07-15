@@ -75,7 +75,7 @@ public class PremiumProductManagementScreen extends BaseActivity {
             return;
         }
 
-        StoreItem storeItem = new StoreItem(0, name, description, price, false, isPremium); // Set isFeatured to false or as required
+        StoreItem storeItem = new StoreItem(0, name, description, price, isPremium);
         repository.insertStoreItem(storeItem);
 
         Toast.makeText(this, "Product saved", Toast.LENGTH_SHORT).show();

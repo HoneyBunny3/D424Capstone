@@ -22,13 +22,12 @@ public class CSVUtil {
 
     public static String generateCSVFromStoreItems(List<StoreItem> storeItems) {
         StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("ID,Item Name,Description,Price,Is Featured,Is Premium\n");
+        csvBuilder.append("ID,Item Name,Description,Price,Is Premium\n");
         for (StoreItem item : storeItems) {
             csvBuilder.append(item.getStoreItemID()).append(",");
             csvBuilder.append(item.getName()).append(",");
             csvBuilder.append(item.getDescription()).append(",");
             csvBuilder.append(item.getItemPrice()).append(",");
-            csvBuilder.append(item.isFeatured()).append(",");
             csvBuilder.append(item.isPremium()).append("\n");
         }
         return csvBuilder.toString();
