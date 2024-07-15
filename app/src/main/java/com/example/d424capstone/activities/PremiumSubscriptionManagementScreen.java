@@ -22,14 +22,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class PremiumSubscriptionManagementScreen extends BaseActivity {
-
     private Repository repository;
-    private TextView firstNameTextView;
-    private TextView lastNameTextView;
-    private TextView emailTextView;
-    private TextView phoneTextView;
-    private EditText storefrontNameEditText;
-    private EditText storefrontEmailEditText;
+    private TextView firstNameTextView, lastNameTextView, emailTextView, phoneTextView;
+    private EditText storefrontNameEditText, storefrontEmailEditText;
     private User currentUser;
     private PremiumStorefront currentStorefront;
 

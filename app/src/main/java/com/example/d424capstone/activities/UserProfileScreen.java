@@ -27,6 +27,7 @@ import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UserProfileScreen extends BaseActivity {
     private Repository repository;
@@ -34,6 +35,10 @@ public class UserProfileScreen extends BaseActivity {
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
     private Button saveButton, cancelButton, catButton;
     private RecyclerView ordersRecyclerView;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +79,7 @@ public class UserProfileScreen extends BaseActivity {
 
     private void initializeButtons() {
         saveButton.setOnClickListener(view -> handleProfileUpdate());
-
         cancelButton.setOnClickListener(view -> finish());
-
         catButton.setOnClickListener(view -> {
             int userID = sharedPreferences.getInt("LoggedInUserID", -1);
             if (userID == -1) {
@@ -208,7 +211,7 @@ public class UserProfileScreen extends BaseActivity {
     }
 
     private boolean isValidEmail(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     private boolean isAlphabetic(String text) {

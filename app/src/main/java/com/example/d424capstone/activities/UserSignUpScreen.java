@@ -21,10 +21,16 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
+import java.util.regex.Pattern;
+
 public class UserSignUpScreen extends BaseActivity {
     private Repository repository;
     private EditText emailEditText, firstNameEditText, lastNameEditText, passwordEditText, phoneNumberEditText;
     private Button signUpButton, cancelButton;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +94,11 @@ public class UserSignUpScreen extends BaseActivity {
             return;
         }
 
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new Thread(() -> {
             User existingUser = repository.getUserByEmail(email);
             runOnUiThread(() -> {
@@ -129,7 +140,7 @@ public class UserSignUpScreen extends BaseActivity {
     }
 
     private boolean isValidEmail(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     private boolean isAlphabetic(String text) {

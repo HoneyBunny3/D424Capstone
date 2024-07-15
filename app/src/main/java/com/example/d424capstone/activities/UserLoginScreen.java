@@ -20,10 +20,16 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
+import java.util.regex.Pattern;
+
 public class UserLoginScreen extends BaseActivity {
 
     private Repository repository;
     private SharedPreferences sharedPreferences;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,7 @@ public class UserLoginScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_login_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository();
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         initializeDrawer();
@@ -80,6 +86,12 @@ public class UserLoginScreen extends BaseActivity {
         new Thread(() -> {
             User user = repository.getUserByEmail(email);
             runOnUiThread(() -> {
+
+                if (!EMAIL_PATTERN.matcher(email).matches()) {
+                    Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (user != null && user.getPassword().equals(password)) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("LoggedInUser", user.getEmail());

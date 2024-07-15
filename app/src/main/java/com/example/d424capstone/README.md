@@ -305,3 +305,10 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
   - Added validation that regular items cannot be added to the store with a price of $0.
 - StoreManagementScreen.java
   - Added functionality for admin user to add store items via the Store Management page.
+
+- UserLoginScreen.java
+  - Added validation that the email entered is in a proper email format
+- UserProfileScreen.java
+  - Added validation that the email entered is in a proper email format
+- UserSignUpScreen.java
+  - Added validation that the email entered is in a proper email format
