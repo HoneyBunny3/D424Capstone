@@ -183,6 +183,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return sharedPreferences.contains("LoggedInUserID");
     }
 
+    private boolean shouldSkipLoginSignupDialog() {
+        boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
+        return skipDialog;
+    }
+
     private void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginSignupDialogFragment loginSignupDialog = LoginSignupDialogFragment.newInstance(false);
@@ -193,16 +198,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);
         return userRole.equals(requiredRole);
-    }
-
-    public void checkAccessOrFinish(String requiredRole) {
-        if (!hasAccess(requiredRole)) {
-            finish();
-        }
-    }
-
-    private boolean shouldSkipLoginSignupDialog() {
-        boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserProfileScreen;
-        return skipDialog;
     }
 }

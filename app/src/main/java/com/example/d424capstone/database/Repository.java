@@ -61,9 +61,11 @@ public class Repository {
                 long premiumUserId = userDAO.insert(premiumUser);
                 long regularUserId = userDAO.insert(regularUser);
 
-                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", (int) premiumUserId);
-                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", (int) regularUserId);
+                Cat adminCat = new Cat(0, "Fox", 3, "", "A cat who enjoys zoomies", 1);
+                Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", 2);
+                Cat regularCat = new Cat(0, "Clover", 1, "", "Adventurous cat", 3);
 
+                catDAO.insert(adminCat);
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
 
