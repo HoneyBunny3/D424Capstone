@@ -13,18 +13,16 @@ import com.example.d424capstone.R;
 import com.example.d424capstone.entities.Tip;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder> {
+
     private List<Tip> tips;
-    private Consumer<Tip> editTipConsumer;
-    private Consumer<Tip> deleteTipConsumer;
+    private OnTipInteractionListener listener;
     private String userRole;
 
-    public TipsAdapter(List<Tip> tips, Consumer<Tip> editTipConsumer, Consumer<Tip> deleteTipConsumer, String userRole) {
+    public TipsAdapter(List<Tip> tips, OnTipInteractionListener listener, String userRole) {
         this.tips = tips;
-        this.editTipConsumer = editTipConsumer;
-        this.deleteTipConsumer = deleteTipConsumer;
+        this.listener = listener;
         this.userRole = userRole;
     }
 
@@ -32,7 +30,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
     @Override
     public TipsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tip, parent, false);
-        return new TipsViewHolder(view);
+        return new TipsViewHolder(view, listener);
     }
 
     @Override
@@ -45,8 +43,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
         if ("ADMIN".equals(userRole)) {
             holder.editButton.setVisibility(View.VISIBLE);
             holder.deleteButton.setVisibility(View.VISIBLE);
-            holder.editButton.setOnClickListener(v -> editTipConsumer.accept(tip));
-            holder.deleteButton.setOnClickListener(v -> deleteTipConsumer.accept(tip));
+            holder.editButton.setOnClickListener(v -> listener.onEditTip(position));
+            holder.deleteButton.setOnClickListener(v -> listener.onDeleteTip(position));
         } else {
             holder.editButton.setVisibility(View.GONE);
             holder.deleteButton.setVisibility(View.GONE);
@@ -65,7 +63,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
         Button editButton;
         Button deleteButton;
 
-        public TipsViewHolder(@NonNull View itemView) {
+        public TipsViewHolder(@NonNull View itemView, OnTipInteractionListener listener) {
             super(itemView);
             tipTitle = itemView.findViewById(R.id.tip_title);
             tipContent = itemView.findViewById(R.id.tip_content);
@@ -73,5 +71,10 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
             editButton = itemView.findViewById(R.id.edit_button);
             deleteButton = itemView.findViewById(R.id.delete_button);
         }
+    }
+
+    public interface OnTipInteractionListener {
+        void onEditTip(int position);
+        void onDeleteTip(int position);
     }
 }

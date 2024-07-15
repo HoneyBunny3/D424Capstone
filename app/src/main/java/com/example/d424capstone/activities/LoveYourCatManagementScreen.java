@@ -20,10 +20,10 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Tip;
 import com.example.d424capstone.models.TipsAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class LoveYourCatManagementScreen extends BaseActivity {
+public class LoveYourCatManagementScreen extends BaseActivity implements TipsAdapter.OnTipInteractionListener {
+
     private Repository repository;
     private RecyclerView recyclerView;
     private TipsAdapter tipsAdapter;
@@ -37,6 +37,7 @@ public class LoveYourCatManagementScreen extends BaseActivity {
         setContentView(R.layout.activity_love_your_cat_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        userRole = repository.getCurrentUser().getRole();
 
         // Initialize buttons and set their click listeners
         initializeButtons();
@@ -55,19 +56,14 @@ public class LoveYourCatManagementScreen extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Load tips
-        tipList = loadTips();
-        tipsAdapter = new TipsAdapter(tipList, this::showEditTipDialog, this::deleteTip, userRole); // Passing userRole
+        tipList = repository.getAllTips();
+        tipsAdapter = new TipsAdapter(tipList, this, userRole);
         recyclerView.setAdapter(tipsAdapter);
     }
 
     private void initializeButtons() {
         Button addTipButton = findViewById(R.id.add_tip_button);
         addTipButton.setOnClickListener(v -> showAddTipDialog());
-    }
-
-    private List<Tip> loadTips() {
-        // Fetch tips from the repository
-        return new ArrayList<>(repository.getAllTips());
     }
 
     private void showAddTipDialog() {
@@ -100,6 +96,21 @@ public class LoveYourCatManagementScreen extends BaseActivity {
 
         builder.setNegativeButton("Cancel", null);
         builder.show();
+    }
+
+    @Override
+    public void onEditTip(int position) {
+        Tip tip = tipList.get(position);
+        showEditTipDialog(tip);
+    }
+
+    @Override
+    public void onDeleteTip(int position) {
+        Tip tip = tipList.get(position);
+        repository.deleteTip(tip);
+        tipList.remove(tip);
+        tipsAdapter.notifyItemRemoved(position);
+        Toast.makeText(this, "Tip deleted", Toast.LENGTH_SHORT).show();
     }
 
     private void showEditTipDialog(Tip tip) {
@@ -136,13 +147,5 @@ public class LoveYourCatManagementScreen extends BaseActivity {
 
         builder.setNegativeButton("Cancel", null);
         builder.show();
-    }
-
-    private void deleteTip(Tip tip) {
-        repository.deleteTip(tip);
-        int position = tipList.indexOf(tip);
-        tipList.remove(tip);
-        tipsAdapter.notifyItemRemoved(position);
-        Toast.makeText(this, "Tip deleted", Toast.LENGTH_SHORT).show();
     }
 }
