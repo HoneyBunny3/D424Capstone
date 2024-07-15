@@ -132,12 +132,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap.put(R.id.account_login, UserLoginScreen.class);
         activityMap.put(R.id.account_signup, UserSignUpScreen.class);
         activityMap.put(R.id.user_profile, UserProfileScreen.class);
-        activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
-        activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
         activityMap.put(R.id.cat_social, CatSocialScreen.class);
         activityMap.put(R.id.cat_shopping, ShoppingScreen.class);
-        activityMap.put(R.id.contact_us, ContactUsScreen.class);
         activityMap.put(R.id.love_your_cat, LoveYourCatScreen.class);
+        activityMap.put(R.id.contact_us, ContactUsScreen.class);
+        activityMap.put(R.id.premium_signup, PremiumSignUpScreen.class);
+        activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
     }
 
     private void handleLogout() {

@@ -43,8 +43,9 @@ public class Repository {
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
+
+        // Preload shopping store items
         preloadStoreItems();
-//        preloadPremiumStoreItems();
     }
 
     private void populateInitialData(Context context) {
@@ -65,10 +66,21 @@ public class Repository {
 
                 catDAO.insert(premiumCat);
                 catDAO.insert(regularCat);
+
+                // Preload premium storefront
+                preloadPremiumStorefront((int) premiumUserId);
             }
+            // Preload social posts
             preloadSocialPosts();
+
+            // Preload Love Your Cat tips
             preloadTips();
         });
+    }
+
+    private void preloadPremiumStorefront(int premiumUserId) {
+        PremiumStorefront premiumStorefront = new PremiumStorefront(0, "Hearth's Premium Store", "premium@example.com", 2);
+        premiumStorefrontDAO.insert(premiumStorefront);
     }
 
     private void preloadStoreItems() {
