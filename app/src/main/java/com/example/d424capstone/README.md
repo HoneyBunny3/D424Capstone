@@ -276,7 +276,15 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
   - Implemented a method `refreshPosts` to refresh the list of social posts after edit or delete operations.
 
 - StoreItemAdapter.java page improvements:
-  - Added validation so a user cannot enter '0' in the quantity field and save it to the shopping cart
+  - Added validation so a user cannot enter '0' in the quantity field and save it to the shopping cart.
 
-- 
-  - 
+- PremiumProductManagementScreen.java
+  - Added validation that premium items cannot be added to the store with a price of $0.
+  - Added validation that the storefront name and email address cannot be empty.
+  - Added validation that the email field should be in proper email format.
+- StoreItemAdapter.java
+  - Added validation that quantity of items added to shopping cart must be greater than 0.
+- PremiumProductManagementScreen.java
+  - Added validation that regular items cannot be added to the store with a price of $0.
+- StoreManagementScreen.java
+  - Added functionality for admin user to add store items via the Store Management page.

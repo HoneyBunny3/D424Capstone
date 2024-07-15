@@ -19,6 +19,7 @@ import com.example.d424capstone.entities.PremiumStorefront;
 import com.example.d424capstone.entities.User;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
@@ -31,6 +32,10 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
     private EditText storefrontEmailEditText;
     private User currentUser;
     private PremiumStorefront currentStorefront;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@(.+)$"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,21 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         if (currentUser != null && "PREMIUM".equals(currentUser.getRole())) {
             String storefrontName = storefrontNameEditText.getText().toString();
             String storefrontEmail = storefrontEmailEditText.getText().toString();
+
+            if (storefrontName.isEmpty()) {
+                Toast.makeText(this, "Storefront name cannot be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (storefrontEmail.isEmpty()) {
+                Toast.makeText(this, "Storefront contact email cannot be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!EMAIL_PATTERN.matcher(storefrontEmail).matches()) {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             if (currentStorefront == null) {
                 currentStorefront = new PremiumStorefront(0, storefrontName, storefrontEmail, currentUser.getUserID());
