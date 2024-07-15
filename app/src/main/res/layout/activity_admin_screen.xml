@@ -47,6 +47,12 @@
             android:text="Store Product Management" />
 
         <Button
+            android:id="@+id/to_love_your_cat_management_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Love Your Cat Management" />
+
+        <Button
             android:id="@+id/to_product_shipping_screen"
             style="@style/AdminButtonStyle"
             android:layout_marginBottom="16dp"

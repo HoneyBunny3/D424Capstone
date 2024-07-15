@@ -55,6 +55,9 @@ public class AdminScreen extends BaseActivity {
         Button buttonToStoreManagement = findViewById(R.id.to_store_management_screen);
         buttonToStoreManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, StoreManagementScreen.class)));
 
+        Button buttonToLoveYourCatManagement = findViewById(R.id.to_love_your_cat_management_screen);
+        buttonToLoveYourCatManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, LoveYourCatScreen.class)));
+
         Button buttonToProductShippingManagement = findViewById(R.id.to_product_shipping_screen);
         buttonToProductShippingManagement.setOnClickListener(v -> startActivity(new Intent(AdminScreen.this, ProductShippingManagement.class)));
 

@@ -1,3 +1,4 @@
+// Repository.java
 package com.example.d424capstone.database;
 
 import android.app.Application;
@@ -24,6 +25,7 @@ public class Repository {
     private final SocialPostDAO socialPostDAO;
     private final PremiumStorefrontDAO premiumStorefrontDAO;
     private final ContactMessageDAO contactMessageDAO;
+    private final TipDAO tipDAO;
     private final SharedPreferences sharedPreferences;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -38,6 +40,7 @@ public class Repository {
         socialPostDAO = db.socialPostDAO();
         premiumStorefrontDAO = db.premiumStorefrontDAO();
         contactMessageDAO = db.contactMessageDAO();
+        tipDAO = db.tipDAO();
         sharedPreferences = application.getSharedPreferences("UserPrefs", Application.MODE_PRIVATE);
 
         populateInitialData(application.getApplicationContext());
@@ -71,8 +74,8 @@ public class Repository {
     private void preloadStoreItems() {
         databaseWriteExecutor.execute(() -> {
             if (storeItemDAO.getAllStoreItems().isEmpty()) {
-                storeItemDAO.insert(new StoreItem(0, "Cat Toy", "Fun toy for cats", 9.99,  false));
-                storeItemDAO.insert(new StoreItem(0, "Cat Bed", "Comfortable bed for cats", 29.99,  true)); //premium product
+                storeItemDAO.insert(new StoreItem(0, "Cat Toy", "Fun toy for cats", 9.99, false));
+                storeItemDAO.insert(new StoreItem(0, "Cat Bed", "Comfortable bed for cats", 29.99, true)); //premium product
                 storeItemDAO.insert(new StoreItem(0, "Cat Food", "Nutritious food for cats", 19.99, false));
                 storeItemDAO.insert(new StoreItem(0, "Cat Scratcher", "Durable scratcher for cats", 14.99, false));
                 storeItemDAO.insert(new StoreItem(0, "Cat Litter", "Odor-free cat litter", 10.99, false));
@@ -88,6 +91,46 @@ public class Repository {
                 socialPostDAO.insert(new SocialPost(0, 1, "Cat naps are the best naps.", 15));
             }
         });
+    }
+
+    // Tip-related methods
+    public List<Tip> getAllTips() {
+        final List<Tip>[] tips = new List[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            tips[0] = tipDAO.getAllTips();
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return tips[0];
+    }
+
+    public long insertTip(Tip tip) {
+        final long[] id = new long[1];
+        CountDownLatch latch = new CountDownLatch(1);
+        databaseWriteExecutor.execute(() -> {
+            id[0] = tipDAO.insert(tip);  // Ensure this returns a long
+            latch.countDown();
+        });
+        try {
+            latch.await(); // Wait for the database operation to complete
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return id[0];
+    }
+
+
+    public void updateTip(Tip tip) {
+        databaseWriteExecutor.execute(() -> tipDAO.update(tip));
+    }
+
+    public void deleteTip(Tip tip) {
+        databaseWriteExecutor.execute(() -> tipDAO.delete(tip));
     }
 
     // Premium Storefront methods
