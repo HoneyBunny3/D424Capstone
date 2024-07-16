@@ -14,7 +14,6 @@ import com.example.d424capstone.adapters.StoreItemAdapter;
 import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity {
-
     private Repository repository;
     private RecyclerView recyclerView;
     private StoreItemAdapter adapter;
@@ -24,7 +23,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
-        repository = new Repository(getApplication());
+        repository = new Repository(getApplication()); // Initialize repository instance
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

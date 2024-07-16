@@ -23,7 +23,6 @@ import com.example.d424capstone.utilities.UserRoles;
 import java.util.regex.Pattern;
 
 public class UserLoginScreen extends BaseActivity {
-
     private Repository repository;
     private SharedPreferences sharedPreferences;
 
@@ -37,7 +36,7 @@ public class UserLoginScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_login_screen);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         initializeDrawer();

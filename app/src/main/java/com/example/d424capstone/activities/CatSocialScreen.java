@@ -1,7 +1,6 @@
 package com.example.d424capstone.activities;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.widget.SearchView;
@@ -30,7 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class CatSocialScreen extends BaseActivity {
-
     private Repository repository;
     private SocialPostAdapter adapter;
     private RecyclerView recyclerView;
@@ -42,18 +39,18 @@ public class CatSocialScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_social_screen);
 
-        repository = MyApplication.getInstance().getRepository();
-        currentUserID = getCurrentUserID(); // Assuming you have a way to get the current user ID
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
+        currentUserID = getCurrentUserID(); // Get current user ID
+
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set layout manager for RecyclerView
 
-        loadSocialPosts();
+        loadSocialPosts(); // Load social posts from the database
 
         FloatingActionButton fabAddPost = findViewById(R.id.fab_add_post);
-        fabAddPost.setOnClickListener(v -> openAddPostDialog());
-
-        initializeDrawer();
+        fabAddPost.setOnClickListener(v -> openAddPostDialog()); // Open dialog to add a new post
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -65,15 +62,16 @@ public class CatSocialScreen extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_search, menu); // Inflate the menu for search functionality
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
+        // Set query text listener for the search view
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchSocialPosts(query);
+                searchSocialPosts(query); // Search social posts based on query
                 return false;
             }
 
@@ -86,10 +84,12 @@ public class CatSocialScreen extends BaseActivity {
         return true;
     }
 
+    // Load social posts from the repository
     private void loadSocialPosts() {
         new Thread(() -> {
             List<SocialPost> socialPosts = repository.getAllSocialPosts();
             runOnUiThread(() -> {
+                // Initialize adapter with the list of social posts
                 adapter = new SocialPostAdapter(this, socialPosts, repository, new SocialPostAdapter.OnItemClickListener() {
                     @Override
                     public void onEditClick(SocialPost socialPost) {
@@ -101,11 +101,12 @@ public class CatSocialScreen extends BaseActivity {
                         // No action needed as delete is not allowed on this screen
                     }
                 }, false, currentUserID, false); // Pass false for isManagementPage
-                recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(adapter); // Set the adapter to the RecyclerView
             });
         }).start();
     }
 
+    // Search social posts based on the query
     private void searchSocialPosts(String query) {
         new Thread(() -> {
             List<SocialPost> searchResults = repository.searchSocialPosts(query);
@@ -124,24 +125,26 @@ public class CatSocialScreen extends BaseActivity {
         EditText editPostContent = dialogView.findViewById(R.id.edit_post_content);
         Button buttonSavePost = dialogView.findViewById(R.id.button_save_post);
 
+        // Set click listener for the save button
         buttonSavePost.setOnClickListener(v -> {
             String content = editPostContent.getText().toString();
             if (!content.isEmpty()) {
-                SocialPost newPost = new SocialPost(0, currentUserID, content, 0); // Use currentUserID
+                SocialPost newPost = new SocialPost(0, currentUserID, content, 0); // Create new social post
                 new Thread(() -> {
-                    repository.insertSocialPost(newPost);
+                    repository.insertSocialPost(newPost); // Insert new post into the repository
                     runOnUiThread(() -> {
-                        adapter.addPost(newPost);
-                        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                        dialog.dismiss();
+                        adapter.addPost(newPost); // Add new post to the adapter
+                        recyclerView.scrollToPosition(adapter.getItemCount() - 1); // Scroll to the new post
+                        dialog.dismiss(); // Dismiss the dialog
                     });
                 }).start();
             }
         });
 
-        dialog.show();
+        dialog.show(); // Show the dialog
     }
 
+    // Get the current user ID (placeholder implementation)
     private int getCurrentUserID() {
         // Your logic to get the current user ID
         return 1; // Placeholder

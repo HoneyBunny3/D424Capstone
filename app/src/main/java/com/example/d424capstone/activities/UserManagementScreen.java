@@ -33,7 +33,7 @@ public class UserManagementScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_management_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();

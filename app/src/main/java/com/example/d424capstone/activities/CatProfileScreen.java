@@ -3,7 +3,6 @@ package com.example.d424capstone.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,8 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
 public class CatProfileScreen extends BaseActivity {
-
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST = 1; // Request code for image picker
     private Repository repository;
     private TextInputEditText editName, editAge, editBio;
     private ImageView catImageView;
@@ -44,9 +42,17 @@ public class CatProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_profile_screen);
 
-        initViews();
-        repository = MyApplication.getInstance().getRepository();
+        initializeDrawer();// Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeButtons();  // Set up button click listeners
+        initViews();// Initialize UI components
 
+        initializeRecyclerView();  // Initialize RecyclerView for displaying cat profiles
+        loadCatsForUser();  // Load cats associated with the user
+
+
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
+
+        // Get catID and userID from intent extras
         catID = getIntent().getIntExtra("catID", -1);
         userID = getIntent().getIntExtra("userID", -1);
 
@@ -57,15 +63,8 @@ public class CatProfileScreen extends BaseActivity {
         }
 
         if (catID != -1) {
-            loadCatDetails();
+            loadCatDetails(); // Load cat details if catID is valid
         }
-
-        initializeButtons();
-        initializeRecyclerView();
-        loadCatsForUser();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,6 +73,7 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
+    // Initialize UI components
     private void initViews() {
         editName = findViewById(R.id.cat_name);
         editAge = findViewById(R.id.cat_age);
@@ -85,6 +85,7 @@ public class CatProfileScreen extends BaseActivity {
         catRecyclerView = findViewById(R.id.cat_recycler_view);
     }
 
+    // Load cat details from the repository
     private void loadCatDetails() {
         new Thread(() -> {
             Cat cat = repository.getCatByID(catID);
@@ -104,6 +105,7 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
+    // Set up button click listeners
     private void initializeButtons() {
         saveButton.setOnClickListener(view -> saveCatProfile());
         cancelButton.setOnClickListener(view -> finish());
@@ -115,12 +117,14 @@ public class CatProfileScreen extends BaseActivity {
         });
     }
 
+    // Initialize RecyclerView for displaying cat profiles
     private void initializeRecyclerView() {
         catRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         catAdapter = new CatAdapter(this, null);
         catRecyclerView.setAdapter(catAdapter);
     }
 
+    // Load cats associated with the user from the repository
     private void loadCatsForUser() {
         new Thread(() -> {
             List<Cat> cats = repository.getCatsForUser(userID);
@@ -134,6 +138,7 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
+    // Save cat profile details to the repository
     private void saveCatProfile() {
         String catName = editName.getText().toString();
         String catAgeStr = editAge.getText().toString();
@@ -201,6 +206,7 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
+    // Clear input fields
     private void clearInputs() {
         editName.setText("");
         editAge.setText("");
@@ -209,6 +215,7 @@ public class CatProfileScreen extends BaseActivity {
         catImageUri = null;
     }
 
+    // Delete cat profile from the repository
     private void deleteCatProfile() {
         new Thread(() -> {
             repository.deleteCat(catID);
@@ -219,10 +226,12 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
+    // Show a toast message
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(CatProfileScreen.this, message, Toast.LENGTH_LONG).show());
     }
 
+    // Handle the result from the image picker intent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -20,8 +20,7 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Cat;
 
 public class CatDetails extends BaseActivity {
-
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST = 1; // Request code for image picker
     private Repository repository;
     private EditText catNameEditText, catAgeEditText, catBioEditText;
     private ImageView catImageView;
@@ -36,20 +35,18 @@ public class CatDetails extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_details);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        initViews();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeButtons(); // Initialize buttons and set their click listeners
+        initViews(); // Initialize UI components
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        initializeButtons();
-
+        // Get catID and userID from intent extras
         catID = getIntent().getIntExtra("catID", -1);
         userID = getIntent().getIntExtra("userID", -1);
 
         if (catID != -1) {
-            loadCatDetails();
+            loadCatDetails(); // Load cat details if catID is valid
         } else {
             showToast("Invalid cat ID");
             finish();
@@ -68,16 +65,18 @@ public class CatDetails extends BaseActivity {
         });
     }
 
+    // Initialize UI components
     private void initViews() {
         catNameEditText = findViewById(R.id.cat_name_details);
         catAgeEditText = findViewById(R.id.cat_age_details);
         catBioEditText = findViewById(R.id.cat_bio_details);
         catImageView = findViewById(R.id.cat_image_details);
-        catImageView.setImageResource(R.drawable.baseline_image_search_24);
+        catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save_button);
         backButton = findViewById(R.id.back_button);
     }
 
+    // Load cat details from the repository
     private void loadCatDetails() {
         new Thread(() -> {
             Cat cat = repository.getCatByID(catID);
@@ -97,6 +96,7 @@ public class CatDetails extends BaseActivity {
         }).start();
     }
 
+    // Set up button click listeners
     private void initializeButtons() {
         saveButton.setOnClickListener(view -> saveCatDetails());
         backButton.setOnClickListener(view -> finish());
@@ -108,6 +108,7 @@ public class CatDetails extends BaseActivity {
         });
     }
 
+    // Save cat details to the repository
     private void saveCatDetails() {
         String catName = catNameEditText.getText().toString();
         String catAgeStr = catAgeEditText.getText().toString();
@@ -161,6 +162,7 @@ public class CatDetails extends BaseActivity {
         }).start();
     }
 
+    // Handle the result from the image picker intent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,6 +172,7 @@ public class CatDetails extends BaseActivity {
         }
     }
 
+    // Show a toast message
     private void showToast(String message) {
         runOnUiThread(() -> Toast.makeText(CatDetails.this, message, Toast.LENGTH_LONG).show());
     }

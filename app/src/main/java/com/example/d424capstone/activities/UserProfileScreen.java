@@ -46,7 +46,7 @@ public class UserProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_profile_screen);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         initViews();

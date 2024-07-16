@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Random;
 
 public class OrderConfirmationScreen extends BaseActivity {
-
     private Repository repository;
     private TextView confirmationNumberTextView;
     private TextView purchasedItemsTextView;
@@ -36,7 +35,7 @@ public class OrderConfirmationScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_confirmation_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         confirmationNumberTextView = findViewById(R.id.confirmationNumberTextView);
         purchasedItemsTextView = findViewById(R.id.purchasedItemsTextView);

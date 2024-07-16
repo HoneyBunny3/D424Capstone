@@ -23,7 +23,6 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Order;
 
 public class OrderDetailsScreen extends BaseActivity {
-
     private Repository repository;
     private TextView orderDetailsTextView;
     private Button shareButton, setAlertButton;
@@ -37,7 +36,7 @@ public class OrderDetailsScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_details_screen);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
         shareButton = findViewById(R.id.shareButton);

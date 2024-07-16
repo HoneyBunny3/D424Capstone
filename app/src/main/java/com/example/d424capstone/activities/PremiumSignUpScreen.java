@@ -19,7 +19,6 @@ import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
 public class PremiumSignUpScreen extends BaseActivity {
-
     private Repository repository;
     private SharedPreferences sharedPreferences;
     private User currentUser;
@@ -30,7 +29,7 @@ public class PremiumSignUpScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_premium_sign_up_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentUser = repository.getCurrentUser();
 

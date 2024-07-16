@@ -27,7 +27,7 @@ public class PremiumProductManagementScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_premium_product_management_screen); // Ensure the correct layout is set
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         // Initialize buttons and set their click listeners
         initializeButtons();

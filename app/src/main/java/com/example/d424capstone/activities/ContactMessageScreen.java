@@ -28,7 +28,7 @@ public class ContactMessageScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contact_message_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         initViews();
         loadContactMessages();

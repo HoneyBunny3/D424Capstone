@@ -25,7 +25,7 @@ public class HomeScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         // Initialize buttons and set their click listeners

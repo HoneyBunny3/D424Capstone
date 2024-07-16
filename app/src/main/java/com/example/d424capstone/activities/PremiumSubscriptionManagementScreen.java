@@ -38,7 +38,7 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_premium_subscription_management_screen); // Ensure the correct layout is set
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         firstNameTextView = findViewById(R.id.first_name);
         lastNameTextView = findViewById(R.id.last_name);

@@ -38,7 +38,7 @@ public class ReportGenerationScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report_generation_screen);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         reportTextView = findViewById(R.id.report_text_view);
         shareButton = findViewById(R.id.share_button);

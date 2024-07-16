@@ -28,7 +28,7 @@ public class ProductShippingManagement extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_prodcut_shipping_management);
 
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         initViews();
 

@@ -45,8 +45,7 @@ public class LoveYourCatScreen extends BaseActivity implements TipsAdapter.OnTip
             return insets;
         });
 
-        // Initialize repository and current user
-        repository = MyApplication.getInstance().getRepository();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         currentUser = repository.getCurrentUser();
 
         // Initialize RecyclerView

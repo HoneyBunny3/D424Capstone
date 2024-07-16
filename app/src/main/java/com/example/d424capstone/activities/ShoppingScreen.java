@@ -17,7 +17,6 @@ import com.example.d424capstone.entities.StoreItem;
 import java.util.List;
 
 public class ShoppingScreen extends BaseActivity {
-
     private Repository repository;
     private RecyclerView recyclerView;
     private StoreItemAdapter adapter;
@@ -27,7 +26,7 @@ public class ShoppingScreen extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         recyclerView = findViewById(R.id.storeItemRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

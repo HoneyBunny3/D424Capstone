@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,6 @@ import com.example.d424capstone.utilities.UserRoles;
 import com.google.android.material.navigation.NavigationView;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     protected DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private SparseArray<Class<?>> activityMap;
@@ -37,35 +37,41 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = MyApplication.getInstance().getRepository();
+        EdgeToEdge.enable(this);
+
+        // Initialize the activity map that links navigation drawer item IDs to their corresponding activities
         initializeActivityMap();
 
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences
 
+        // Listener for SharedPreferences changes
         listener = (sharedPreferences, key) -> {
             if ("UserRole".equals(key)) {
                 recreate();
             }
         };
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener); // Register the listener
 
-        checkLoginStatus();
+        checkLoginStatus(); // Check the login status of the user
     }
 
+    // Determine if the search feature should be shown
     protected boolean shouldShowSearch() {
         return true; // By default, show the search feature
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (shouldShowSearch()) {
+        if (shouldShowSearch()) { // If search should be shown
             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu_search, menu);
+            inflater.inflate(R.menu.menu_search, menu); // Inflate the search menu
 
             MenuItem searchItem = menu.findItem(R.id.action_search);
             SearchView searchView = (SearchView) searchItem.getActionView();
 
+            // Set query text listener for the search view
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -86,6 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    // Check if the user is logged in and whether to show the login/signup dialog
     private void checkLoginStatus() {
         boolean userLoggedIn = isUserLoggedIn();
         boolean skipDialog = shouldSkipLoginSignupDialog();
@@ -95,6 +102,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    // Initialize the navigation drawer
     protected void initializeDrawer() {
         drawerLayout = findViewById(R.id.main);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -102,8 +110,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable the home button in the action bar
 
+        // Set navigation item selected listener
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.user_logout) {
@@ -126,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
+    // Initialize the activity map with the available activities
     private void initializeActivityMap() {
         activityMap = new SparseArray<>();
         activityMap.put(R.id.cat_home, HomeScreen.class);
@@ -140,6 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         activityMap.put(R.id.premium_user, PremiumSubscriptionManagementScreen.class);
     }
 
+    // Handle user logout
     private void handleLogout() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -178,22 +189,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
+    // Check if the user is logged in
     protected boolean isUserLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.contains("LoggedInUserID");
     }
 
+    // Determine if the login/signup dialog should be skipped
     private boolean shouldSkipLoginSignupDialog() {
         boolean skipDialog = this instanceof UserLoginScreen || this instanceof UserSignUpScreen;
         return skipDialog;
     }
 
+    // Show the login/signup dialog
     private void showLoginSignupDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginSignupDialogFragment loginSignupDialog = LoginSignupDialogFragment.newInstance(false);
         loginSignupDialog.show(fragmentManager, "LoginSignupDialogFragment");
     }
 
+    // Check if the user has access based on their role
     public boolean hasAccess(String requiredRole) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userRole = sharedPreferences.getString("UserRole", UserRoles.GUEST);

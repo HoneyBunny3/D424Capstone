@@ -27,7 +27,6 @@ import com.example.d424capstone.entities.User;
 import java.util.Date;
 
 public class ContactUsScreen extends BaseActivity {
-
     private Repository repository;
     private EditText firstName, lastName, email, subject, message;
     private TextView confirmationMessage, helpTextBox;
@@ -41,7 +40,7 @@ public class ContactUsScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contact_us_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle
         initializeDrawer();

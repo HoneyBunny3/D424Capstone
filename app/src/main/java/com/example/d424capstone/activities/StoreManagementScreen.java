@@ -37,7 +37,7 @@ public class StoreManagementScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_store_management_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
         // Initialize the DrawerLayout and ActionBarDrawerToggle

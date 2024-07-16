@@ -23,7 +23,6 @@ import com.example.d424capstone.models.TipsAdapter;
 import java.util.List;
 
 public class LoveYourCatManagementScreen extends BaseActivity implements TipsAdapter.OnTipInteractionListener {
-
     private Repository repository;
     private RecyclerView recyclerView;
     private TipsAdapter tipsAdapter;
@@ -36,7 +35,7 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_love_your_cat_management_screen);
 
-        repository = MyApplication.getInstance().getRepository(); // Use repository from MyApplication
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         userRole = repository.getCurrentUser().getRole();
 
         // Initialize buttons and set their click listeners
