@@ -57,7 +57,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
             holder.itemView.setOnClickListener(v -> {
                 User currentUser = repository.getCurrentUser();
                 if (currentUser != null) {
-                    if (currentPost.getUserID() == currentUserID) {
+                    if (currentPost.getUserID() == currentUser.getUserID()) {
                         Toast.makeText(holder.itemView.getContext(), "You cannot like your own post", Toast.LENGTH_SHORT).show();
                     } else if (!currentUser.hasLikedPost(currentPost.getSocialPostID())) {
                         repository.likePost(currentUser.getUserID(), currentPost);

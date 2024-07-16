@@ -2,7 +2,9 @@ package com.example.d424capstone.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -10,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,6 +32,8 @@ public class UserSignUpScreen extends BaseActivity {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
     );
+
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^[0-9]{10}$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class UserSignUpScreen extends BaseActivity {
         lastNameEditText = findViewById(R.id.lastName);
         passwordEditText = findViewById(R.id.password);
         phoneNumberEditText = findViewById(R.id.phone_number);
+        phoneNumberEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10), new DigitsInputFilter()});
         signUpButton = findViewById(R.id.sign_up_user);
         cancelButton = findViewById(R.id.cancel_user);
         setupPasswordVisibilityToggle();
@@ -90,7 +94,7 @@ public class UserSignUpScreen extends BaseActivity {
         String password = passwordEditText.getText().toString();
         String phone = phoneNumberEditText.getText().toString();
 
-        if (!validateInput(email, firstName, lastName, password)) {
+        if (!validateInput(email, firstName, lastName, password, phone)) {
             return;
         }
 
@@ -115,7 +119,7 @@ public class UserSignUpScreen extends BaseActivity {
         }).start();
     }
 
-    private boolean validateInput(String email, String firstName, String lastName, String password) {
+    private boolean validateInput(String email, String firstName, String lastName, String password, String phone) {
         if (email.isEmpty() || !isValidEmail(email)) {
             showAlert("Email Input Error", "Please enter a valid email.\nEnsure format is test@test.test");
             return false;
@@ -134,6 +138,10 @@ public class UserSignUpScreen extends BaseActivity {
         }
         if (!isPasswordValid(password)) {
             showAlert("Password Format Error", "Password must be at least 8 characters, contain at least one digit, one upper case letter, one lower case letter, and one special character.");
+            return false;
+        }
+        if (!isPhoneValid(phone)) {
+            showAlert("Phone Input Error", "Please enter a valid 10-digit phone number.");
             return false;
         }
         return true;
@@ -156,6 +164,10 @@ public class UserSignUpScreen extends BaseActivity {
                 password.matches(".*[!@#$%^&+=?-].*");
     }
 
+    private boolean isPhoneValid(String phone) {
+        return PHONE_PATTERN.matcher(phone).matches();
+    }
+
     private void showAlert(String title, String message) {
         new AlertDialog.Builder(this)
                 .setTitle(title)
@@ -173,5 +185,17 @@ public class UserSignUpScreen extends BaseActivity {
     @Override
     protected boolean shouldShowSearch() {
         return false; // Disable the search feature on this activity
+    }
+
+    private class DigitsInputFilter implements InputFilter {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; i++) {
+                if (!Character.isDigit(source.charAt(i))) {
+                    return "";
+                }
+            }
+            return null;
+        }
     }
 }

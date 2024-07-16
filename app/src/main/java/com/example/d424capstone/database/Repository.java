@@ -10,6 +10,7 @@ import com.example.d424capstone.dao.*;
 import com.example.d424capstone.entities.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -71,6 +72,12 @@ public class Repository {
 
                 // Preload premium storefront
                 preloadPremiumStorefront((int) premiumUserId);
+
+                // Preload a contact us message
+                preloadContactMessage();
+
+                // Preload an order
+                preloadOrder();
             }
             // Preload social posts
             preloadSocialPosts();
@@ -78,6 +85,19 @@ public class Repository {
             // Preload Love Your Cat tips
             preloadTips();
         });
+    }
+
+    private void preloadContactMessage() {
+        ContactMessage contactMessage = new ContactMessage(
+                3,
+                "Admin",
+                "Hearthy",
+                "hearthy@example.com",
+                "General Inquiry",
+                "This is a preloaded contact message.",
+                new Date()
+        );
+        contactMessageDAO.insert(contactMessage);
     }
 
     private void preloadPremiumStorefront(int premiumUserId) {
@@ -97,12 +117,28 @@ public class Repository {
         });
     }
 
+    private void preloadOrder() {
+        Order order = new Order(
+                3,
+                "4111111111111111",
+                "12/24",
+                "123",
+                59.99,
+                "Cat Toy, Cat Bed",
+                new Date()
+        );
+        order.setConfirmationNumber("CN1234567890");
+        order.setTrackingNumber("TN1234567890");
+        order.setCarrierName("CarrierName");
+        orderDAO.insert(order);
+    }
+
     private void preloadSocialPosts() {
         databaseWriteExecutor.execute(() -> {
             if (socialPostDAO.getAllSocialPosts().isEmpty()) {
                 socialPostDAO.insert(new SocialPost(0, 1, "Enjoying the sun with my cat!", 10));
                 socialPostDAO.insert(new SocialPost(0, 2, "My cat's new favorite toy!", 25));
-                socialPostDAO.insert(new SocialPost(0, 1, "Cat naps are the best naps.", 15));
+                socialPostDAO.insert(new SocialPost(0, 3, "Cat naps are the best naps.", 15));
             }
         });
     }
