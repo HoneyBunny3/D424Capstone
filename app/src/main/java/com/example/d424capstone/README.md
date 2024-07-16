@@ -79,8 +79,8 @@ This project will culminate in a demonstrable prototype.
 
 ### Storefront
 
-- **Create Storefront**: Premium users can create a storefront.
-- **Manage Storefront**: Users can manage their storefronts, including adding and removing products.
+- **Create Storefront**: Premium users can create a storefront and provide details such as storefront name and contact email.
+- **Manage Storefront**: Users can manage their storefronts, including adding and removing products, and ensuring products cannot be priced at $0.
 
 ### Social Media
 
@@ -265,50 +265,75 @@ Include screenshots of the test results in Android Studio to demonstrate the suc
 ## Summary of Changes from Testing
 
 ### Identified Bugs: 
-- No bugs identified
-- There are several areas for improvement that were identified during testing
+- Found issues with all credit card fields missing validation.
+- Found several areas for improvement that were identified during testing with regards to missing validation.
 
 ### Improved Logic: 
-- CatDetails.java page improvements: 
-  - Added missing validation for empty cat bio field, cat age negative integer, cat profile updated successfully, also found cat details page was not editable.
-- CatProfileScreen.java page improvements: 
-  - Added missing validation for empty cat bio field, cat age negative integer, cat profile saved successfully.
+- CatDetails.java: 
+  - Added missing validation for empty cat bio field.
+  - Added validation for negative cat age.
+  - Ensured the cat details page is editable.
+  - Confirmed cat profile updates are saved successfully.
 
-- SocialPostAdapter.java page improvements:
+- CatProfileScreen.java: 
+  - Added validation for empty cat bio field.
+  - Added validation for negative cat age.
+  - Confirmed cat profile creation and updates are saved successfully.
+
+- SocialPostAdapter.java:
   - Modified the constructor to accept and store the `currentUserID`.
+
 - MyApplication improvements:
   - Added a field `currentUserID` to store the ID of the currently logged-in user.
   - Added methods `getCurrentUserID()` and `setCurrentUserID(int userID)` to retrieve and set the current user ID.
-- CatSocialScreen.java page improvements:
+
+- CatSocialScreen.java:
   - Updated the `SocialPostAdapter` initialization to pass the `currentUserID` to the adapter.
   - Added logic to prevent users from liking their own posts.
   - Displayed appropriate toast messages based on whether the user can like the post or not.
   - The current user ID is retrieved from `MyApplication` using the method `getCurrentUserID()`.
   - Added validation to prevent users from liking their own posts.
   - Displayed a toast message if the user attempts to like their own post.
+
 - SocialPostModerationScreen.java improvements:
   - Updated the `SocialPostAdapter` initialization to pass `true` for moderation mode.
   - Implemented a method `showEditDialog` to allow editing of social posts.
   - Updated post content in the repository upon saving changes.
   - Implemented a method `refreshPosts` to refresh the list of social posts after edit or delete operations.
 
-- StoreItemAdapter.java page improvements:
+- StoreItemAdapter.java:
   - Added validation so a user cannot enter '0' in the quantity field and save it to the shopping cart.
 
 - PremiumProductManagementScreen.java
   - Added validation that premium items cannot be added to the store with a price of $0.
   - Added validation that the storefront name and email address cannot be empty.
   - Added validation that the email field should be in proper email format.
+  - Confirmed successful saving of storefront information.
+
 - StoreItemAdapter.java
   - Added validation that quantity of items added to shopping cart must be greater than 0.
+
 - PremiumProductManagementScreen.java
   - Added validation that regular items cannot be added to the store with a price of $0.
+
 - StoreManagementScreen.java
   - Added functionality for admin user to add store items via the Store Management page.
+  - Added validation to ensure items cannot be added with a price of $0.
 
 - UserLoginScreen.java
-  - Added validation that the email entered is in a proper email format
+  - Added validation that the email entered is in a proper email format.
+
 - UserProfileScreen.java
-  - Added validation that the email entered is in a proper email format
+  - Added validation that the email entered is in a proper email format.
+  - Confirmed successful saving of user profile updates.
+
 - UserSignUpScreen.java
-  - Added validation that the email entered is in a proper email format
+  - Added validation that the email entered is in a proper email format.
+  - Added validation for password strength and matching.
+  - Confirmed successful user sign-up.
+
+- PremiumSignUpScreen.java
+  - Added validation for storefront name and email, ensuring they cannot be empty and must be in proper format.
+  - Added validation for credit card number, expiry, and CVV fields.
+  - Confirmed successful saving of storefront information to the database upon successful sign-up.
+  - Added validation to ensure the credit card number is 16 digits, expiry is in MM/YY format, and CVV is 3 digits.
