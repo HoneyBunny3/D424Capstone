@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class CheckoutScreen extends BaseActivity {
     private Repository repository;
@@ -33,6 +34,11 @@ public class CheckoutScreen extends BaseActivity {
     private EditText creditCardCVV;
     private Button submitPaymentButton;
     private Button backToCartButton;
+
+    // Patterns credit card, expiry, and CVV validation
+    private static final Pattern CREDIT_CARD_PATTERN = Pattern.compile("^\\d{16}$");
+    private static final Pattern EXPIRY_PATTERN = Pattern.compile("^(0[1-9]|1[0-2])\\/(\\d{2})$");
+    private static final Pattern CVV_PATTERN = Pattern.compile("^\\d{3}$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,7 @@ public class CheckoutScreen extends BaseActivity {
     // Validate credit card number
     private void validateCardNumber() {
         String cardNumber = creditCardNumber.getText().toString();
-        if (cardNumber.length() != 16 || !cardNumber.matches("\\d{16}")) {
+        if (!CREDIT_CARD_PATTERN.matcher(cardNumber).matches()) {
             Toast.makeText(this, "Invalid credit card number", Toast.LENGTH_SHORT).show();
         }
     }
@@ -195,21 +201,33 @@ public class CheckoutScreen extends BaseActivity {
 
     // Validate credit card information
     private boolean validateCard(String cardNumber, String cardExpiry, String cardCVV) {
-        return cardNumber.matches("\\d{16}") && cardExpiry.equals("12/34") && cardCVV.matches("\\d{3}");
+        boolean isCardNumberValid = CREDIT_CARD_PATTERN.matcher(cardNumber).matches();
+        boolean isExpiryValid = EXPIRY_PATTERN.matcher(cardExpiry).matches();
+        boolean isCVVValid = CVV_PATTERN.matcher(cardCVV).matches();
+
+        if (!isCardNumberValid) {
+            Toast.makeText(this, "Invalid credit card number", Toast.LENGTH_SHORT).show();
+        }
+        if (!isExpiryValid) {
+            Toast.makeText(this, "Invalid expiry date", Toast.LENGTH_SHORT).show();
+        }
+        if (!isCVVValid) {
+            Toast.makeText(this, "Invalid CVV", Toast.LENGTH_SHORT).show();
+        }
+
+        return isCardNumberValid && isExpiryValid && isCVVValid;
     }
 
     // Save order details
     private void saveOrder(int userID, String cardNumber, String cardExpiry, String cardCVV, String confirmationNumber, double totalPaid, String purchasedItems, Date orderDate) {
-        new Thread(() -> {
-            Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems, orderDate);
-            order.setConfirmationNumber(confirmationNumber);
-            repository.insertOrder(order); // Insert order into the repository
-        }).start();
+        Order order = new Order(userID, cardNumber, cardExpiry, cardCVV, totalPaid, purchasedItems, orderDate);
+        order.setConfirmationNumber(confirmationNumber);
+        repository.insertOrder(order); // Insert order into the repository
     }
 
     // Clear cart items
     private void clearCart() {
-        new Thread(() -> repository.clearCartItems()).start();
+        repository.clearCartItems();
     }
 
     // Calculate total paid amount

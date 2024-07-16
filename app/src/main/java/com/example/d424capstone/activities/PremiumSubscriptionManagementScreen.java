@@ -2,6 +2,7 @@ package com.example.d424capstone.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,13 +25,14 @@ import java.util.regex.Pattern;
 public class PremiumSubscriptionManagementScreen extends BaseActivity {
     private Repository repository;
     private TextView firstNameTextView, lastNameTextView, emailTextView, phoneTextView;
-    private EditText storefrontNameEditText, storefrontEmailEditText;
+    private EditText storefrontNameEditText, storefrontEmailEditText, creditCardEditText, expiryEditText, cvvEditText;
     private User currentUser;
     private PremiumStorefront currentStorefront;
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@(.+)$"
-    );
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
+    private static final Pattern CREDIT_CARD_PATTERN = Pattern.compile("^[0-9]{16}$");
+    private static final Pattern EXPIRY_PATTERN = Pattern.compile("^(0[1-9]|1[0-2])\\/([0-9]{2})$");
+    private static final Pattern CVV_PATTERN = Pattern.compile("^[0-9]{3,4}$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +42,9 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        firstNameTextView = findViewById(R.id.first_name);
-        lastNameTextView = findViewById(R.id.last_name);
-        emailTextView = findViewById(R.id.email);
-        phoneTextView = findViewById(R.id.phone);
-        storefrontNameEditText = findViewById(R.id.storefront_name);
-        storefrontEmailEditText = findViewById(R.id.storefront_contact_email);
-
-        // Fetch and display premium user information
-        displayPremiumUserInfo();
-
-        // Initialize buttons and set their click listeners
-        initializeButtons();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        displayPremiumUserInfo(); // Fetch and display premium user information
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -63,7 +53,23 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         });
     }
 
-    private void initializeButtons() {
+    // Initialize UI components
+    private void initViews() {
+        firstNameTextView = findViewById(R.id.first_name);
+        lastNameTextView = findViewById(R.id.last_name);
+        emailTextView = findViewById(R.id.email);
+        phoneTextView = findViewById(R.id.phone);
+        storefrontNameEditText = findViewById(R.id.storefront_name);
+        storefrontEmailEditText = findViewById(R.id.storefront_contact_email);
+        creditCardEditText = findViewById(R.id.storefront_credit_card);
+        expiryEditText = findViewById(R.id.storefront_expiry);
+        cvvEditText = findViewById(R.id.storefront_cvv);
+
+        // Set input filters for credit card, expiry date, and CVV
+        creditCardEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16)});
+        expiryEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+        cvvEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+
         // Initialize buttons and set their click listeners
         Button buttonAdd = findViewById(R.id.add_product_button);
         buttonAdd.setOnClickListener(view -> startActivity(new Intent(PremiumSubscriptionManagementScreen.this, PremiumProductManagementScreen.class)));
@@ -89,6 +95,9 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
                     runOnUiThread(() -> {
                         storefrontNameEditText.setText(currentStorefront.getName());
                         storefrontEmailEditText.setText(currentStorefront.getEmail());
+                        creditCardEditText.setText(currentStorefront.getCreditCard());
+                        expiryEditText.setText(currentStorefront.getExpiry());
+                        cvvEditText.setText(currentStorefront.getCvv());
                     });
                 }
             } else {
@@ -99,6 +108,9 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
                     phoneTextView.setText("N/A");
                     storefrontNameEditText.setText("");
                     storefrontEmailEditText.setText("");
+                    creditCardEditText.setText("");
+                    expiryEditText.setText("");
+                    cvvEditText.setText("");
                 });
             }
         }).start();
@@ -106,30 +118,25 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
 
     private void saveStorefrontInfo() {
         if (currentUser != null && "PREMIUM".equals(currentUser.getRole())) {
-            String storefrontName = storefrontNameEditText.getText().toString();
-            String storefrontEmail = storefrontEmailEditText.getText().toString();
+            String storefrontName = storefrontNameEditText.getText().toString().trim();
+            String storefrontEmail = storefrontEmailEditText.getText().toString().trim();
+            String creditCard = creditCardEditText.getText().toString().trim();
+            String expiry = expiryEditText.getText().toString().trim();
+            String cvv = cvvEditText.getText().toString().trim();
 
-            if (storefrontName.isEmpty()) {
-                Toast.makeText(this, "Storefront name cannot be empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (storefrontEmail.isEmpty()) {
-                Toast.makeText(this, "Storefront contact email cannot be empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!EMAIL_PATTERN.matcher(storefrontEmail).matches()) {
-                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            if (!validateInputs(storefrontName, storefrontEmail, creditCard, expiry, cvv)) {
                 return;
             }
 
             if (currentStorefront == null) {
-                currentStorefront = new PremiumStorefront(0, storefrontName, storefrontEmail, currentUser.getUserID());
+                currentStorefront = new PremiumStorefront(0, storefrontName, storefrontEmail, currentUser.getUserID(), creditCard, expiry, cvv);
                 repository.insertPremiumStorefront(currentStorefront);
             } else {
                 currentStorefront.setName(storefrontName);
                 currentStorefront.setEmail(storefrontEmail);
+                currentStorefront.setCreditCard(creditCard);
+                currentStorefront.setExpiry(expiry);
+                currentStorefront.setCvv(cvv);
                 repository.updatePremiumStorefront(currentStorefront);
             }
 
@@ -137,6 +144,44 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         } else {
             Toast.makeText(this, "Error: User not premium or not logged in", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean validateInputs(String storefrontName, String storefrontEmail, String creditCard, String expiry, String cvv) {
+        if (storefrontName.isEmpty()) {
+            showToast("Storefront name cannot be empty");
+            return false;
+        }
+
+        if (storefrontEmail.isEmpty()) {
+            showToast("Storefront contact email cannot be empty");
+            return false;
+        }
+
+        if (!EMAIL_PATTERN.matcher(storefrontEmail).matches()) {
+            showToast("Please enter a valid email address");
+            return false;
+        }
+
+        if (!CREDIT_CARD_PATTERN.matcher(creditCard).matches()) {
+            showToast("Please enter a valid 16-digit credit card number");
+            return false;
+        }
+
+        if (!EXPIRY_PATTERN.matcher(expiry).matches()) {
+            showToast("Please enter a valid expiry date in MM/YY format");
+            return false;
+        }
+
+        if (!CVV_PATTERN.matcher(cvv).matches()) {
+            showToast("Please enter a valid CVV");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showToast(String message) {
+        runOnUiThread(() -> Toast.makeText(PremiumSubscriptionManagementScreen.this, message, Toast.LENGTH_SHORT).show());
     }
 
     @Override

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,22 +31,27 @@ public class ShoppingScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        initializeButtons(); // Initialize buttons and set their click listeners
+        displayStoreItems(); // Display store items
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    // Initialize UI components
+    private void initViews() {
         recyclerView = findViewById(R.id.storeItemRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        displayStoreItems();
-
-        // Initialize buttons and set their click listeners
-        initializeButtons();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
     }
 
     private void displayStoreItems() {
         new Thread(() -> {
             List<StoreItem> storeItems = repository.getAllStoreItems();
-
             runOnUiThread(() -> {
                 if (storeItems != null && !storeItems.isEmpty()) {
                     adapter = new StoreItemAdapter(this, storeItems);

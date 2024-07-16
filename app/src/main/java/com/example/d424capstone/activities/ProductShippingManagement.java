@@ -1,7 +1,6 @@
 package com.example.d424capstone.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,29 +16,22 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.Order;
 
 public class ProductShippingManagement extends BaseActivity {
+    private Repository repository;
     private EditText orderIDEditText, trackingNumberEditText, carrierNameEditText;
     private Button saveTrackingInfoButton;
-    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_prodcut_shipping_management);
+        setContentView(R.layout.activity_product_shipping_management);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        initViews();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        saveTrackingInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveTrackingInformation();
-            }
-        });
+        saveTrackingInfoButton.setOnClickListener(v -> saveTrackingInformation());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -48,6 +40,7 @@ public class ProductShippingManagement extends BaseActivity {
         });
     }
 
+    // Initialize UI components
     private void initViews() {
         orderIDEditText = findViewById(R.id.order_id);
         trackingNumberEditText = findViewById(R.id.tracking_number);
@@ -55,6 +48,7 @@ public class ProductShippingManagement extends BaseActivity {
         saveTrackingInfoButton = findViewById(R.id.save_tracking_info_button);
     }
 
+    // Save tracking information
     private void saveTrackingInformation() {
         String orderIDStr = orderIDEditText.getText().toString().trim();
         String trackingNumber = trackingNumberEditText.getText().toString().trim();

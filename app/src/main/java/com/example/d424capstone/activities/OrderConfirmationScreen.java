@@ -26,7 +26,6 @@ public class OrderConfirmationScreen extends BaseActivity {
     private TextView creditCardTextView;
     private Button toUserProfileButton;
     private Button toShoppingButton;
-    private Button toOrderDetailsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,19 @@ public class OrderConfirmationScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        displayOrderConfirmation(); // Display order confirmation details
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    // Initialize UI components
+    private void initViews() {
         confirmationNumberTextView = findViewById(R.id.confirmationNumberTextView);
         purchasedItemsTextView = findViewById(R.id.purchasedItemsTextView);
         totalPaidTextView = findViewById(R.id.totalPaidTextView);
@@ -43,8 +55,7 @@ public class OrderConfirmationScreen extends BaseActivity {
         toUserProfileButton = findViewById(R.id.toUserProfileButton);
         toShoppingButton = findViewById(R.id.toShoppingButton);
 
-        displayOrderConfirmation();
-
+        // Set click listeners for buttons
         toUserProfileButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrderConfirmationScreen.this, UserProfileScreen.class);
             startActivity(intent);
@@ -54,17 +65,9 @@ public class OrderConfirmationScreen extends BaseActivity {
             Intent intent = new Intent(OrderConfirmationScreen.this, ShoppingScreen.class);
             startActivity(intent);
         });
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
+    // Display order confirmation details
     private void displayOrderConfirmation() {
         Intent intent = getIntent();
         String confirmationNumber = intent.getStringExtra("confirmationNumber");
@@ -77,19 +80,14 @@ public class OrderConfirmationScreen extends BaseActivity {
             purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
         }
 
-            String finalPurchasedItems = purchasedItems.toString();
+        String finalPurchasedItems = purchasedItems.toString();
 
-            runOnUiThread(() -> {
-                confirmationNumberTextView.setText("Confirmation Number: " + confirmationNumber);
-                purchasedItemsTextView.setText("Purchased Items:\n" + finalPurchasedItems);
-                totalPaidTextView.setText("Total Paid: $" + String.format("%.2f", totalPaid));
-                creditCardTextView.setText("Credit Card (Last 4): " + last4Digits);
-            });
-    }
-
-    private String generateConfirmationNumber() {
-        Random random = new Random();
-        return String.valueOf(100000 + random.nextInt(900000));
+        runOnUiThread(() -> {
+            confirmationNumberTextView.setText("Confirmation Number: " + confirmationNumber);
+            purchasedItemsTextView.setText("Purchased Items:\n" + finalPurchasedItems);
+            totalPaidTextView.setText("Total Paid: $" + String.format("%.2f", totalPaid));
+            creditCardTextView.setText("Credit Card (Last 4): " + last4Digits);
+        });
     }
 
     @Override

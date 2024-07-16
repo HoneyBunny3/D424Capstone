@@ -40,15 +40,9 @@ public class ReportGenerationScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        reportTextView = findViewById(R.id.report_text_view);
-        shareButton = findViewById(R.id.share_button);
-        shareButton.setOnClickListener(v -> shareCSVFile());
-
-        // Initialize buttons and set their click listeners
-        initializeButtons();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        initializeButtons(); // Initialize buttons and set their click listeners
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -57,6 +51,14 @@ public class ReportGenerationScreen extends BaseActivity {
         });
     }
 
+    // Initialize UI components
+    private void initViews() {
+        reportTextView = findViewById(R.id.report_text_view);
+        shareButton = findViewById(R.id.share_button);
+        shareButton.setOnClickListener(v -> shareCSVFile());
+    }
+
+    // Initialize buttons and set their click listeners
     private void initializeButtons() {
         Button userReportButton = findViewById(R.id.generate_user_report);
         Button shoppingReportButton = findViewById(R.id.generate_shopping_report);

@@ -26,9 +26,7 @@ public class UserLoginScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
-    );
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +35,10 @@ public class UserLoginScreen extends BaseActivity {
         setContentView(R.layout.activity_user_login_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences
 
-        initializeDrawer();
-        setupUI();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,7 +47,8 @@ public class UserLoginScreen extends BaseActivity {
         });
     }
 
-    private void setupUI() {
+    // Initialize UI components
+    private void initViews() {
         Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(v -> handleLogin());
 

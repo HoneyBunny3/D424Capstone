@@ -10,12 +10,18 @@ public class PremiumStorefront {
     private String name;
     private String email;
     private int userID;
+    private String creditCard;
+    private String expiry;
+    private String cvv;
 
-    public PremiumStorefront(int storefrontID, String name, String email, int userID) {
+    public PremiumStorefront(int storefrontID, String name, String email, int userID, String creditCard, String expiry, String cvv) {
         this.storefrontID = storefrontID;
         this.name = name;
         this.email = email;
         this.userID = userID;
+        this.creditCard = creditCard;
+        this.expiry = expiry;
+        this.cvv = cvv;
     }
 
     // Getter and setter methods
@@ -49,5 +55,29 @@ public class PremiumStorefront {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(String creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 }

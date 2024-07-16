@@ -38,21 +38,23 @@ public class StoreManagementScreen extends BaseActivity {
         setContentView(R.layout.activity_store_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        recyclerView = findViewById(R.id.store_management_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        refreshStoreItems();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        refreshStoreItems(); // Load store items from the database
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Initialize UI components
+    private void initViews() {
+        recyclerView = findViewById(R.id.store_management_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Button addButton = findViewById(R.id.addProductButton);
         addButton.setOnClickListener(v -> openAddItemDialog());
@@ -82,7 +84,6 @@ public class StoreManagementScreen extends BaseActivity {
         EditText descriptionEditText = dialogView.findViewById(R.id.descriptionEditText);
         EditText priceEditText = dialogView.findViewById(R.id.priceEditText);
         CheckBox isPremiumCheckBox = dialogView.findViewById(R.id.isPremiumCheckBox);
-
         Button saveButton = dialogView.findViewById(R.id.saveButton);
         Button cancelButton = dialogView.findViewById(R.id.cancelButton);
 
@@ -124,7 +125,6 @@ public class StoreManagementScreen extends BaseActivity {
         });
 
         cancelButton.setOnClickListener(v -> dialog.dismiss());
-
         dialog.show();
     }
 

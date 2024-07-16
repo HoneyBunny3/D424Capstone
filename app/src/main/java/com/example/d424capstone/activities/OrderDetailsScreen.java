@@ -38,22 +38,15 @@ public class OrderDetailsScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
-        shareButton = findViewById(R.id.shareButton);
-        setAlertButton = findViewById(R.id.set_alert_button);
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
 
         int orderID = getIntent().getIntExtra("orderID", -1);
         if (orderID != -1) {
-            displayOrderDetails(orderID);
+            displayOrderDetails(orderID); // Display order details if valid order ID
         } else {
             orderDetailsTextView.setText("Order ID is invalid");
         }
-
-        shareButton.setOnClickListener(v -> shareOrderDetails());
-        setAlertButton.setOnClickListener(v -> setOrderTrackingAlert());
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -62,6 +55,18 @@ public class OrderDetailsScreen extends BaseActivity {
         });
     }
 
+    // Initialize UI components
+    private void initViews() {
+        orderDetailsTextView = findViewById(R.id.orderDetailsTextView);
+        shareButton = findViewById(R.id.shareButton);
+        setAlertButton = findViewById(R.id.set_alert_button);
+
+        // Set click listeners for buttons
+        shareButton.setOnClickListener(v -> shareOrderDetails());
+        setAlertButton.setOnClickListener(v -> setOrderTrackingAlert());
+    }
+
+    // Display order details
     private void displayOrderDetails(int orderID) {
         new Thread(() -> {
             currentOrder = repository.getOrderByID(orderID);
@@ -87,6 +92,7 @@ public class OrderDetailsScreen extends BaseActivity {
         }).start();
     }
 
+    // Share order details
     private void shareOrderDetails() {
         String orderDetails = orderDetailsTextView.getText().toString();
         Intent sendIntent = new Intent();
@@ -98,6 +104,7 @@ public class OrderDetailsScreen extends BaseActivity {
         startActivity(shareIntent);
     }
 
+    // Set order tracking alert
     private void setOrderTrackingAlert() {
         String message = "Your order with confirmation number " + currentOrder.getConfirmationNumber() +
                 " has been shipped via " + currentOrder.getCarrierName() + " with tracking number " + currentOrder.getTrackingNumber() +
@@ -106,6 +113,7 @@ public class OrderDetailsScreen extends BaseActivity {
         sendNotification(message);
     }
 
+    // Send notification
     private void sendNotification(String message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.baseline_notifications_24)
@@ -123,6 +131,7 @@ public class OrderDetailsScreen extends BaseActivity {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
+    // Handle permission request result
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

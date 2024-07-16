@@ -24,15 +24,12 @@ public class PremiumProductManagementScreen extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_premium_product_management_screen); // Ensure the correct layout is set
+        setContentView(R.layout.activity_premium_product_management_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        // Initialize buttons and set their click listeners
-        initializeButtons();
-
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -41,15 +38,17 @@ public class PremiumProductManagementScreen extends BaseActivity {
         });
     }
 
-    private void initializeButtons() {
-        // Initialize buttons and set their click listeners
-        Button buttonSave = findViewById(R.id.save);
-        buttonSave.setOnClickListener(view -> saveProduct());
+    // Initialize UI components
+    private void initViews() {
+        Button buttonSave = findViewById(R.id.save_storefront_button);
+        Button buttonCancel = findViewById(R.id.add_product_button);
 
-        Button buttonCancel = findViewById(R.id.cancel);
+        // Set click listeners for buttons
+        buttonSave.setOnClickListener(view -> saveProduct());
         buttonCancel.setOnClickListener(view -> finish());
     }
 
+    // Save product to the repository
     private void saveProduct() {
         EditText productNameEditText = findViewById(R.id.product_name);
         EditText productDescriptionEditText = findViewById(R.id.product_description);
@@ -66,7 +65,13 @@ public class PremiumProductManagementScreen extends BaseActivity {
             return;
         }
 
-        double price = Double.parseDouble(priceText);
+        double price;
+        try {
+            price = Double.parseDouble(priceText);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid price", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Validate the premium item price
         if (isPremium && price == 0) {

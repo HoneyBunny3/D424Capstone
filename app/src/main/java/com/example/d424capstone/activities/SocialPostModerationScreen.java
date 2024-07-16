@@ -36,22 +36,23 @@ public class SocialPostModerationScreen extends BaseActivity {
         setContentView(R.layout.activity_social_post_moderation_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        // Setup RecyclerView
-        recyclerView = findViewById(R.id.social_post_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        refreshPosts();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        refreshPosts(); // Load social posts from the database
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Initialize UI components
+    private void initViews() {
+        recyclerView = findViewById(R.id.social_post_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void showEditDialog(SocialPost socialPost) {

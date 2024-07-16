@@ -101,7 +101,7 @@ public class Repository {
     }
 
     private void preloadPremiumStorefront(int premiumUserId) {
-        PremiumStorefront premiumStorefront = new PremiumStorefront(0, "Hearth's Premium Store", "premium@example.com", 2);
+        PremiumStorefront premiumStorefront = new PremiumStorefront(0, "Hearth's Premium Store", "premium@example.com", 2, "1234567812345678", "12/24", "123");
         premiumStorefrontDAO.insert(premiumStorefront);
     }
 
@@ -186,7 +186,6 @@ public class Repository {
         }
         return id[0];
     }
-
 
     public void updateTip(Tip tip) {
         databaseWriteExecutor.execute(() -> tipDAO.update(tip));
