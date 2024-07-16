@@ -98,7 +98,7 @@ public class SocialPostModerationScreen extends BaseActivity {
                                 });
                             }).start();
                         }
-                    }, true, 0); // Pass true to indicate moderation mode and 0 as currentUserID placeholder
+                    }, true, 0, true); // Pass true to indicate moderation mode and isManagementPage
                     recyclerView.setAdapter(socialPostAdapter);
                 } else {
                     socialPostAdapter.updateData(socialPostList);

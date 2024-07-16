@@ -93,12 +93,14 @@ public class CatSocialScreen extends BaseActivity {
                 adapter = new SocialPostAdapter(this, socialPosts, repository, new SocialPostAdapter.OnItemClickListener() {
                     @Override
                     public void onEditClick(SocialPost socialPost) {
+                        // No action needed as edit is not allowed on this screen
                     }
 
                     @Override
                     public void onDeleteClick(SocialPost socialPost) {
+                        // No action needed as delete is not allowed on this screen
                     }
-                }, false, currentUserID); // Pass currentUserID here
+                }, false, currentUserID, false); // Pass false for isManagementPage
                 recyclerView.setAdapter(adapter);
             });
         }).start();

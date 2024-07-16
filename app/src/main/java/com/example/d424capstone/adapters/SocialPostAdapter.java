@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.SocialPostViewHolder> {
-
     private List<SocialPost> socialPosts;
     private LayoutInflater inflater;
     private Repository repository;
@@ -29,8 +28,9 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
     private boolean isModerationMode;
     private Context context;
     private int currentUserID;
+    private boolean isManagementPage;
 
-    public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository, OnItemClickListener listener, boolean isModerationMode, int currentUserID) {
+    public SocialPostAdapter(Context context, List<SocialPost> socialPosts, Repository repository, OnItemClickListener listener, boolean isModerationMode, int currentUserID, boolean isManagementPage) {
         this.inflater = LayoutInflater.from(context);
         this.socialPosts = socialPosts != null ? socialPosts : new ArrayList<>();
         this.repository = repository;
@@ -38,6 +38,7 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         this.isModerationMode = isModerationMode;
         this.context = context;
         this.currentUserID = currentUserID;
+        this.isManagementPage = isManagementPage;
     }
 
     @NonNull
@@ -53,10 +54,20 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
         holder.contentTextView.setText(currentPost.getContent());
         holder.likesTextView.setText("Likes: " + currentPost.getLikes());
 
-        if (!isModerationMode) {
-            holder.itemView.setOnClickListener(v -> {
-                User currentUser = repository.getCurrentUser();
-                if (currentUser != null) {
+        User currentUser = repository.getCurrentUser();
+
+        if (currentUser != null) {
+            // Set the visibility of Edit and Delete buttons based on user role and management page
+            if (isManagementPage && currentUser.getRole().equals("ADMIN")) {
+                holder.editButton.setVisibility(View.VISIBLE);
+                holder.deleteButton.setVisibility(View.VISIBLE);
+            } else {
+                holder.editButton.setVisibility(View.GONE);
+                holder.deleteButton.setVisibility(View.GONE);
+            }
+
+            if (!isModerationMode) {
+                holder.itemView.setOnClickListener(v -> {
                     if (currentPost.getUserID() == currentUser.getUserID()) {
                         Toast.makeText(holder.itemView.getContext(), "You cannot like your own post", Toast.LENGTH_SHORT).show();
                     } else if (!currentUser.hasLikedPost(currentPost.getSocialPostID())) {
@@ -66,21 +77,21 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
                     } else {
                         Toast.makeText(holder.itemView.getContext(), "You have already liked this post", Toast.LENGTH_SHORT).show();
                     }
-                }
+                });
+            }
+
+            holder.editButton.setOnClickListener(v -> listener.onEditClick(currentPost));
+            holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(currentPost));
+
+            holder.shareButton.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareBody = currentPost.getContent();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this post!");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                context.startActivity(Intent.createChooser(shareIntent, "Share via"));
             });
         }
-
-        holder.editButton.setOnClickListener(v -> listener.onEditClick(currentPost));
-        holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(currentPost));
-
-        holder.shareButton.setOnClickListener(v -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            String shareBody = currentPost.getContent();
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this post!");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-            context.startActivity(Intent.createChooser(shareIntent, "Share via"));
-        });
     }
 
     @Override
