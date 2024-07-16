@@ -39,11 +39,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        // Initialize the activity map that links navigation drawer item IDs to their corresponding activities
-        initializeActivityMap();
-
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences
+
+        initializeActivityMap(); // Initialize the activity map for navigation
 
         // Listener for SharedPreferences changes
         listener = (sharedPreferences, key) -> {
@@ -52,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         };
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener); // Register the listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 
         checkLoginStatus(); // Check the login status of the user
     }
@@ -64,9 +63,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (shouldShowSearch()) { // If search should be shown
+        if (shouldShowSearch()) {
             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu_search, menu); // Inflate the search menu
+            inflater.inflate(R.menu.menu_search, menu);
 
             MenuItem searchItem = menu.findItem(R.id.action_search);
             SearchView searchView = (SearchView) searchItem.getActionView();
@@ -75,7 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    // Handle search query submission here
                     Intent intent = new Intent(BaseActivity.this, SearchResultsActivity.class);
                     intent.putExtra("QUERY", query);
                     startActivity(intent);
@@ -84,7 +82,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    // Handle search query text change here if needed
                     return false;
                 }
             });
@@ -171,27 +168,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
     // Check if the user is logged in
     protected boolean isUserLoggedIn() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         return sharedPreferences.contains("LoggedInUserID");
     }
 

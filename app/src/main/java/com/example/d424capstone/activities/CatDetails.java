@@ -38,8 +38,8 @@ public class CatDetails extends BaseActivity {
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
         initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeButtons(); // Initialize buttons and set their click listeners
         initViews(); // Initialize UI components
+        initializeButtons(); // Initialize buttons and set their click listeners
 
         // Get catID and userID from intent extras
         catID = getIntent().getIntExtra("catID", -1);
@@ -57,7 +57,6 @@ public class CatDetails extends BaseActivity {
             finish();
         }
 
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

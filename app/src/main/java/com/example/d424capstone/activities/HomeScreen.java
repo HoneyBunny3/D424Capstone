@@ -26,15 +26,11 @@ public class HomeScreen extends BaseActivity {
         setContentView(R.layout.activity_home_screen);
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences listener
 
-        // Initialize buttons and set their click listeners
-        initializeButtons();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initializeButtons(); // Initialize buttons and set their click listeners
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
-
-        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

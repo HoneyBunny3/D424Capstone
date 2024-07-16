@@ -35,10 +35,6 @@ public class CartSummaryScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        displayCartItems(); // Display cart items
-
-        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
-
         // Initialize UI components
         subtotalTextView = findViewById(R.id.subtotalTextView);
         taxTextView = findViewById(R.id.taxTextView);
@@ -46,6 +42,9 @@ public class CartSummaryScreen extends BaseActivity {
         placeOrderButton = findViewById(R.id.placeOrderButton);
         clearCartButton = findViewById(R.id.clearCartButton);
         backToShoppingButton = findViewById(R.id.backToShoppingButton);
+
+        displayCartItems(); // Display cart items
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
 
         // Set click listeners for buttons
         placeOrderButton.setOnClickListener(v -> {

@@ -43,11 +43,12 @@ public class CatSocialScreen extends BaseActivity {
         currentUserID = getCurrentUserID(); // Get current user ID
 
         initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+
+        loadSocialPosts(); // Load social posts from the database
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set layout manager for RecyclerView
-
-        loadSocialPosts(); // Load social posts from the database
 
         FloatingActionButton fabAddPost = findViewById(R.id.fab_add_post);
         fabAddPost.setOnClickListener(v -> openAddPostDialog()); // Open dialog to add a new post
@@ -57,6 +58,12 @@ public class CatSocialScreen extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Initialize UI components
+    private void initViews() {
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set layout manager for RecyclerView
     }
 
     @Override

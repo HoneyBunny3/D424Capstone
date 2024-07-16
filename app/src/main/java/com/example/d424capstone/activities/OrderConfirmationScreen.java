@@ -14,7 +14,6 @@ import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.CartItem;
-import com.example.d424capstone.entities.Order;
 
 import java.util.List;
 import java.util.Random;

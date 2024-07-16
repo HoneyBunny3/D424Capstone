@@ -42,15 +42,12 @@ public class CatProfileScreen extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cat_profile_screen);
 
-        initializeDrawer();// Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeButtons();  // Set up button click listeners
-        initViews();// Initialize UI components
-
-        initializeRecyclerView();  // Initialize RecyclerView for displaying cat profiles
-        loadCatsForUser();  // Load cats associated with the user
-
-
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
+
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
+        initializeButtons(); // Set up button click listeners
+        initializeRecyclerView(); // Initialize RecyclerView for displaying cat profiles
 
         // Get catID and userID from intent extras
         catID = getIntent().getIntExtra("catID", -1);
@@ -66,6 +63,9 @@ public class CatProfileScreen extends BaseActivity {
             loadCatDetails(); // Load cat details if catID is valid
         }
 
+        loadCatsForUser(); // Load cats associated with the user
+
+        // Set window insets for EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -79,30 +79,10 @@ public class CatProfileScreen extends BaseActivity {
         editAge = findViewById(R.id.cat_age);
         editBio = findViewById(R.id.cat_bio);
         catImageView = findViewById(R.id.cat_image);
-        catImageView.setImageResource(R.drawable.baseline_image_search_24);
+        catImageView.setImageResource(R.drawable.baseline_image_search_24); // Set default image
         saveButton = findViewById(R.id.save_cat);
         cancelButton = findViewById(R.id.cancel_cat);
         catRecyclerView = findViewById(R.id.cat_recycler_view);
-    }
-
-    // Load cat details from the repository
-    private void loadCatDetails() {
-        new Thread(() -> {
-            Cat cat = repository.getCatByID(catID);
-            runOnUiThread(() -> {
-                if (cat != null) {
-                    editName.setText(cat.getCatName());
-                    editAge.setText(String.valueOf(cat.getCatAge()));
-                    editBio.setText(cat.getCatBio());
-                    if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
-                        catImageUri = Uri.parse(cat.getCatImage());
-                        catImageView.setImageURI(catImageUri);
-                    }
-                } else {
-                    showToast("Error loading cat details");
-                }
-            });
-        }).start();
     }
 
     // Set up button click listeners
@@ -138,25 +118,43 @@ public class CatProfileScreen extends BaseActivity {
         }).start();
     }
 
+    // Load cat details from the repository
+    private void loadCatDetails() {
+        new Thread(() -> {
+            Cat cat = repository.getCatByID(catID);
+            runOnUiThread(() -> {
+                if (cat != null) {
+                    editName.setText(cat.getCatName());
+                    editAge.setText(String.valueOf(cat.getCatAge()));
+                    editBio.setText(cat.getCatBio());
+                    if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
+                        catImageUri = Uri.parse(cat.getCatImage());
+                        catImageView.setImageURI(catImageUri);
+                    }
+                } else {
+                    showToast("Error loading cat details");
+                }
+            });
+        }).start();
+    }
+
     // Save cat profile details to the repository
     private void saveCatProfile() {
         String catName = editName.getText().toString();
         String catAgeStr = editAge.getText().toString();
         String catBio = editBio.getText().toString();
 
-        //cat name should be filled in
+        // Validate input fields
         if (catName.isEmpty()) {
             showToast("Please enter your cat's name");
             return;
         }
 
-        //cat age should be filled in
         if (catAgeStr.isEmpty()) {
             showToast("Please enter your cat's age");
             return;
         }
 
-        //cat age should be positive integer
         int catAge;
         try {
             catAge = Integer.parseInt(catAgeStr);
@@ -169,7 +167,6 @@ public class CatProfileScreen extends BaseActivity {
             return;
         }
 
-        //cat bio should be filled in
         if (catBio.isEmpty()) {
             showToast("Please enter a bio for your cat");
             return;
@@ -213,17 +210,6 @@ public class CatProfileScreen extends BaseActivity {
         editBio.setText("");
         catImageView.setImageResource(R.drawable.baseline_image_search_24);
         catImageUri = null;
-    }
-
-    // Delete cat profile from the repository
-    private void deleteCatProfile() {
-        new Thread(() -> {
-            repository.deleteCat(catID);
-            runOnUiThread(() -> {
-                showToast("Cat profile deleted");
-                finish();
-            });
-        }).start();
     }
 
     // Show a toast message

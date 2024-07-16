@@ -42,10 +42,23 @@ public class ContactUsScreen extends BaseActivity {
 
         repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
 
-        //Form Fields
+        initViews(); // Initialize UI components
+        initializeButtons(); // Initialize buttons and set their click listeners
+        initializeSpinner(); // Initialize the Spinner
+
+        loadUserInfo(); // Load the logged-in user's information
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    // Initialize UI components
+    private void initViews() {
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
         email = findViewById(R.id.email);
@@ -54,11 +67,41 @@ public class ContactUsScreen extends BaseActivity {
         confirmationMessage = findViewById(R.id.confirmationMessage);
         dropdownMenu = findViewById(R.id.dropdown_menu);
         successImage = findViewById(R.id.success_image);
+    }
 
-        // Set default help text
-        subject.setText("Select a reason for contacting us");
+    // Initialize buttons and their click listeners
+    private void initializeButtons() {
+        Button cancelBtn = findViewById(R.id.contact_cancel_button);
+        cancelBtn.setOnClickListener(v -> clearInputs());
 
-        // Initialize the Spinner
+        Button submitBtn = findViewById(R.id.contact_submit_button);
+        submitBtn.setOnClickListener(v -> {
+            if (validateInputs()) {
+                String confirmationMessageText = "Thank you for contacting <b>Hearth's Stop and Shop!</b><br>Our support team will email you within <b>2 business days</b>.";
+                confirmationMessage.setText(Html.fromHtml(confirmationMessageText));
+                confirmationMessage.setTextColor(getResources().getColor(R.color.rich_black));
+                confirmationMessage.setVisibility(View.VISIBLE);
+
+                // Show success image
+                successImage.setVisibility(View.VISIBLE);
+
+                // Save message to database
+                ContactMessage contactMessage = new ContactMessage(
+                        repository.getCurrentUser().getUserID(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        email.getText().toString(),
+                        subject.getText().toString(),
+                        message.getText().toString(),
+                        new Date()
+                );
+                repository.insertContactMessage(contactMessage);
+            }
+        });
+    }
+
+    // Initialize the Spinner
+    private void initializeSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.dropdown_items_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -83,46 +126,9 @@ public class ContactUsScreen extends BaseActivity {
                 // Do nothing
             }
         });
-
-        //Submit button with confirmation message
-        Button submitBtn = findViewById(R.id.contact_submit_button);
-
-        submitBtn.setOnClickListener(v -> {
-            if (validateInputs()) {
-                String confirmationMessageText = "Thank you for contacting <b>Hearth's Stop and Shop!</b><br>Our support team will email you within <b>2 business days</b>.";
-                confirmationMessage.setText(Html.fromHtml(confirmationMessageText));
-                confirmationMessage.setTextColor(getResources().getColor(R.color.rich_black));
-                confirmationMessage.setVisibility(View.VISIBLE);
-
-                // Show success image
-                successImage.setVisibility(View.VISIBLE);
-                // Save message to database
-                ContactMessage contactMessage = new ContactMessage(
-                        repository.getCurrentUser().getUserID(),
-                        firstName.getText().toString(),
-                        lastName.getText().toString(),
-                        email.getText().toString(),
-                        subject.getText().toString(),
-                        message.getText().toString(),
-                        new Date()
-                );
-                repository.insertContactMessage(contactMessage);
-            }
-        });
-
-        // Cancel button that clears the Contact Us page inputs
-        Button cancelBtn = findViewById(R.id.contact_cancel_button);
-        cancelBtn.setOnClickListener(v -> clearInputs());
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        // Load the logged-in user's information
-        loadUserInfo();
     }
 
+    // Load user information into the form fields
     private void loadUserInfo() {
         new Thread(() -> {
             User currentUser = repository.getCurrentUser();
@@ -136,6 +142,7 @@ public class ContactUsScreen extends BaseActivity {
         }).start();
     }
 
+    // Validate form inputs
     private boolean validateInputs() {
         if (firstName.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter your first name.", Toast.LENGTH_SHORT).show();
@@ -184,6 +191,7 @@ public class ContactUsScreen extends BaseActivity {
         return true;
     }
 
+    // Clear form inputs
     private void clearInputs() {
         firstName.setText("");
         lastName.setText("");
