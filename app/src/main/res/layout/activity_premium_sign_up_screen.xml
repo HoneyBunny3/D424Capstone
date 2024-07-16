@@ -146,6 +146,56 @@
                         app:layout_constraintTop_toBottomOf="@id/phone_number_label"
                         app:layout_constraintWidth_percent="0.8" />
 
+                    <!-- Storefront Name Label -->
+                    <TextView
+                        android:id="@+id/storefront_name_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Storefront Name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/phone_number"
+                        app:layout_constraintWidth_percent="0.8" />
+
+                    <EditText
+                        android:id="@+id/storefront_name"
+                        style="@style/InputTextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Storefront Name"
+                        android:inputType="text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/storefront_name_label"
+                        app:layout_constraintWidth_percent="0.8" />
+
+                    <!-- Storefront Email Label -->
+                    <TextView
+                        android:id="@+id/storefront_email_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Storefront Email"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/storefront_name"
+                        app:layout_constraintWidth_percent="0.8" />
+
+                    <EditText
+                        android:id="@+id/storefront_email"
+                        style="@style/InputTextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Storefront Email"
+                        android:inputType="textEmailAddress"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/storefront_email_label"
+                        app:layout_constraintWidth_percent="0.8" />
+
                     <!-- Credit Card Label -->
                     <TextView
                         android:id="@+id/credit_card_label"
@@ -155,7 +205,7 @@
                         android:text="Credit Card Number"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/phone_number"
+                        app:layout_constraintTop_toBottomOf="@id/storefront_email"
                         app:layout_constraintWidth_percent="0.8" />
 
                     <EditText

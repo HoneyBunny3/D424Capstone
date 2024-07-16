@@ -65,14 +65,18 @@ public class PremiumSubscriptionManagementScreen extends BaseActivity {
         expiryEditText = findViewById(R.id.storefront_expiry);
         cvvEditText = findViewById(R.id.storefront_cvv);
 
-        // Set input filters for credit card, expiry date, and CVV
         creditCardEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16)});
         expiryEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
         cvvEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
 
-        // Initialize buttons and set their click listeners
         Button buttonAdd = findViewById(R.id.add_product_button);
-        buttonAdd.setOnClickListener(view -> startActivity(new Intent(PremiumSubscriptionManagementScreen.this, PremiumProductManagementScreen.class)));
+        buttonAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(PremiumSubscriptionManagementScreen.this, PremiumProductManagementScreen.class);
+            intent.putExtra("CREDIT_CARD", creditCardEditText.getText().toString());
+            intent.putExtra("EXPIRY", expiryEditText.getText().toString());
+            intent.putExtra("CVV", cvvEditText.getText().toString());
+            startActivity(intent);
+        });
 
         Button buttonSaveStorefront = findViewById(R.id.save_storefront_button);
         buttonSaveStorefront.setOnClickListener(view -> saveStorefrontInfo());

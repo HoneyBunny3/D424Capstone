@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.d424capstone.MyApplication;
 import com.example.d424capstone.R;
 import com.example.d424capstone.database.Repository;
+import com.example.d424capstone.entities.PremiumStorefront;
 import com.example.d424capstone.entities.User;
 import com.example.d424capstone.utilities.UserRoles;
 
@@ -27,6 +28,8 @@ import java.util.regex.Pattern;
 public class PremiumSignUpScreen extends BaseActivity {
     private Repository repository;
     private SharedPreferences sharedPreferences;
+    private EditText storefrontNameEditText;
+    private EditText storefrontEmailEditText;
     private EditText creditCardNumber;
     private EditText creditCardExpiry;
     private EditText creditCardCVV;
@@ -146,6 +149,8 @@ public class PremiumSignUpScreen extends BaseActivity {
         EditText lastNameEditText = findViewById(R.id.last_name);
         EditText emailEditText = findViewById(R.id.email);
         EditText phoneNumberEditText = findViewById(R.id.phone_number);
+        storefrontNameEditText = findViewById(R.id.storefront_name);
+        storefrontEmailEditText = findViewById(R.id.storefront_email);
         creditCardNumber = findViewById(R.id.credit_card);
         creditCardExpiry = findViewById(R.id.expiry);
         creditCardCVV = findViewById(R.id.cvv);
@@ -205,12 +210,14 @@ public class PremiumSignUpScreen extends BaseActivity {
             String lastName = lastNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
             String phone = phoneNumberEditText.getText().toString().trim();
+            String storefrontName = storefrontNameEditText.getText().toString().trim();
+            String storefrontEmail = storefrontEmailEditText.getText().toString().trim();
             String creditCard = creditCardNumber.getText().toString().trim();
             String expiry = creditCardExpiry.getText().toString().trim();
             String cvv = creditCardCVV.getText().toString().trim();
 
             // Validate input fields
-            if (!validateInputs(firstName, lastName, email, phone, creditCard, expiry, cvv)) {
+            if (!validateInputs(firstName, lastName, email, phone, creditCard, expiry, cvv, storefrontName, storefrontEmail)) {
                 return;
             }
 
@@ -230,6 +237,18 @@ public class PremiumSignUpScreen extends BaseActivity {
 
                         repository.updateUser(currentUser); // Update the user in the repository
 
+                        // Create and save the PremiumStorefront entity
+                        PremiumStorefront premiumStorefront = new PremiumStorefront(
+                                0,
+                                storefrontName,
+                                storefrontEmail,
+                                currentUser.getUserID(),
+                                creditCard,
+                                expiry,
+                                cvv
+                        );
+                        repository.insertPremiumStorefront(premiumStorefront);
+
                         // Update user role in shared preferences
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserRole", UserRoles.PREMIUM);
@@ -246,7 +265,7 @@ public class PremiumSignUpScreen extends BaseActivity {
     }
 
     // Validate input fields and show appropriate error messages
-    private boolean validateInputs(String firstName, String lastName, String email, String phone, String creditCard, String expiry, String cvv) {
+    private boolean validateInputs(String firstName, String lastName, String email, String phone, String creditCard, String expiry, String cvv, String storefrontName, String storefrontEmail) {
         if (firstName.isEmpty()) {
             showToast("Please enter your first name.");
             return false;
@@ -284,6 +303,21 @@ public class PremiumSignUpScreen extends BaseActivity {
 
         if (!isPhoneValid(phone)) {
             showToast("Please enter a valid phone number.");
+            return false;
+        }
+
+        if (storefrontName.isEmpty()) {
+            showToast("Please enter your storefront name.");
+            return false;
+        }
+
+        if (storefrontEmail.isEmpty()) {
+            showToast("Please enter your storefront email.");
+            return false;
+        }
+
+        if (!isValidEmail(storefrontEmail)) {
+            showToast("Please enter a valid storefront email address.");
             return false;
         }
 

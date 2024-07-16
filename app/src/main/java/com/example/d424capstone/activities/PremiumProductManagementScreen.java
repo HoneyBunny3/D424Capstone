@@ -17,7 +17,6 @@ import com.example.d424capstone.database.Repository;
 import com.example.d424capstone.entities.StoreItem;
 
 public class PremiumProductManagementScreen extends BaseActivity {
-
     private Repository repository;
 
     @Override
@@ -40,8 +39,8 @@ public class PremiumProductManagementScreen extends BaseActivity {
 
     // Initialize UI components
     private void initViews() {
-        Button buttonSave = findViewById(R.id.save_storefront_button);
-        Button buttonCancel = findViewById(R.id.add_product_button);
+        Button buttonSave = findViewById(R.id.save);
+        Button buttonCancel = findViewById(R.id.cancel);
 
         // Set click listeners for buttons
         buttonSave.setOnClickListener(view -> saveProduct());
