@@ -29,37 +29,36 @@ public class HomeScreen extends BaseActivity {
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE); // Initialize SharedPreferences listener
 
         initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+        initViews(); // Initialize UI components
         initializeButtons(); // Initialize buttons and set their click listeners
+
+        setAdminButtonVisibility(); // Show or hide the Admin button based on the user role
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Show or hide the Admin button based on the user role
-        setAdminButtonVisibility();
     }
 
-    private void initializeButtons() {
-        // Initialize buttons and set their click listeners
+    // Initialize UI components
+    private void initViews() {
         Button buttonAdmin = findViewById(R.id.toadminscreen);
-        buttonAdmin.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, AdminScreen.class)));
-
         Button buttonLogin = findViewById(R.id.touserloginscreen);
-        buttonLogin.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserLoginScreen.class)));
-
         Button buttonSignup = findViewById(R.id.tousersignupscreen);
-        buttonSignup.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserSignUpScreen.class)));
-
         Button buttonShopping = findViewById(R.id.toshoppingscreen);
-        buttonShopping.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, ShoppingScreen.class)));
-
         Button buttonSocial = findViewById(R.id.tocatsocialscreen);
-        buttonSocial.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, CatSocialScreen.class)));
-
         Button buttonCatLove = findViewById(R.id.tocatlovescreen);
-        buttonCatLove.setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, LoveYourCatScreen.class)));
+    }
+
+    // Initialize buttons and set their click listeners
+    private void initializeButtons() {
+        findViewById(R.id.toadminscreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, AdminScreen.class)));
+        findViewById(R.id.touserloginscreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserLoginScreen.class)));
+        findViewById(R.id.tousersignupscreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, UserSignUpScreen.class)));
+        findViewById(R.id.toshoppingscreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, ShoppingScreen.class)));
+        findViewById(R.id.tocatsocialscreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, CatSocialScreen.class)));
+        findViewById(R.id.tocatlovescreen).setOnClickListener(view -> startActivity(new Intent(HomeScreen.this, LoveYourCatScreen.class)));
     }
 
     private void setAdminButtonVisibility() {

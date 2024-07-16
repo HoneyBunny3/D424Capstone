@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,26 +35,33 @@ public class LoveYourCatScreen extends BaseActivity implements TipsAdapter.OnTip
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_love_your_cat_screen);
 
-        // Initialize the DrawerLayout and ActionBarDrawerToggle
-        initializeDrawer();
+        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
+        currentUser = repository.getCurrentUser();
+
+        initializeDrawer(); // Initialize the DrawerLayout and ActionBarDrawerToggle
+
+        initViews(); // Initialize UI components
+
+        // Load tips from the repository
+        loadTips();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
 
-        repository = MyApplication.getInstance().getRepository(); // Initialize repository instance
-        currentUser = repository.getCurrentUser();
-
-        // Initialize RecyclerView
+    // Initialize UI components
+    private void initViews() {
         recyclerView = findViewById(R.id.love_your_cat_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        // Load tips from the repository
+    // Load tips from the repository
+    private void loadTips() {
         tipList = repository.getAllTips();
-        String userRole = currentUser != null ? currentUser.getRole() : "";
-        tipsAdapter = new TipsAdapter(tipList, this, userRole); // Passing 'this' as the listener
+        tipsAdapter = new TipsAdapter(tipList, this, false); // Hide buttons
         recyclerView.setAdapter(tipsAdapter);
     }
 

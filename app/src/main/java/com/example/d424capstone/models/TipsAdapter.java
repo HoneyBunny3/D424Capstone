@@ -15,15 +15,14 @@ import com.example.d424capstone.entities.Tip;
 import java.util.List;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder> {
-
     private List<Tip> tips;
     private OnTipInteractionListener listener;
-    private String userRole;
+    private boolean showButtons; // Flag to control the visibility of buttons
 
-    public TipsAdapter(List<Tip> tips, OnTipInteractionListener listener, String userRole) {
+    public TipsAdapter(List<Tip> tips, OnTipInteractionListener listener, boolean showButtons) {
         this.tips = tips;
         this.listener = listener;
-        this.userRole = userRole;
+        this.showButtons = showButtons; // Initialize the flag
     }
 
     @NonNull
@@ -40,7 +39,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.TipsViewHolder
         holder.tipContent.setText(tip.getContent());
         holder.tipSource.setText(tip.getSource());
 
-        if ("ADMIN".equals(userRole)) {
+        if (showButtons) {
             holder.editButton.setVisibility(View.VISIBLE);
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.editButton.setOnClickListener(v -> listener.onEditTip(position));
