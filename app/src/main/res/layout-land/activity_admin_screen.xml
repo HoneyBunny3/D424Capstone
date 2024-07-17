@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AdminScreen">
+
+    <!-- Main Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/admin_text_view"
+            style="@style/TitleTextViewStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Hearth's Admin Actions" />
+
+        <Button
+            android:id="@+id/to_contact_messages_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="View Contact Messages" />
+
+        <Button
+            android:id="@+id/to_user_management_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="User Management" />
+
+        <Button
+            android:id="@+id/to_social_post_moderation_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Social Post Moderation" />
+
+        <Button
+            android:id="@+id/to_store_management_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Store Product Management" />
+
+        <Button
+            android:id="@+id/to_love_your_cat_management_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Love Your Cat Management" />
+
+        <Button
+            android:id="@+id/to_product_shipping_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Product Shipment Tracking" />
+
+        <Button
+            android:id="@+id/to_report_generation_screen"
+            style="@style/AdminButtonStyle"
+            android:layout_marginBottom="16dp"
+            android:text="Generate Reports" />
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
