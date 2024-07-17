@@ -27,7 +27,7 @@ public class CSVUtil {
             csvBuilder.append(item.getStoreItemID()).append(",");
             csvBuilder.append(item.getName()).append(",");
             csvBuilder.append(item.getDescription()).append(",");
-            csvBuilder.append(item.getItemPrice()).append(",");
+            csvBuilder.append(item.getPrice()).append(",");
             csvBuilder.append(item.isPremium()).append("\n");
         }
         return csvBuilder.toString();

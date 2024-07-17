@@ -58,9 +58,9 @@ public class Repository {
                 User premiumUser = new User(0, "Premium", "Shadow", "shadow@example.com", "1234567890", "!234Abcd", "PREMIUM");
                 User regularUser = new User(0, "Regular", "Donut", "donut@example.com", "1234567890", "!234Abcd", "REGULAR");
 
-                long adminUserId = userDAO.insert(adminUser);
-                long premiumUserId = userDAO.insert(premiumUser);
-                long regularUserId = userDAO.insert(regularUser);
+                long adminUserID = userDAO.insert(adminUser);
+                long premiumUserID = userDAO.insert(premiumUser);
+                long regularUserID = userDAO.insert(regularUser);
 
                 Cat adminCat = new Cat(0, "Fox", 3, "", "A cat who enjoys zoomies", 1);
                 Cat premiumCat = new Cat(0, "Socks", 3, "", "Friendly cat", 2);
@@ -71,7 +71,7 @@ public class Repository {
                 catDAO.insert(regularCat);
 
                 // Preload premium storefront
-                preloadPremiumStorefront((int) premiumUserId);
+                preloadPremiumStorefront((int) premiumUserID);
 
                 // Preload a contact us message
                 preloadContactMessage();
@@ -100,8 +100,8 @@ public class Repository {
         contactMessageDAO.insert(contactMessage);
     }
 
-    private void preloadPremiumStorefront(int premiumUserId) {
-        PremiumStorefront premiumStorefront = new PremiumStorefront(0, "Hearth's Premium Store", "premium@example.com", 2, "1234567812345678", "12/24", "123");
+    private void preloadPremiumStorefront(int premiumUserID) {
+        PremiumStorefront premiumStorefront = new PremiumStorefront(0, "Hearth's Premium Store", "premium@example.com", premiumUserID, "1234567812345678", "12/24", "123");
         premiumStorefrontDAO.insert(premiumStorefront);
     }
 
@@ -127,9 +127,9 @@ public class Repository {
                 "Cat Toy, Cat Bed",
                 new Date()
         );
-        order.setConfirmationNumber("CN1234567890");
-        order.setTrackingNumber("TN1234567890");
-        order.setCarrierName("CarrierName");
+        order.setConfirmationNumber("8896582");
+        order.setTrackingNumber("TRA2259437");
+        order.setCarrierName("Shipping Carrier");
         orderDAO.insert(order);
     }
 

@@ -46,7 +46,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     public void onBindViewHolder(@NonNull CatViewHolder holder, int position) {
         if (cats != null) {
             Cat current = cats.get(position);
-            holder.catItemView.setText(current.getCatName());
+            holder.catItemView.setText(current.getName());
         } else {
             holder.catItemView.setText("No cat profile found");
         }

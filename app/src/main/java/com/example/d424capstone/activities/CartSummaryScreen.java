@@ -87,7 +87,7 @@ public class CartSummaryScreen extends BaseActivity {
     private void updateAmounts(List<CartItem> cartItems) {
         double subtotal = 0;
         for (CartItem item : cartItems) {
-            subtotal += item.getQuantity() * item.getItemPrice(); // Calculate the subtotal
+            subtotal += item.getQuantity() * item.getPrice(); // Calculate the subtotal
         }
         double tax = subtotal * TAX_RATE; // Calculate the tax
         double total = subtotal + tax; // Calculate the total amount

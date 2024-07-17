@@ -10,16 +10,16 @@ public class PremiumStorefront {
     private String name;
     private String email;
     private int userID;
-    private String creditCard;
+    private String cardNumber;
     private String expiry;
     private String cvv;
 
-    public PremiumStorefront(int storefrontID, String name, String email, int userID, String creditCard, String expiry, String cvv) {
+    public PremiumStorefront(int storefrontID, String name, String email, int userID, String cardNumber, String expiry, String cvv) {
         this.storefrontID = storefrontID;
         this.name = name;
         this.email = email;
         this.userID = userID;
-        this.creditCard = creditCard;
+        this.cardNumber = cardNumber;
         this.expiry = expiry;
         this.cvv = cvv;
     }
@@ -57,12 +57,12 @@ public class PremiumStorefront {
         this.userID = userID;
     }
 
-    public String getCreditCard() {
-        return creditCard;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setCreditCard(String creditCard) {
-        this.creditCard = creditCard;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public String getExpiry() {

@@ -81,11 +81,11 @@ public class CatDetails extends BaseActivity {
             Cat cat = repository.getCatByID(catID);
             runOnUiThread(() -> {
                 if (cat != null) {
-                    catNameEditText.setText(cat.getCatName());
-                    catAgeEditText.setText(String.valueOf(cat.getCatAge()));
-                    catBioEditText.setText(cat.getCatBio());
-                    if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
-                        catImageUri = Uri.parse(cat.getCatImage());
+                    catNameEditText.setText(cat.getName());
+                    catAgeEditText.setText(String.valueOf(cat.getAge()));
+                    catBioEditText.setText(cat.getBio());
+                    if (cat.getImage() != null && !cat.getImage().isEmpty()) {
+                        catImageUri = Uri.parse(cat.getImage());
                         catImageView.setImageURI(catImageUri);
                     }
                 } else {
@@ -145,10 +145,10 @@ public class CatDetails extends BaseActivity {
         new Thread(() -> {
             Cat cat = repository.getCatByID(catID);
             if (cat != null) {
-                cat.setCatName(catName);
-                cat.setCatAge(catAge);
-                cat.setCatBio(catBio);
-                cat.setCatImage(imageUriString);
+                cat.setName(catName);
+                cat.setAge(catAge);
+                cat.setBio(catBio);
+                cat.setImage(imageUriString);
                 repository.updateCat(cat);
                 runOnUiThread(() -> {
                     showToast("Cat profile updated successfully");

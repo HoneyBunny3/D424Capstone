@@ -11,18 +11,16 @@ public class StoreItem implements Serializable {
     private int storeItemID;
     private String name;
     private String description;
-    private double itemPrice;
+    private double price;
     private boolean isPremium;
 
-    public StoreItem(int storeItemID, String name, String description, double itemPrice, boolean isPremium) {
+    public StoreItem(int storeItemID, String name, String description, double price, boolean isPremium) {
         this.storeItemID = storeItemID;
         this.name = name;
         this.description = description;
-        this.itemPrice = itemPrice;
+        this.price = price;
         this.isPremium = isPremium;
     }
-
-    // Getter and setter methods
 
     public int getStoreItemID() {
         return storeItemID;
@@ -48,12 +46,12 @@ public class StoreItem implements Serializable {
         this.description = description;
     }
 
-    public double getItemPrice() {
-        return itemPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public boolean isPremium() {

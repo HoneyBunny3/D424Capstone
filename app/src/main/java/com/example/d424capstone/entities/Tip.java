@@ -6,25 +6,24 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "tip_table")
 public class Tip {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int tipID;
     private String title;
     private String content;
     private String source;
 
-    // Constructor, getters, and setters
-    public Tip(int id, String title, String content, String source) {
-        this.id = id;
+    public Tip(int tipID, String title, String content, String source) {
+        this.tipID = tipID;
         this.title = title;
         this.content = content;
         this.source = source;
     }
 
-    public int getId() {
-        return id;
+    public int getTipID() {
+        return tipID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTipID(int tipID) {
+        this.tipID = tipID;
     }
 
     public String getTitle() {

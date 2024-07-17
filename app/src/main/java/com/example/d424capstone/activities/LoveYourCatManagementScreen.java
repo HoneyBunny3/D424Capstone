@@ -87,8 +87,8 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
             }
 
             Tip newTip = new Tip(0, title, content, source);
-            long id = repository.insertTip(newTip); // Get the generated ID
-            newTip.setId((int) id); // Set the ID on the Tip object
+            long tipID = repository.insertTip(newTip); // Get the generated ID
+            newTip.setTipID((int) tipID); // Set the ID on the Tip object
             tipList.add(newTip);
             tipsAdapter.notifyItemInserted(tipList.size() - 1);
             Toast.makeText(this, "Tip added", Toast.LENGTH_SHORT).show();

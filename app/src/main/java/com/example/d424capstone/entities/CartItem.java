@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey;
 public class CartItem implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int cartItemID;
-    private String itemName;
-    private double itemPrice;
+    private String name;
+    private double price;
     private int quantity;
 
-    public CartItem(int cartItemID, String itemName, double itemPrice, int quantity) {
+    public CartItem(int cartItemID, String name, double price, int quantity) {
         this.cartItemID = cartItemID;
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
+        this.name = name;
+        this.price = price;
         this.quantity = quantity;
     }
 
@@ -29,20 +29,20 @@ public class CartItem implements Parcelable {
         this.cartItemID = cartItemID;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getItemPrice() {
-        return itemPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getQuantity() {
@@ -55,8 +55,8 @@ public class CartItem implements Parcelable {
 
     protected CartItem(Parcel in) {
         cartItemID = in.readInt();
-        itemName = in.readString();
-        itemPrice = in.readDouble();
+        name = in.readString();
+        price = in.readDouble();
         quantity = in.readInt();
     }
 
@@ -80,8 +80,8 @@ public class CartItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(cartItemID);
-        parcel.writeString(itemName);
-        parcel.writeDouble(itemPrice);
+        parcel.writeString(name);
+        parcel.writeDouble(price);
         parcel.writeInt(quantity);
     }
 }

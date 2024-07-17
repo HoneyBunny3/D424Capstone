@@ -61,8 +61,8 @@ public class CartItemAdapter extends BaseAdapter {
         Button updateButton = convertView.findViewById(R.id.cartItemUpdateButton);
         Button removeButton = convertView.findViewById(R.id.cartItemRemoveButton);
 
-        nameTextView.setText(cartItem.getItemName());
-        priceTextView.setText(String.valueOf(cartItem.getItemPrice()));
+        nameTextView.setText(cartItem.getName());
+        priceTextView.setText(String.valueOf(cartItem.getPrice()));
         quantityEditText.setText(String.valueOf(cartItem.getQuantity()));
 
         updateButton.setOnClickListener(v -> {
@@ -71,7 +71,7 @@ public class CartItemAdapter extends BaseAdapter {
                 int quantity = Integer.parseInt(quantityText);
                 cartItem.setQuantity(quantity);
                 repository.updateCartItem(cartItem);
-                Toast.makeText(context, "Updated quantity of " + cartItem.getItemName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Updated quantity of " + cartItem.getName(), Toast.LENGTH_SHORT).show();
                 onCartUpdated.accept(cartItems);
             } else {
                 Toast.makeText(context, "Please enter a quantity", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class CartItemAdapter extends BaseAdapter {
             repository.deleteCartItem(cartItem.getCartItemID());
             cartItems.remove(position);
             notifyDataSetChanged();
-            Toast.makeText(context, "Removed " + cartItem.getItemName() + " from cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Removed " + cartItem.getName() + " from cart", Toast.LENGTH_SHORT).show();
             onCartUpdated.accept(cartItems);
         });
 

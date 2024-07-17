@@ -124,11 +124,11 @@ public class CatProfileScreen extends BaseActivity {
             Cat cat = repository.getCatByID(catID);
             runOnUiThread(() -> {
                 if (cat != null) {
-                    editName.setText(cat.getCatName());
-                    editAge.setText(String.valueOf(cat.getCatAge()));
-                    editBio.setText(cat.getCatBio());
-                    if (cat.getCatImage() != null && !cat.getCatImage().isEmpty()) {
-                        catImageUri = Uri.parse(cat.getCatImage());
+                    editName.setText(cat.getName());
+                    editAge.setText(String.valueOf(cat.getAge()));
+                    editBio.setText(cat.getBio());
+                    if (cat.getImage() != null && !cat.getImage().isEmpty()) {
+                        catImageUri = Uri.parse(cat.getImage());
                         catImageView.setImageURI(catImageUri);
                     }
                 } else {

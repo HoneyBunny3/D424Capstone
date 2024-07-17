@@ -44,7 +44,7 @@ public class StoreItemManagementAdapter extends RecyclerView.Adapter<StoreItemMa
         StoreItem storeItem = storeItems.get(position);
         holder.nameEditText.setText(storeItem.getName());
         holder.descriptionEditText.setText(storeItem.getDescription());
-        holder.priceEditText.setText(String.format("$%.2f", storeItem.getItemPrice()));
+        holder.priceEditText.setText(String.format("$%.2f", storeItem.getPrice()));
 
         // Set visibility for the premium text view
         if (storeItem.isPremium()) {
@@ -71,7 +71,7 @@ public class StoreItemManagementAdapter extends RecyclerView.Adapter<StoreItemMa
 
             storeItem.setName(updatedName);
             storeItem.setDescription(updatedDescription);
-            storeItem.setItemPrice(updatedPrice);
+            storeItem.setPrice(updatedPrice);
             repository.updateStoreItem(storeItem);
             Toast.makeText(context, "Updated " + storeItem.getName(), Toast.LENGTH_SHORT).show();
         });

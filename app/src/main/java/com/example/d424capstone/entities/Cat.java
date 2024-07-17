@@ -14,22 +14,20 @@ public class Cat implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int catID;
-    private String catName;
-    private int catAge;
-    private String catImage;
-    private String catBio;
+    private String name;
+    private int age;
+    private String bio;
+    private String image;
     private int userID;
 
-    public Cat(int catID, String catName, int catAge, String catImage, String catBio, int userID) {
+    public Cat(int catID, String name, int age, String image, String bio, int userID) {
         this.catID = catID;
-        this.catName = catName;
-        this.catAge = catAge;
-        this.catImage = catImage;
-        this.catBio = catBio;
+        this.name = name;
+        this.age = age;
+        this.image = image;
+        this.bio = bio;
         this.userID = userID;
     }
-
-    // Getter and setter methods
 
     public int getCatID() {
         return catID;
@@ -39,36 +37,36 @@ public class Cat implements Serializable {
         this.catID = catID;
     }
 
-    public String getCatName() {
-        return catName;
+    public String getName() {
+        return name;
     }
 
-    public void setCatName(String catName) {
-        this.catName = catName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getCatAge() {
-        return catAge;
+    public int getAge() {
+        return age;
     }
 
-    public void setCatAge(int catAge) {
-        this.catAge = catAge;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public String getCatImage() {
-        return catImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setCatImage(String catImage) {
-        this.catImage = catImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getCatBio() {
-        return catBio;
+    public String getBio() {
+        return bio;
     }
 
-    public void setCatBio(String catBio) {
-        this.catBio = catBio;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public int getUserID() {

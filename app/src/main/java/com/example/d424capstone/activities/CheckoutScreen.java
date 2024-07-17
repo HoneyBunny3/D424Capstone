@@ -235,7 +235,7 @@ public class CheckoutScreen extends BaseActivity {
         List<CartItem> cartItems = repository.getAllCartItems();
         double totalPaid = 0;
         for (CartItem item : cartItems) {
-            totalPaid += item.getQuantity() * item.getItemPrice();
+            totalPaid += item.getQuantity() * item.getPrice();
         }
         return totalPaid;
     }
@@ -245,7 +245,7 @@ public class CheckoutScreen extends BaseActivity {
         List<CartItem> cartItems = repository.getAllCartItems();
         StringBuilder purchasedItems = new StringBuilder();
         for (CartItem item : cartItems) {
-            purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
+            purchasedItems.append(item.getName()).append(" x").append(item.getQuantity()).append("\n");
         }
         return purchasedItems.toString();
     }

@@ -77,7 +77,7 @@ public class OrderConfirmationScreen extends BaseActivity {
 
         StringBuilder purchasedItems = new StringBuilder();
         for (CartItem item : cartItems) {
-            purchasedItems.append(item.getItemName()).append(" x").append(item.getQuantity()).append("\n");
+            purchasedItems.append(item.getName()).append(" x").append(item.getQuantity()).append("\n");
         }
 
         String finalPurchasedItems = purchasedItems.toString();

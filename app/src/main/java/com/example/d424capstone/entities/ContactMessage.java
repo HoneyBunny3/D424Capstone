@@ -8,14 +8,17 @@ import java.util.Date;
 @Entity(tableName = "contact_message_table")
 public class ContactMessage implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int messageId;
-    private int userId;
+    private int messageID;
+    private int userID;
     private String firstName;
     private String lastName;
     private String email;
+    private String subject;
+    private String message;
+    private Date timestamp;
 
-    public ContactMessage(int userId, String firstName, String lastName, String email, String subject, String message, Date timestamp) {
-        this.userId = userId;
+    public ContactMessage(int userID, String firstName, String lastName, String email, String subject, String message, Date timestamp) {
+        this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -24,20 +27,20 @@ public class ContactMessage implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public int getMessageId() {
-        return messageId;
+    public int getMessageID() {
+        return messageID;
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
+    public void setMessageID(int messageID) {
+        this.messageID = messageID;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUserID() {
+        return userID;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.userID = userId;
     }
 
     public String getFirstName() {
@@ -87,8 +90,4 @@ public class ContactMessage implements Serializable {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
-
-    private String subject;
-    private String message;
-    private Date timestamp;
 }

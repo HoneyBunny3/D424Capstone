@@ -43,7 +43,7 @@ public class StoreItemAdapter extends RecyclerView.Adapter<StoreItemAdapter.View
         StoreItem storeItem = storeItems.get(position);
         holder.nameTextView.setText(storeItem.getName());
         holder.descriptionTextView.setText(storeItem.getDescription());
-        holder.priceTextView.setText(String.format("$%.2f", storeItem.getItemPrice()));
+        holder.priceTextView.setText(String.format("$%.2f", storeItem.getPrice()));
 
         // Set visibility for the premium text view
         if (storeItem.isPremium()) {
@@ -56,10 +56,10 @@ public class StoreItemAdapter extends RecyclerView.Adapter<StoreItemAdapter.View
             String quantityText = holder.quantityEditText.getText().toString();
             if (!quantityText.isEmpty()) {
                 int quantity = Integer.parseInt(quantityText);
-                if (storeItem.getItemPrice() == 0) {
+                if (storeItem.getPrice() == 0) {
                     Toast.makeText(context, "Items with a price of $0 cannot be added to the cart", Toast.LENGTH_SHORT).show();
                 } else {
-                    CartItem cartItem = new CartItem(0, storeItem.getName(), storeItem.getItemPrice(), quantity);
+                    CartItem cartItem = new CartItem(0, storeItem.getName(), storeItem.getPrice(), quantity);
                     repository.insertCartItem(cartItem);
                     Toast.makeText(context, "Added " + quantity + " " + storeItem.getName() + " to cart", Toast.LENGTH_SHORT).show();
                 }
