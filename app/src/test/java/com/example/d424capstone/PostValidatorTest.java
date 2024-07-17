@@ -1,4 +1,4 @@
-package com.example.d424capstone.utilities;
+package com.example.d424capstone;
 
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +10,7 @@ public class PostValidatorTest {
 
     @Test
     public void testValidatePost() {
-        assertTrue(postValidator.validatePost("This is a post about my cat"));
-        assertFalse(postValidator.validatePost(""));
+        assertTrue(postValidator.validatePost("This is a post about my cat")); //correct social post format
+        assertFalse(postValidator.validatePost("")); //invalid post format; missing social post content
     }
 }

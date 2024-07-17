@@ -1,4 +1,4 @@
-package com.example.d424capstone.utilities;
+package com.example.d424capstone;
 
 public class UserValidator {
 
