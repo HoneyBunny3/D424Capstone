@@ -3,6 +3,7 @@ package com.example.d424capstone.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -64,17 +65,27 @@ public class SocialPostModerationScreen extends BaseActivity {
         EditText contentEditText = customLayout.findViewById(R.id.edit_post_content);
         contentEditText.setText(socialPost.getContent());
 
-        builder.setPositiveButton("Save", (dialog, which) -> {
+        AlertDialog dialog = builder.create();
+
+        Button saveButton = customLayout.findViewById(R.id.saveButton);
+        Button cancelButton = customLayout.findViewById(R.id.cancelButton);
+
+        saveButton.setOnClickListener(v -> {
             String updatedContent = contentEditText.getText().toString();
+            if (updatedContent.isEmpty()) {
+                Toast.makeText(this, "Content must not be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             socialPost.setContent(updatedContent);
             repository.updateSocialPost(socialPost);
             refreshPosts();
             Toast.makeText(SocialPostModerationScreen.this, "Post updated", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
 
-        AlertDialog dialog = builder.create();
         dialog.show();
     }
 
