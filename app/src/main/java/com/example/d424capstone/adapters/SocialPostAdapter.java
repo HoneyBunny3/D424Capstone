@@ -91,6 +91,10 @@ public class SocialPostAdapter extends RecyclerView.Adapter<SocialPostAdapter.So
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 context.startActivity(Intent.createChooser(shareIntent, "Share via"));
             });
+        } else {
+            // If the user is not logged in, hide the edit and delete buttons
+            holder.editButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.GONE);
         }
     }
 
