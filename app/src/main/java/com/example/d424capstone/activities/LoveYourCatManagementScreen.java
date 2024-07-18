@@ -67,7 +67,7 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
     }
 
     private void showAddTipDialog() {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_tip, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.item_add_tip, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
         builder.setTitle("Add New Tip");
@@ -76,7 +76,12 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
         EditText tipContentEditText = dialogView.findViewById(R.id.tip_content);
         EditText tipSourceEditText = dialogView.findViewById(R.id.tip_source);
 
-        builder.setPositiveButton("Add", (dialog, which) -> {
+        AlertDialog dialog = builder.create();
+
+        Button saveButton = dialogView.findViewById(R.id.saveButton);
+        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
+
+        saveButton.setOnClickListener(v -> {
             String title = tipTitleEditText.getText().toString();
             String content = tipContentEditText.getText().toString();
             String source = tipSourceEditText.getText().toString();
@@ -92,10 +97,12 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
             tipList.add(newTip);
             tipsAdapter.notifyItemInserted(tipList.size() - 1);
             Toast.makeText(this, "Tip added", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         });
 
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     @Override
@@ -114,7 +121,7 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
     }
 
     private void showEditTipDialog(Tip tip, int position) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_tip, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.item_add_tip, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
         builder.setTitle("Edit Tip");
@@ -127,7 +134,12 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
         tipContentEditText.setText(tip.getContent());
         tipSourceEditText.setText(tip.getSource());
 
-        builder.setPositiveButton("Save", (dialog, which) -> {
+        AlertDialog dialog = builder.create();
+
+        Button saveButton = dialogView.findViewById(R.id.saveButton);
+        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
+
+        saveButton.setOnClickListener(v -> {
             String title = tipTitleEditText.getText().toString();
             String content = tipContentEditText.getText().toString();
             String source = tipSourceEditText.getText().toString();
@@ -141,11 +153,13 @@ public class LoveYourCatManagementScreen extends BaseActivity implements TipsAda
             tip.setContent(content);
             tip.setSource(source);
             repository.updateTip(tip);
-            tipsAdapter.notifyDataSetChanged();
+            tipsAdapter.notifyItemChanged(position);
             Toast.makeText(this, "Tip updated", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         });
 
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 }

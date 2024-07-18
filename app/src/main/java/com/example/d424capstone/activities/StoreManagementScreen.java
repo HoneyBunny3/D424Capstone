@@ -77,7 +77,7 @@ public class StoreManagementScreen extends BaseActivity {
     private void openAddItemDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_add_store_item, null);
+        View dialogView = inflater.inflate(R.layout.item_add_store_item, null);
         builder.setView(dialogView);
 
         EditText nameEditText = dialogView.findViewById(R.id.nameEditText);

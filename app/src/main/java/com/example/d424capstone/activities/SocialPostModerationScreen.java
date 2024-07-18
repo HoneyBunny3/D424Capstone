@@ -58,7 +58,7 @@ public class SocialPostModerationScreen extends BaseActivity {
     private void showEditDialog(SocialPost socialPost) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Post");
-        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_edit_social_post, null);
+        final View customLayout = getLayoutInflater().inflate(R.layout.item_edit_social_post, null);
         builder.setView(customLayout);
 
         EditText contentEditText = customLayout.findViewById(R.id.edit_post_content);

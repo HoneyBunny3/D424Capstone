@@ -86,7 +86,7 @@ public class LoveYourCatScreen extends BaseActivity implements TipsAdapter.OnTip
     }
 
     private void showEditTipDialog(Tip tip, int position) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_tip, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.item_add_tip, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
         builder.setTitle("Edit Tip");

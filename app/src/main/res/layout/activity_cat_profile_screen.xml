@@ -109,23 +109,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cat_bio" />
 
-        <Button
-            android:id="@+id/save_cat"
-            style="@style/SaveButtonStyle"
+        <!-- Buttons -->
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="25dp"
-            android:text="Save"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_image" />
-
-        <Button
-            android:id="@+id/cancel_cat"
-            style="@style/CancelButtonStyle"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="25dp"
-            android:text="Cancel"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cat_image" />
+            app:layout_constraintTop_toBottomOf="@id/cat_image">
+
+            <Button
+                android:id="@+id/save_cat"
+                style="@style/SaveButtonStyle"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:text="Save" />
+
+            <Button
+                android:id="@+id/cancel_cat"
+                style="@style/CancelButtonStyle"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="Cancel" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cat_recycler_view"
@@ -135,7 +146,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cancel_cat" />
+            app:layout_constraintTop_toBottomOf="@id/buttonContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
