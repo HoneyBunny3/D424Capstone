@@ -3,21 +3,30 @@ plugins {
 }
 
 android {
-    namespace 'com.example.d424capstone'
+    namespace 'com.hearthy.d424capstone'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.d424capstone"
+        applicationId "com.hearthy.d424capstone"
         minSdk 26
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'release'
+            keyPassword 'hearthy123'
+            storeFile file('C:/Users/sunsh/D424Capstone/app/my-release-key.jks')
+            storePassword 'hearthy123'
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

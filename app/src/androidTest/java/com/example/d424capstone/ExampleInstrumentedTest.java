@@ -1,4 +1,4 @@
-package com.example.d424capstone;
+package com.hearthy.d424capstone;
 
 import android.content.Context;
 

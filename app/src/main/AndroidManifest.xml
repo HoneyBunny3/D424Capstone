@@ -30,7 +30,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.d424capstone.fileprovider"
+            android:authorities="com.hearthy.d424capstone.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
