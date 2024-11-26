@@ -48,6 +48,7 @@ The app is designed to be lightweight, scalable, and user-friendly.
 ## How to Use
 Download and Install:
 
+    Use the APK in the Main branch
     Clone the repository, build, and install the app manually using the instructions in the Installation section.
 
 Sign Up / Log In:
