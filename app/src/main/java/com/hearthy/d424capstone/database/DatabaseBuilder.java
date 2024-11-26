@@ -27,11 +27,12 @@ import com.hearthy.d424capstone.entities.SocialPost;
 import com.hearthy.d424capstone.entities.StoreItem;
 import com.hearthy.d424capstone.entities.User;
 import com.hearthy.d424capstone.entities.Tip;
+import com.hearthy.d424capstone.Converters;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class, PremiumStorefront.class, ContactMessage.class, Tip.class}, version = 1)
+@Database(entities = {User.class, Cat.class, StoreItem.class, CartItem.class, Order.class, SocialPost.class, PremiumStorefront.class, ContactMessage.class, Tip.class}, version = 2)
 @TypeConverters({com.hearthy.d424capstone.Converters.class})
 public abstract class DatabaseBuilder extends RoomDatabase {
 

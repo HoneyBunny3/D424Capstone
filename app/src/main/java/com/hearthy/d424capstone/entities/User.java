@@ -1,5 +1,6 @@
 package com.hearthy.d424capstone.entities;
 
+import androidx.databinding.adapters.Converters;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
