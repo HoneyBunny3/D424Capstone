@@ -25,7 +25,7 @@ The app is designed to be lightweight, scalable, and user-friendly.
 - Docker (if deploying using containers)
 
 ### Steps to Build and Run
-1. Clone the repository:
+1. Clone the repository from the completed_capstone branch:
    ```bash
    git clone [repository_url]
    cd D424Capstone
@@ -49,7 +49,7 @@ The app is designed to be lightweight, scalable, and user-friendly.
 Download and Install:
 
     Use the APK in the Main branch
-    Clone the repository, build, and install the app manually using the instructions in the Installation section.
+    Clone the repository, use the completed_capstone branch, build, and install the app manually using the instructions in the Installation section.
 
 Sign Up / Log In:
 
